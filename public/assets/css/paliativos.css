@@ -1,0 +1,118 @@
+/*CSS PARA EL FOOTER*/
+html, body, #wrap{
+  height: 100%; /*permite que tome el 100% de la pantalla*/
+}
+body > #wrap{height: auto; min-height: 100%;} /*mantiene como minimo el 100% de alto de la pantalla*/
+#main{padding-bottom:50px; } /*Este padding sera el margen negativo y la altura del footer*/
+#footer{
+  position: relative;
+  margin-top: -50px; /*tomando valor negativo del padding del main*/
+  height: 50px; /*altura igual que el padding para el footer*/
+  clear:both;
+  /*colores y diseno al footer*/
+  background: #d2d2d2;
+  border-top: 1px solid #bebebe; */
+  font-size: 15px;
+  /* font-weight: bold; */
+  padding-top: 15px;
+  text-align: center;
+}
+/*clase que elimina elementos flotantes*/
+.clearf{
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+.clearf{display: inline-block;}
+html .clearf{height: 1%;}
+.clearf{display: block;}
+body {
+  background: #F1F3FA;
+ padding-top: 70px;
+}
+/*Fin de la clase para el FOOTER*/
+
+/* MENU */
+.navbar{
+  border-bottom: 1px solid #dfdfdf;
+  box-shadow: 0 1px 3px 1px rgba(150,150,150,0.1);
+  -webkit-box-shadow: 0 1px 3px 1px rgba(150,150,150,0.1);
+}
+.has-feedback > span.remove{
+  position: absolute;
+  right: 12px;
+}
+span.remove:hover{
+  cursor:pointer;
+}
+.navbar-toggle-left,
+.navbar-toggle-right {
+  margin: 5px;
+}
+
+.navbar-toggle-left { float: left !important; }
+
+.navbar-toggle-right { float: right !important; }
+
+.navbar-banner {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+/*Navegacion lateral*/
+.sign-hide{
+  padding-right: 10px
+}
+.nav-left-hide{
+    display: none;
+}
+  /*Titulo de nav lateral*/
+  .nav  .menu{
+    padding: 14px 13px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+
+  }
+/**/
+.navbar-banner > .navbar-brand {
+    float: left !important;
+}
+.panel-menu { 
+  border-left:1px solid #d3d3d3; 
+  border-right:1px solid #d3d3d3; 
+  box-shadow: 0 1px 1px 1px rgba(150,150,150,0.1);
+  -webkit-box-shadow: 0 1px 1px 1px rgba(150,150,150,0.1);
+  width: 100%;/*cuando se utiliza sin las clases col*/
+  word-wrap:break-word;  
+}
+.mg-panel{
+  margin-bottom: 0px;
+}
+@media(max-width: 767px){
+  .panel-menu{    
+    width: 100%;
+  }
+}
+
+.panel-heading-menu .icon{
+  font-size: 18px;
+}
+/*Clase que modifica parte del css del nav-pilss menu lateral desktop*/
+.submenu > li > a {
+  border-radius: 0px;
+}
+.submenu > li + li {
+  margin-left: 0px;
+}
+ .submenu > li.activo > a,
+ .submenu > li.activo > a:hover,
+ .submenu > li.activo > a:focus {
+  color: #000;
+  background-color: #eeeeee;
+}
+/*fin de la clase*/
+
+/*fin menu*/
