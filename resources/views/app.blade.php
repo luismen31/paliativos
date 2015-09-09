@@ -1,200 +1,215 @@
+
 <!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="" type="image/x-icon">    
-	<title>@yield('title', 'Cuidados Paliativos')</title>
+    <title>@yield('title', 'Cuidados Paliativos')</title>
+   
+    <!-- Bootstrap core CSS -->
+     {!! Html::style('assets/css/bootstrap.css') !!}
+    
+    <!-- Custom styles for this template -->
+    {!! Html::style('assets/css/paliativos.css') !!}
+    {!! Html::style('assets/css/font-awesome.min.css') !!}
 
-	{!! Html::style('assets/css/bootstrap.css') !!}
-	{!! Html::style('assets/css/paliativos.css') !!}
-	{!! Html::style('assets/css/base.css') !!}
-	{!! Html::style('assets/css/font-awesome.min.css') !!}
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--script src="../../assets/js/ie-emulation-modes-warning.js"></script-->
+     <!-- Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
-	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
-</head>
-<body>
-	<div id="wrap">
-		<div id="main" class="clearf">
-			<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav">
-		      <div class="navbar-header">
-		        <div class="navbar-banner">
-		            <a href="{{ url('/') }}" class="navbar-brand navbar-brand-centered">Paliativos</a>                        
-		        </div>
-		      </div>
+  <body>
+  	<div id="wrap">
+        <div id="main" class="clearf">
+        	<nav class="navbar navbar-default navbar-fixed-top paliative-nav">
+		      <div class="container-fluid border-nav">
 		        <div class="navbar-header">
-		            <button type="button" class="navbar-toggle navbar-toggle-left toggle-menu menu-left push-body" data-toggle="collapse" data-target="#nav-left">
-		                <i class="fa fa-bars fa-1x"></i>
-		            </button>
-		            <div class="dropdown">
-					  <button id="dLabel" type="button" class="navbar-toggle navbar-toggle-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-					  	<i class="glyphicon glyphicon-cog"></i>
-					  </button>
-					  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" sty le="margin:48px 5px 0px 0px;">
-					    <li><a href="{{ url('auth/logout') }}"><i class="fa fa-fw fa-power-off fa-1x"></i> Cerrar Sesión</a></li>                            
-					  </ul>
-		            </div>
-		        </div>
-
-				
-		        <div class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="nav-left">
-		          <!-- urls para movil -->
-		          <ul class="nav navbar-nav nav-left-hide">
-		        	  <li class="menu">Menu</li>
-		        	  <li class="dropdown open">
-		        	  	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-sliders icon"></i> Mantenimiento <span class="caret"></span></a>
-		        	  	<ul class="dropdown-menu" role="menu">
-		                    <li><a href="#">Paciente Externo</a></li>
-		                    <li><a href="#">Reorganización</a></li>
-		        	  	</ul>
-		        	  </li>		 
-		        	  <li class="dropdown">
-		        	  	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question-circle icon"></i> Reconsultas <span class="caret"></span></a>
-		        	  	<ul class="dropdown-menu" role="menu">
-		        	  		<li><a href="#">Enlace 1</a></li>
-		                    <li><a href="#">Enlace 2</a></li>
-		                    <li><a href="#">Enlace 3</a></li>
-		        	  	</ul>
-		        	  </li>
-		        	  <li class="dropdown">
-		        	  	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bar-chart icon"></i> Reportes <span class="caret"></span></a>
-		        	  	<ul class="dropdown-menu" role="menu">
-		                    <li><a href="#">Listado Gral. de Pacientes</a></li>
-		                    <li><a href="#">Listado de Pacientes Atendidos</a></li>
-		                    <li><a href="#">Listado de Pacientes (Fecha Ingreso)</a></li>
-		                    <li><a href="#">Receta</a></li>
-		                    <li><a href="#">Pacientes Referidos Por</a></li>
-		                    <li><a href="#">Pacientes Referidos A</a></li>
-		                    <li><a href="#">Listado de Trabajos Terminados</a></li>
-		                    <li><a href="#">Listado de Trabajos Pendientes</a></li>
-		                    <li><a href="#">Listado de Ficha Clínica</a></li>
-		                    <li><a href="#">Listado de Historia Clínica</a></li>
-		        	  	</ul>
-		        	  </li>	            
-		        </ul>
-		          
-		          
-		        <ul class="nav navbar-nav navbar-right sign-hide">
-		            <li class="dropdown">
-		                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Bienvenido, {{ Auth::user() }} <b class="caret"></b></a>
-		                <ul class="dropdown-menu">
-		                    <li><a href="{{ url('auth/logout') }}"><i class="fa fa-fw fa-power-off"></i> Cerrar Sesión</a></li>                                
-		                </ul>
-		            </li>
-		        </ul>
-
-		       </div>
+		          <button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed" data-toggle="offcanvas">
+					<i class="fa fa-bars"></i>
+					<span class="sr-only">Menu</span>
+				  </button>		          
+		          <a href="{{ url('/') }}" class="navbar-brand navbar-brand-centered">Gestión de Cuidados Paliativos Panamá</a>   
+		        </div>		        
+		      </div>
 		    </nav>
-			<!--nav class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Menu</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="{{ url('/') }}">Laravel</a>
-					</div>
 
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav navbar-right">
-							@if (Auth::guest())
-								<li><a href="{{ url('auth/login') }}">Login</a></li>
-								<li><a href="{{ url('auth/register') }}">Register</a></li>
-							@else
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="{{ url('auth/logout') }}">Logout</a></li>
-									</ul>
+		    <div class="container-fluid">
+				<div class="row row-offcanvas row-offcanvas-left">
+			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
+		        		<div class="side-menu-container">
+							<ul class="nav navbar-nav">
+								<li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+								<li><a href="#"><span class="glyphicon glyphicon-plane"></span> Active Link</a></li>
+								<li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Link</a></li>
+
+								<!-- Dropdown-->
+								<li class="panel panel-default active" id="dropdown">
+									<a data-toggle="collapse" href="#dropdown-lvl1">
+										<span class="glyphicon glyphicon-user"></span> Sub Level <span class="caret"></span>
+									</a>
+
+									<!-- Dropdown level 1 -->
+									<div id="dropdown-lvl1" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul class="nav navbar-nav">
+												<li><a href="#">Link</a></li>
+												<li><a href="#">Link</a></li>
+												<li><a href="#">Link</a></li>
+
+												<!-- Dropdown level 2 -->
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#dropdown-lvl2">
+														<span class="glyphicon glyphicon-off"></span> Sub Level <span class="caret"></span>
+													</a>
+													<div id="dropdown-lvl2" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Link</a></li>
+																<li><a href="#">Link</a></li>
+																<li><a href="#">Link</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
 								</li>
-							@endif
-						</ul>
-					</div>
-				</div>
-			</nav-->
-			<div class="container-fluid">
-				<div class="row">
-		        	<!-- urls para desktop -->
-		          	<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
-		                    
-		                <div class="list-group nav-aside" id="accordion"  aria-multiselectable="false">
-		                  <div class="panel-menu panel-default mg-panel" >
-		                      <a data-toggle="collapse" class="list-group-item" href="#collapseOne" data-parent="#accordion" aria-expanded="false" aria-controls="collapseOne">
-		                        <i class="fa fa-sliders icon"></i> Mantenimiento
-		                        <i class="glyphicon glyphicon-chevron-down  pull-right"></i> 
-		                      </a>                                
-		                      <ul id="collapseOne" class="nav nav-pills submenu nav-stacked panel-collapse collapse"  role="tabpanel"  aria-labelledby="collapseOne">
-		                        <li class="activo"><a href="#">Paciente Externo</a></li>
-								<li><a href="#">Reorganización</a></li>
-		                      </ul>
-		                  </div>
-		                  <div class="panel-menu panel-default mg-panel" >
-		                      <a data-toggle="collapse" class="list-group-item" href="#collapseTwo" data-parent="#accordion" aria-expanded="false" aria-controls="collapseTwo">
-		                         <i class="fa fa-question-circle icon"></i> Reconsultas 
-		                         <i class="glyphicon glyphicon-chevron-down  pull-right"></i>
-		                      </a>                                
-		                      <ul id="collapseTwo" class="nav nav-pills submenu nav-stacked panel-collapse collapse" role="tabpanel" aria-labelledby="collapseTwo">
-		                            <li><a href="#">Enlace 1</a></li>
-		                            <li><a href="#">Enlace 2</a></li>
-		                            <li><a href="#">Enlace 3</a></li>
-		                      </ul>
-		                  </div>
-		                  <div class="panel-menu panel-default mg-panel">
-		                      <a data-toggle="collapse" class="list-group-item" href="#collapseThree" data-parent="#accordion" aria-expanded="false" aria-controls="collapseThree">
-		                        <i class="fa fa-bar-chart icon"></i> Reportes 
-		                        <i class="glyphicon glyphicon-chevron-down  pull-right"></i>
-		                      </a>
-		                      <ul id="collapseThree" class="nav nav-pills submenu nav-stacked panel-collapse collapse" role="tabpanel" aria-labelleby="collapseThree">
-		                            <li><a href="#">Listado Gral. de Pacientes</a></li>
-		                            <li><a href="#">Listado de Pacientes Atendidos</a></li>
-		                            <li><a href="#">Listado de Pacientes (Fecha Ingreso)</a></li>
-		                            <li><a href="#">Receta</a></li>
-		                            <li><a href="#">Pacientes Referidos Por</a></li>
-		                            <li><a href="#">Pacientes Referidos A</a></li>
-		                            <li><a href="#">Listado de Trabajos Terminados</a></li>
-		                            <li><a href="#">Listado de Trabajos Pendientes</a></li>
-		                            <li><a href="#">Listado de Ficha Clínica</a></li>
-		                            <li><a href="#">Listado de Historia Clínica</a></li>
-		                       </ul>
-		                  </div>
-		                </div>                    	
-		            </div>
-		            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">					
-						{{-- Contenido --}}
-		            	@yield('content')
-		            </div>
-		        </div>
-			</div>
+
+								<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
+
+							</ul>
+						</div>
+			      	</div>
+
+
+			        <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+						<div class="row sub-nav">
+							<div class="col-md-6 col-sm-8 pull-left">
+								<ul class="list-inline">
+									<li class="welcome">Bienvenido, Administrador {{Auth::user()}}</li>
+								</ul>								
+							</div>
+							<div class="col-md-6 col-sm-4">
+								<a href="{{url('auth/logout')}}" class="btn btn-default btn-outline pull-right">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
+							</div>
+						</div>			          
+			          	<h1 class="page-header">Dashboard</h1>
+
+				        <h2 class="sub-header">Section title</h2>
+
+				        {{-- Contenido --}}
+                        @yield('content')
+						<div class="table-responsive">
+							<table class="table table-striped">
+							  <thead>
+							    <tr>
+							      <th>#</th>
+							      <th>Header</th>
+							      <th>Header</th>
+							      <th>Header</th>
+							      <th>Header</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <td>1,001</td>
+							      <td>Lorem</td>
+							      <td>ipsum</td>
+							      <td>dolor</td>
+							      <td>sit</td>
+							    </tr>
+							   
+							    <tr>
+							      <td>1,003</td>
+							      <td>libero</td>
+							      <td>Sed</td>
+							      <td>cursus</td>
+							      <td>ante</td>
+							    </tr>
+							    <tr>
+							      <td>1,004</td>
+							      <td>dapibus</td>
+							      <td>diam</td>
+							      <td>Sed</td>
+							      <td>nisi</td>
+							    </tr>
+							    <tr>
+							      <td>1,005</td>
+							      <td>Nulla</td>
+							      <td>quis</td>
+							      <td>sem</td>
+							      <td>at</td>
+							    </tr>
+							    <tr>
+							      <td>1,006</td>
+							      <td>nibh</td>
+							      <td>elementum</td>
+							      <td>imperdiet</td>
+							      <td>Duis</td>
+							    </tr>
+							    <tr>
+							      <td>1,007</td>
+							      <td>sagittis</td>
+							      <td>ipsum</td>
+							      <td>Praesent</td>
+							      <td>mauris</td>
+							    </tr>
+							    <tr>
+							      <td>1,008</td>
+							      <td>Fusce</td>
+							      <td>nec</td>
+							      <td>tellus</td>
+							      <td>sed</td>
+							    </tr>
+							    <tr>
+							      <td>1,009</td>
+							      <td>augue</td>
+							      <td>semper</td>
+							      <td>porta</td>
+							      <td>Mauris</td>
+							    </tr>
+							    
+							  </tbody>
+							</table>
+						</div>
+			        </div>
+			        
+			    </div>
+
+		    </div><!-- end container-fluid -->
 		</div>
 	</div>
 
-	<div id="footer">
-       Place sticky footer content here.
+    <div id="footer">
+    	<div class="row footer">
+    		<div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+       			Place sticky footer content here.
+    		</div>
+    	</div>
     </div>
-	<!-- Scripts -->
-	{!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
-	{!! Html::script('assets/js/bootstrap.min.js') !!}
-	{!! Html::script('assets/js/jPushMenu.js') !!}
-	{!! Html::script('assets/js/v2p.js') !!}
-	<script type="text/javascript">
-      //<![CDATA[
-      $(document).ready(function(){
-        $('.toggle-menu').jPushMenu({closeOnClickLink: false});
-        $('.dropdown-toggle').dropdown();
-
-      });
-      //]]>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
+    {!! Html::script('assets/js/bootstrap.min.js') !!}
+    <script type="text/javascript">
+    	$(document).ready(function () {
+		  $('[data-toggle="offcanvas"]').click(function () {		    
+		    $('.row-offcanvas').toggleClass('active');
+		    $('#footer').toggleClass('footer-left');
+		  });
+		});
     </script>
-	@yield('scripts')
-</body>
+    @yield('scripts')
+  </body>
 </html>
