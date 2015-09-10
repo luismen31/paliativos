@@ -103,85 +103,12 @@
 								<a href="{{url('auth/logout')}}" class="btn btn-default btn-outline pull-right">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
 							</div>
 						</div>			          
-			          	<h1 class="page-header">Dashboard</h1>
+			          	<h1 class="page-header"></h1>
 
-				        <h2 class="sub-header">Section title</h2>
+				        <h2 class="sub-header"></h2>
 
 				        {{-- Contenido --}}
                         @yield('content')
-						<div class="table-responsive">
-							<table class="table table-striped">
-							  <thead>
-							    <tr>
-							      <th>#</th>
-							      <th>Header</th>
-							      <th>Header</th>
-							      <th>Header</th>
-							      <th>Header</th>
-							    </tr>
-							  </thead>
-							  <tbody>
-							    <tr>
-							      <td>1,001</td>
-							      <td>Lorem</td>
-							      <td>ipsum</td>
-							      <td>dolor</td>
-							      <td>sit</td>
-							    </tr>
-							   
-							    <tr>
-							      <td>1,003</td>
-							      <td>libero</td>
-							      <td>Sed</td>
-							      <td>cursus</td>
-							      <td>ante</td>
-							    </tr>
-							    <tr>
-							      <td>1,004</td>
-							      <td>dapibus</td>
-							      <td>diam</td>
-							      <td>Sed</td>
-							      <td>nisi</td>
-							    </tr>
-							    <tr>
-							      <td>1,005</td>
-							      <td>Nulla</td>
-							      <td>quis</td>
-							      <td>sem</td>
-							      <td>at</td>
-							    </tr>
-							    <tr>
-							      <td>1,006</td>
-							      <td>nibh</td>
-							      <td>elementum</td>
-							      <td>imperdiet</td>
-							      <td>Duis</td>
-							    </tr>
-							    <tr>
-							      <td>1,007</td>
-							      <td>sagittis</td>
-							      <td>ipsum</td>
-							      <td>Praesent</td>
-							      <td>mauris</td>
-							    </tr>
-							    <tr>
-							      <td>1,008</td>
-							      <td>Fusce</td>
-							      <td>nec</td>
-							      <td>tellus</td>
-							      <td>sed</td>
-							    </tr>
-							    <tr>
-							      <td>1,009</td>
-							      <td>augue</td>
-							      <td>semper</td>
-							      <td>porta</td>
-							      <td>Mauris</td>
-							    </tr>
-							    
-							  </tbody>
-							</table>
-						</div>
 			        </div>
 			        
 			    </div>
