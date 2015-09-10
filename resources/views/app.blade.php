@@ -47,7 +47,7 @@
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+								<li class="active"><a href="{{route('profesionales.index')}}"><span class="glyphicon glyphicon-dashboard"></span> Profesionales</a></li>
 								<li><a href="#"><span class="glyphicon glyphicon-plane"></span> Active Link</a></li>
 								<li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Link</a></li>
 
@@ -103,12 +103,10 @@
 								<a href="{{url('auth/logout')}}" class="btn btn-default btn-outline pull-right">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
 							</div>
 						</div>			          
-			          	<h1 class="page-header"></h1>
-
-				        <h2 class="sub-header"></h2>
 
 				        {{-- Contenido --}}
                         @yield('content')
+						
 			        </div>
 			        
 			    </div>

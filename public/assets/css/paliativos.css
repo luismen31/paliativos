@@ -233,6 +233,11 @@ body {
 }
 
 /* Sidebar navigation */
+@media(max-width: 767px){
+  .side-menu .navbar-nav{
+    margin: 0px -12px 0px 5px;
+  }
+}
 .side-menu .navbar-nav .active a {
   background-color: transparent;
   margin-right: -1px;
