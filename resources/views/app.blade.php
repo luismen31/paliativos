@@ -14,7 +14,8 @@
     <!-- Custom styles for this template -->
     {!! Html::style('assets/css/paliativos.css') !!}
     {!! Html::style('assets/css/font-awesome.min.css') !!}
-
+    {!! Html::style('assets/css/easy-autocomplete.min.css') !!}
+ 	{!! Html::style('assets/css/easy-autocomplete.themes.min.css') !!}
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--script src="../../assets/js/ie-emulation-modes-warning.js"></script-->
@@ -127,6 +128,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/jquery.easy-autocomplete.min.js') !!}
+    <script type="text/javascript">
+    	var baseurl = '{!! url() !!}';
+    </script>
     <script type="text/javascript">
     	$(document).ready(function () {
 		  $('[data-toggle="offcanvas"]').click(function () {		    

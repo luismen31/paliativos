@@ -70,7 +70,7 @@ body {
   -webkit-border-radius: 3px;
   -webkit-border-radius: 3px;
   background-image: none !important;
-  border: none;
+  border: 1px solid;
   text-shadow: none;
   box-shadow: none;
   transition: all 0.12s linear 0s !important;
@@ -346,4 +346,7 @@ body {
   }
 }
 
-
+/*css para autocomplete*/
+.search .form-control{
+  margin-bottom: 5px;
+}
