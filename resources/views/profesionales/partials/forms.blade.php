@@ -43,4 +43,28 @@
 	    {!! Form::label('ID_ESPECIALIDAD_MEDICA', 'Especialidad Médica:', array('class' => 'control-label')) !!}    
 		{!! Form::select('ID_ESPECIALIDAD_MEDICA', array('0' => 'SELECCIONE ESPECIALIDAD MEDICA') + \App\EspecialidadMedica::lists('DESCRIPCION', 'ID_ESPECIALIDAD_MEDICA')->toArray(), null, ['class' => 'form-control']) !!}   
 	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('ID_GRUPO_USUARIO', 'Grupo de Usuario:', array('class' => 'control-label')) !!}    
+		{!! Form::select('ID_GRUPO_USUARIO', array('0' => 'SELECCIONE GRUPO USUARIO') + \App\GrupoUsuario::lists('DESCRIPCION', 'ID_GRUPO_USUARIO')->toArray(), null, ['class' => 'form-control']) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('NO_IDENTIFICACION', 'Usuario:', array('class' => 'control-label')) !!}    
+		{!! Form::text('NO_IDENTIFICACION', null, array('class'=>'form-control', 'placeholder' => 'Usuario') ) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('CLAVE_ACCESO', 'Contraseña:', array('class' => 'control-label')) !!}    
+		{!! Form::password('CLAVE_ACCESO', array('class'=>'form-control', 'placeholder' => 'Contraseña') ) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('PREFERENCIA_RECUPERACION', 'Recuperación de Acceso:', array('class' => 'control-label')) !!}    
+		{!! Form::select('PREFERENCIA_RECUPERACION', array('0' => 'SELECCIONE LA RECUPERACIÓN', '1' => 'PREGUNTA', '3' => 'CORREO'), null, ['class' => 'form-control']) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('ID_PREGUNTA', 'Pregunta de Recuperación:', array('class' => 'control-label')) !!}    
+		{!! Form::select('ID_PREGUNTA', array('0' => 'SELECCIONE LA PREGUNTA') +  \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, ['class' => 'form-control']) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('RESPUESTA', 'Respuesta:', array('class' => 'control-label')) !!}    
+		{!! Form::text('RESPUESTA', null, array('class'=>'form-control', 'placeholder' => 'Respuesta') ) !!}   
+	</div>
 </div>	
