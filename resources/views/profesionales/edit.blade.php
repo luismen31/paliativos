@@ -12,7 +12,7 @@
 	
 	@include('profesionales.partials.autocomplete')	
 
-	{!! Form::model($id, array('route' => array('profesionales.update', 1), 'method' => 'PUT')) !!}
+	{!! Form::model($datos, array('route' => array('profesionales.update', $datos->ID_PROFESIONAL), 'method' => 'PUT')) !!}
 
 		@include('profesionales.partials.forms')
 

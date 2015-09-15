@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MotivoSalida extends Model
 {
-    protected $table = 'motivo_salida';
+   public $timestamps = false;
+   protected $table = 'motivo_salida';
 }
