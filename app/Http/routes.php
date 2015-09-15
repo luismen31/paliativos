@@ -35,4 +35,7 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
 Route::resource('profesionales', 'ProfesionalesController');
+
+Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
+Route::resource('pacientes', 'PacientesController');
 Route::controller('buscar', 'SearchController');

@@ -14,6 +14,7 @@
     <!-- Custom styles for this template -->
     {!! Html::style('assets/css/paliativos.css') !!}
     {!! Html::style('assets/css/font-awesome.min.css') !!}
+    {!! Html::style('assets/css/bootstrap-datetimepicker.min.css') !!}
     {!! Html::style('assets/css/easy-autocomplete.min.css') !!}
  	{!! Html::style('assets/css/easy-autocomplete.themes.min.css') !!}
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -48,8 +49,8 @@
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="{{route('profesionales.index')}}"><span class="glyphicon glyphicon-dashboard"></span> Profesionales</a></li>
-								<li><a href="#"><span class="glyphicon glyphicon-plane"></span> Active Link</a></li>
+								<li class="active"><a href="{{route('profesionales.index')}}"><span class="glyphicon glyphicon-user"></span> Profesionales</a></li>
+								<li><a href="{{ route('pacientes.index') }}"><span class="glyphicon glyphicon-user"></span> Pacientes</a></li>
 								<li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Link</a></li>
 
 								<!-- Dropdown-->
@@ -127,7 +128,10 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     {!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
+    {!! Html::script('assets/js/moment.js') !!}
+    {!! Html::script('assets/js/moment-es.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/bootstrap-datetimepicker.min.js') !!}
     {!! Html::script('assets/js/jquery.easy-autocomplete.min.js') !!}
     <script type="text/javascript">
     	var baseurl = '{!! url() !!}';
@@ -141,5 +145,12 @@
 		});
     </script>
     @yield('scripts')
+    <script type="text/javascript">
+	    $(function () {
+	        $('.datetimepicker').datetimepicker({
+	        	format: 'YYYY/MM/DD'
+	        });
+	    });
+    </script>
   </body>
 </html>

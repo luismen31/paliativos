@@ -12,20 +12,21 @@ class SearchController extends Controller
     public function getBuscarpersona(Request $request, $type, $search){
         if($request->ajax()){
             if($type == 'profesional'){
-                $datospersona = \App\DatoProfesionalSalud::where(\DB::raw('CONCAT(NO_CEDULA," ",PRIMER_NOMBRE," ",APELLIDO_PATERNO)'), 'LIKE', '%'.$search.'%')
+                $modelo = '\App\DatoProfesionalSalud';
+            }else{
+                $modelo = '\App\DatoPaciente';
+            }
+
+            $datospersona = $modelo::where(\DB::raw('CONCAT(NO_CEDULA," ",PRIMER_NOMBRE," ",APELLIDO_PATERNO)'), 'LIKE', '%'.$search.'%')
                 ->select(\DB::raw('CONCAT(PRIMER_NOMBRE," ",APELLIDO_PATERNO) AS nombre'), 'NO_CEDULA AS cedula')
-                ->orderBy('cedula', 'desc')
+                ->orderBy('cedula', 'DESC')
                 ->take(10)
                 ->get();
-            }
             
-            return utf8_encode($datospersona);
-            
+            return utf8_encode($datospersona);            
+        }else{
+            abort(403);
         }    
-
-        abort(403);
-
-
 
     }
 }

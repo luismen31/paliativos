@@ -215,15 +215,11 @@ body {
   bottom: 0;
   left: 0;
   background-color: #f5f5f5;
+  border-right: 1px solid #e7e7e7;
 }
 
 @media (min-width: 768px) {
   .sidebar {
-    border-right: 1px solid #e7e7e7;
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
     z-index: 1000;
     display: block;
     padding: 0px 0px 20px 0px; /*20px*/
@@ -234,8 +230,9 @@ body {
 
 /* Sidebar navigation */
 @media(max-width: 767px){
+  /*Margen menu movil lateral*/
   .side-menu .navbar-nav{
-    margin: 0px -12px 0px 5px;
+    margin: 0px -14px 0px 0px;
   }
 }
 .side-menu .navbar-nav .active a {
@@ -349,4 +346,63 @@ body {
 /*css para autocomplete*/
 .search .form-control{
   margin-bottom: 5px;
+}
+
+/*Tabs*/
+
+.tabbable-panel {
+  border:1px solid #eee;
+  padding: 10px;
+}
+
+/* Default mode */
+.tabbable-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tabbable-line > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tabbable-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+}
+.tabbable-line > .nav-tabs > li > a > i {
+  color: #a6a6a6;
+}
+.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+.tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333333;
+}
+.tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+  color: #a6a6a6;
+}
+.tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+.tabbable-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+.tabbable-line > .nav-tabs > li.active > a {
+  border: 0;
+  color: #333333;
+}
+.tabbable-line > .nav-tabs > li.active > a > i {
+  color: #404040;
+}
+.tabbable-line > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+.portlet .tabbable-line > .tab-content {
+  padding-bottom: 0;
 }
