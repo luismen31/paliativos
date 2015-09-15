@@ -119,4 +119,16 @@
 	    {!! Form::label('ID_CORREGIMIENTO', 'Corregimiento:', array('class' => 'control-label')) !!}    
 		{!! Form::select('ID_CORREGIMIENTO', array('0'=>'SELECCIONE CORREGIMIENTO') + \App\Corregimiento::lists('CORREGIMIENTO', 'ID_CORREGIMIENTO')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'corregimientos')) !!} 
 	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('ID_ZONA', 'Zona:', array('class' => 'control-label')) !!}    
+		{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE Zona') + \App\Zona::lists('CORREGIMIENTO', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('DETALLE', 'Dirección Detallada:', array('class' => 'control-label')) !!}    
+		{!! Form::text('DETALLE', null, array('class'=>'form-control input-sm', 'placeholder' => 'Dirección Detallada')) !!}   
+	</div>
+	<div class="form-group col-sm-4">
+	    {!! Form::label('RESIDENCIA_TRANSITORIA', 'Residencia Transitoria:', array('class' => 'control-label')) !!}    
+		{!! Form::text('RESIDENCIA_TRANSITORIA', null, array('class'=>'form-control input-sm', 'placeholder' => 'Residencia Transitoria')) !!}   
+	</div>
 </div>
