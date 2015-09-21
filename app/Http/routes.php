@@ -10,15 +10,23 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('/', function () {
+		return view('welcome');
+	});
 
-Route::get('/', function () {
-    return view('welcome');
+	Route::get('auth/logout', 'Auth\AuthController@getLogout');
+	Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
+	Route::resource('profesionales', 'ProfesionalesController');
+
+	Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
+	Route::resource('pacientes', 'PacientesController');
+	Route::controller('buscar', 'SearchController');
 });
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
@@ -32,10 +40,3 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 // Password reset routes...
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
-
-Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
-Route::resource('profesionales', 'ProfesionalesController');
-
-Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
-Route::resource('pacientes', 'PacientesController');
-Route::controller('buscar', 'SearchController');

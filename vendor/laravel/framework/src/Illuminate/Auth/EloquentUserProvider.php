@@ -92,7 +92,7 @@ class EloquentUserProvider implements UserProvider
         $query = $this->createModel()->newQuery();
 
         foreach ($credentials as $key => $value) {
-            if (! Str::contains($key, 'password')) {
+            if (! Str::contains($key, 'CLAVE_ACCESO')) {
                 $query->where($key, $value);
             }
         }
@@ -109,8 +109,8 @@ class EloquentUserProvider implements UserProvider
      */
     public function validateCredentials(UserContract $user, array $credentials)
     {
-        $plain = $credentials['password'];
-
+        $plain = $credentials['CLAVE_ACCESO'];
+        
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
 

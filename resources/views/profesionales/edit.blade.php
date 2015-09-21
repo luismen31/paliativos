@@ -8,7 +8,7 @@
 	
 	<h2 class="page-header">Agregar o Editar Profesionales</h2>
 
-	@include('profesionales.partials.errors')
+	@include('mensajes.errors')
 	
 	@include('profesionales.partials.autocomplete')	
 

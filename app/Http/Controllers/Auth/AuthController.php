@@ -23,6 +23,14 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    /* VARIABLES MODIFICADAS A LA TABLA USUARIOS PALIATIVOS
+     * archivo original Illuminate\Foundation\Auth\AuthenticatesUser 
+     * TAMBIEN SE CAMBIO EL PASSWORD DENTRO DE: Illuminate\Auth\EloquentUserProvider
+     */
+    protected $username = 'NO_IDENTIFICACION';
+    protected $redirectTo = '/';
+    protected $redirectAfterLogout = 'auth/login';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -32,7 +40,7 @@ class AuthController extends Controller
     {
         $this->middleware('guest', ['except' => 'getLogout']);
     }
-
+    
     /**
      * Get a validator for an incoming registration request.
      *

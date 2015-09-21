@@ -105,7 +105,16 @@ return [
     */
 
     'attributes' => [
-        'search' => 'Búsqueda'
+        'search' => 'Búsqueda',
+        'NO_CEDULA' => 'Cédula',
+        'PRIMER_NOMBRE' => 'Primer Nombre',
+        'APELLIDO_PATERNO' => 'Apellido Paterno',
+        'NO_IDONEIDAD' => 'No. Idoneidad',
+        'E_MAIL' => 'Correo Electrónico',
+        'ID_GRUPO_USUARIO' => 'Grupo Usuario',
+        'ID_ESPECIALIDAD_MEDICA' => 'Especialidad Médica',
+        'NO_IDENTIFICACION' => 'Usuario',
+        'CLAVE_ACCESO' => 'Contraseña',
     ],
 
 ];

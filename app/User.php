@@ -19,7 +19,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $primaryKey = 'ID_USUARIO';
     protected $table = 'usuarios';
-
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -32,5 +32,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['CLAVE_ACCESO', 'remember_token'];
+    protected $hidden = ['ID_USUARIO', 'CLAVE_ACCESO', 'CLAVE_ENCRYPT', 'remember_token'];
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->CLAVE_ACCESO;
+    }
 }

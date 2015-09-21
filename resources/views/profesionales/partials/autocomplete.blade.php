@@ -1,5 +1,3 @@
-
-
 {!! Form::open(array('url' => 'profesionales/editProfesional', 'class' => 'form-horizontal', 'method' => 'POST')) !!}
 	<div class="row">
 		<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 well well-sm search">		  
@@ -10,6 +8,8 @@
 	</div>
 {!! Form::close() !!}
 <br>
+<a href="{{route('profesionales.index')}}" class="btn btn-primary btn-sm pull-right"><i class="fa fa-plus"></i> Agregar Profesional</a><br>
+<hr>
 
  @section('scripts')
 	<script type="text/javascript">
@@ -19,6 +19,7 @@
 					if (search !== "") {
 						return baseurl+'/buscar/buscarpersona/profesional/'+search
 					}
+					console.log(search);
 				},
 				getValue: 'cedula',
 				template:{
@@ -31,4 +32,4 @@
 			});
 		});
 	</script>
-@stop
+@append

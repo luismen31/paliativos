@@ -33,7 +33,7 @@ trait AuthenticatesUsers
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
+            $this->loginUsername() => 'required', 'CLAVE_ACCESO' => 'required',
         ]);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -93,7 +93,7 @@ trait AuthenticatesUsers
      */
     protected function getCredentials(Request $request)
     {
-        return $request->only($this->loginUsername(), 'password');
+        return $request->only($this->loginUsername(), 'CLAVE_ACCESO');
     }
 
     /**

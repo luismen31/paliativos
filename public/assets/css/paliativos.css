@@ -32,17 +32,40 @@ body > #wrap{height: auto; min-height: 100%;} /*mantiene como minimo el 100% de 
 .clearf{display: inline-block;}
 html .clearf{height: 1%;}
 .clearf{display: block;}
-
-body {
-  ba ckground: #F1F3FA;
- padding-top: 50px;
-}
 /*Fin de la clase para el FOOTER*/
+
+
 
 /**
 * clases globales
 */
-
+body {
+  ba ckground: #F1F3FA;
+ padding-top: 50px;
+}
+.login{
+  background: url(../../imgs/cuidadospaliativos.jpg) 100% 0px no-repeat fixed;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.well.login-box {
+    max-width:350px;
+    margin:0 auto;
+    background: rgba(255,255,255,0.9);
+}
+.well.login-box legend {
+  font-size:26px;
+  text-align:center;
+  font-weight:300;
+  color: #525252;
+}
+.well.login-box label {
+  font-weight:300;
+  font-size:16px;
+  color: #7B7B7B;
+}
 .page-header{
   margin-top: 0;
 }
@@ -51,6 +74,20 @@ body {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
+/*css Notificaciones*/
+#noty-holder{    
+    width: 100%;    
+    top: 0;
+    font-weight: bold;    
+    z-index: 1031; /* Max Z-Index in Fixed Nav Menu is 1030*/
+    text-align: center;
+    position: fixed;
+}
+.page-alert{
+    margin-bottom: 2px;
+    border-radius: 0px;
+}
+/*fin notificacion*/
 /*
  * cambio en el diseño de botones
  */
@@ -140,7 +177,6 @@ body {
 }
 .navbar-fixed-top {
   border: 0;
-  top:0px;
 }
 
 .sub-nav{
@@ -214,6 +250,7 @@ body {
   top: 51px;
   bottom: 0;
   left: 0;
+  height: 100%;
   background-color: #f5f5f5;
   border-right: 1px solid #e7e7e7;
 }
@@ -235,11 +272,15 @@ body {
     margin: 0px -14px 0px 0px;
   }
 }
-.side-menu .navbar-nav .active a {
+.side-menu .navbar-nav{
+  background-color: #f5f5f5;
+}
+.side-menu .navbar-nav .active a{
   background-color: transparent;
   margin-right: -1px;
   border-right: 5px solid #e7e7e7;
 }
+
 .side-menu .navbar-nav li {
   display: block;
   width: 100%;
@@ -248,8 +289,9 @@ body {
 .side-menu .navbar-nav li a {
   padding: 10px 10px 10px 15px;
 }
-.side-menu .navbar-nav li a .glyphicon {
-  padding-right: 10px;
+
+.side-menu .navbar-nav li a .fa {
+  padding-right: 5px;
 }
 .side-menu #dropdown {
   border: 0;
