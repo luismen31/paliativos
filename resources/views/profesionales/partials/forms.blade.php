@@ -61,7 +61,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_PREGUNTA', 'Pregunta de Recuperación:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_PREGUNTA', array('0' => 'SELECCIONE LA PREGUNTA') +  \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, ['class' => 'form-control input-sm']) !!}   
+		{!! Form::select('ID_PREGUNTA', array('1' => 'SELECCIONE LA PREGUNTA') +  \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, ['class' => 'form-control input-sm']) !!}   
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('RESPUESTA', 'Respuesta:', array('class' => 'control-label')) !!}    

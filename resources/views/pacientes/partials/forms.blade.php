@@ -12,6 +12,10 @@
 		{!! Form::select('ID_TIPO_PACIENTE', array('0'=>'SELECCIONE TIPO PACIENTE') + \App\TipoPaciente::lists('TIPO_PACIENTE', 'ID_TIPO_PACIENTE')->toArray(), null, array('class'=>'form-control input-sm')) !!}
 	</div>
 	<div class="form-group col-sm-4">
+		{!! Form::label('TIPO_SEGURO', 'Tipo de Seguro:', array('class' => 'control-label')) !!}
+		{!! Form::select('TIPO_SEGURO', array('0'=>'SELECCIONE TIPO SEGURO', '1' => 'DEPENDIENTE', '2' => 'BENEFICIARIO'), null, array('class'=>'form-control input-sm')) !!}
+	</div>
+	<div class="form-group col-sm-4">
 		{!! Form::label('PRIMER_NOMBRE', 'Primer Nombre:', array('class' => 'control-label')) !!}	    
 		{!! Form::text('PRIMER_NOMBRE', null, array('class'=>'form-control input-sm', 'placeholder' => 'Primer Nombre', 'required' => 'required') ) !!}
 	</div>
@@ -77,7 +81,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 		{!! Form::label('ID_PREGUNTA', 'Pregunta de Recuperación:', array('class' => 'control-label')) !!}
-		{!! Form::select('ID_PREGUNTA', array('0'=>'SELECCIONE PREG. RECUPERACIÓN') + \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, array('class'=>'form-control input-sm')) !!}
+		{!! Form::select('ID_PREGUNTA', array('1'=>'SELECCIONE PREG. RECUPERACIÓN') + \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, array('class'=>'form-control input-sm')) !!}
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('RESPUESTA', 'Respuesta Pregunta:', array('class' => 'control-label')) !!}    
@@ -121,7 +125,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_ZONA', 'Zona:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE Zona') + \App\Zona::lists('CORREGIMIENTO', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
+		{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE ZONA') + \App\Zona::lists('ZONA', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('DETALLE', 'Dirección Detallada:', array('class' => 'control-label')) !!}    
