@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class ProfesionalesController extends Controller
-{
+{   
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +36,14 @@ class ProfesionalesController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
+    {   
+        //Funcion para validar datos antes de ser almacenados 
+        $prof = new \App\DatoProfesionalSalud;
+        $v = $prof->validar($request->all(), 'store');
+        if($v){
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+
         $Usuario = new \App\User;
         $Usuario->ID_GRUPO_USUARIO =  $request->input('ID_GRUPO_USUARIO');
         $Usuario->CLAVE_ACCESO = \Hash::make($request->input('CLAVE_ACCESO'));
@@ -89,7 +96,8 @@ class ProfesionalesController extends Controller
         $PreferenciasRecuperacion->USAR_EMAIL_PREFERENCIAL = $correo;
         $PreferenciasRecuperacion->save();
 
-        return 'Datos ALmacenados';
+        \Session::flash('mensaje', 'Profesional "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se registró exitosamente');
+        return redirect()->route('profesionales.index');
     }
 
     /**
@@ -105,14 +113,9 @@ class ProfesionalesController extends Controller
 
     public function editProfesional(Request $request){
 
-        $validator = \Validator::make($request->all(), [
-            'search' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('profesionales.index')
-                        ->withErrors($validator)
-                        ->withInput();
+        $v = \Validator::make($request->all(), ['search' => 'required']);
+        if($v->fails()){
+            return redirect()->route('profesionales.index')->withErrors($v);
         }
 
         $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();
@@ -134,8 +137,7 @@ class ProfesionalesController extends Controller
         $DatosProfesionales->PREFERENCIA_RECUPERACION = $PREFERENCIA_RECUPERACION;
         $DatosProfesionales->ID_PREGUNTA = $DatosAutenticacion->ID_PREGUNTA;
         $DatosProfesionales->RESPUESTA = $DatosAutenticacion->RESPUESTA;
-        return view('profesionales.edit')->with('datos', $DatosProfesionales);
-        
+        return view('profesionales.edit')->with('datos', $DatosProfesionales);   
     }
 
     /**
@@ -146,9 +148,34 @@ class ProfesionalesController extends Controller
      */
     public function edit($id)
     {
-        //return view('profesionales.edit')->with('id',$id);
+        //
     }
 
+    //Funcion para devolver a la vista con los datos solicitados y errores generados.
+    public function errorUpdate($id, $errors)
+    {
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('ID_PROFESIONAL', $id)->first();
+        $ProfesionalSalud = \App\ProfesionalSalud::where('ID_PROFESIONAL', $id)->first();
+        $ID_USUARIO = $ProfesionalSalud->ID_USUARIO;
+        $Usuario = \App\User::where('ID_USUARIO', $ID_USUARIO)->first();
+        $PreferenciasRecuperacion = \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $ID_USUARIO)->first();
+        $DatosAutenticacion = \App\DatoAutenticacionUsuario::where('ID_USUARIO', $ID_USUARIO)->first();
+        $DatosProfesionales->ID_ESPECIALIDAD_MEDICA = $ProfesionalSalud->ID_ESPECIALIDAD_MEDICA;
+        $DatosProfesionales->ID_GRUPO_USUARIO = $Usuario->ID_GRUPO_USUARIO;
+        $DatosProfesionales->NO_IDENTIFICACION = $Usuario->NO_IDENTIFICACION;
+        if($PreferenciasRecuperacion->USAR_PREGUNTA_SEGURIDAD == 1){
+            $PREFERENCIA_RECUPERACION = '1';
+        }elseif($PreferenciasRecuperacion->USAR_EMAIL_PREFERENCIAL == 1){
+            $PREFERENCIA_RECUPERACION = '3';
+        }else{
+            $PREFERENCIA_RECUPERACION = '0';
+        }
+        $DatosProfesionales->PREFERENCIA_RECUPERACION = $PREFERENCIA_RECUPERACION;
+        $DatosProfesionales->ID_PREGUNTA = $DatosAutenticacion->ID_PREGUNTA;
+        $DatosProfesionales->RESPUESTA = $DatosAutenticacion->RESPUESTA;
+
+        return view('profesionales.edit')->with('datos', $DatosProfesionales)->with('errors', $errors);
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -158,6 +185,13 @@ class ProfesionalesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Validamos los datos instanciando el modelo
+        $prof = new \App\DatoProfesionalSalud;
+        $v = $prof->validar($request->all(), 'update', $id);
+        if($v){
+            //llamamos la funcion errorUpdate enviando el $id y los errores obtenidos
+            return $this->errorUpdate($id, $v->errors());
+        }
         $DatosProfesionales = \App\DatoProfesionalSalud::find($id);
         $DatosProfesionales->NO_CEDULA = $request->input('NO_CEDULA');
         $DatosProfesionales->PRIMER_NOMBRE = $request->input('PRIMER_NOMBRE');
@@ -206,7 +240,7 @@ class ProfesionalesController extends Controller
         $DatosAutenticacion->E_MAIL_PREFERENCIAL = $request->input('E_MAIL');
         $DatosAutenticacion->save();
 
-
+        \Session::flash('mensaje', 'Profesional "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se edito exitosamente');
         return redirect()->route('profesionales.index');
     }
 

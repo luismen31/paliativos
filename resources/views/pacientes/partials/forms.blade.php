@@ -121,7 +121,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_ZONA', 'Zona:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE Zona') + \App\Zona::lists('CORREGIMIENTO', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
+		{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE ZONA') + \App\Zona::lists('ZONA', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('DETALLE', 'Dirección Detallada:', array('class' => 'control-label')) !!}    

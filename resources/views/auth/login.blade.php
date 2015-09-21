@@ -1,63 +1,57 @@
-@extends('app')
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="" type="image/x-icon">    
+    <title>@yield('title', 'Iniciar Cuidados Paliativos')</title>
+   
+    <!-- Bootstrap core CSS -->
+    {!! Html::style('assets/css/bootstrap.css') !!}
+    
+    <!-- Custom styles for this template -->
+    {!! Html::style('assets/css/paliativos.css') !!}
+    {!! Html::style('assets/css/font-awesome.min.css') !!}
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--script src="../../assets/js/ie-emulation-modes-warning.js"></script-->
+     <!-- Fonts -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							Por favor corrige los siguientes errores:<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+<body class="login">
+	<div class="container">
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('auth/login') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Email</label>
-							<div class="col-md-6">
-							    {!! Form::text('email', null, ['class' => 'form-control', 'type' => 'email']) !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-						    	{!! Form::password('password', ['class' => 'form-control']) !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary" style="margin-right: 15px;">
-									Login
-								</button>
-
-								<a href="{{ url('password/email') }}">Forgot Your Password?</a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="well login-box">
+	            	{!! Form::open(['url' => 'auth/login', 'method' => 'POST', 'role' => 'form']) !!}
+	                    <legend>Iniciar Sesión</legend>	                    
+	                    <div class="form-group {{ $errors->has('NO_IDENTIFICACION') ? 'has-error' : ''}}">
+	                        {!! Form::label('NO_IDENTIFICACION', 'Usuario', ['class' => 'control-label']) !!}
+	                        {!! Form::text('NO_IDENTIFICACION', null, ['class' => 'form-control', 'placeholder' => 'Usuario']) !!}
+	                        {!! $errors->first('NO_IDENTIFICACION', '<p style="color:red;font-size:12px;">:message</p>') !!}
+	                    </div>
+	                    <div class="form-group {{ $errors->has('CLAVE_ACCESO') ? 'has-error' : '' }}">
+	                        {!! Form::label('CLAVE_ACCESO', 'Contraseña', ['class' => 'control-label']) !!}
+	                        {!! Form::password('CLAVE_ACCESO', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
+	                        {!! $errors->first('CLAVE_ACCESO', '<p style="color:red;font-size:12px;">:message</p>') !!}
+	                    </div>
+	                    <div class="form-group text-center">
+	                        <button type="submit" class="btn btn-success btn-block">Iniciar</button>
+	                    </div>
+	                {!! Form::close() !!}
+	            </div>	          
+	        </div>
+	    </div>
+	
 	</div>
-</div>
-@endsection
+</body>
+	{!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
+    {!! Html::script('assets/js/bootstrap.min.js') !!}
+</html>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\SearchAutocompleteRequest;
 use App\Http\Controllers\Controller;
 
 class PacientesController extends Controller
@@ -40,18 +41,10 @@ class PacientesController extends Controller
         //
     }
 
-    public function editPaciente(Request $request){
-        $validator = \Validator::make($request->all(), [
-            'search' => 'required'
-        ]);
+    public function editPaciente(SearchAutocompleteRequest $request){
+        
 
-        if ($validator->fails()) {
-            return redirect()->route('pacientes.index')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-        return view('pacientes.edit')->with();
+        //return view('pacientes.edit')->with();
     }
 
     /**

@@ -42,6 +42,16 @@ class Authenticate
             }
         }
 
-        return $next($request);
+        return $this->nocache( $next($request) );
+    }
+
+    //evita retornar a la vista anterior despues de cerrar la sesion
+    protected function nocache($response)
+    {
+        $response->headers->set('Cache-Control','nocache, no-store, max-age=0, must-revalidate');
+        $response->headers->set('Expires','Fri, 01 Jan 1990 00:00:00 GMT');
+        $response->headers->set('Pragma','no-cache');
+
+        return $response;
     }
 }

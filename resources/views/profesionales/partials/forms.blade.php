@@ -1,11 +1,11 @@
 <div class="row">
 	<div class="form-group col-sm-4">
 		{!! Form::label('NO_CEDULA', 'Cédula:', array('class' => 'control-label')) !!}	    
-		{!! Form::text('NO_CEDULA', null, array('class'=>'form-control input-sm', 'placeholder' => 'Cédula', 'required' => 'required') ) !!}
+		{!! Form::text('NO_CEDULA', null, array('class'=>'form-control input-sm', 'placeholder' => 'Cédula') ) !!}
 	</div>
 	<div class="form-group col-sm-4">
 		{!! Form::label('PRIMER_NOMBRE', 'Primer Nombre:', array('class' => 'control-label')) !!}	    
-		{!! Form::text('PRIMER_NOMBRE', null, array('class'=>'form-control input-sm', 'placeholder' => 'Primer Nombre', 'required' => 'required') ) !!}
+		{!! Form::text('PRIMER_NOMBRE', null, array('class'=>'form-control input-sm', 'placeholder' => 'Primer Nombre') ) !!}
 	</div>
 	<div class="form-group col-sm-4">
 		{!! Form::label('SEGUNDO_NOMBRE', 'Segundo Nombre:', array('class' => 'control-label')) !!}	    
@@ -13,7 +13,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('APELLIDO_PATERNO', 'Apellido Paterno:', array('class' => 'control-label')) !!}    
-		{!! Form::text('APELLIDO_PATERNO', null, array('class'=>'form-control input-sm', 'placeholder' => 'Apellido Paterno', 'required' => 'required') ) !!}   
+		{!! Form::text('APELLIDO_PATERNO', null, array('class'=>'form-control input-sm', 'placeholder' => 'Apellido Paterno') ) !!}   
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('APELLIDO_MATERNO', 'Apellido Materno:', array('class' => 'control-label')) !!}    
@@ -21,7 +21,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('NO_IDONEIDAD', 'No. Idoneidad:', array('class' => 'control-label')) !!}    
-		{!! Form::text('NO_IDONEIDAD', null, array('class'=>'form-control input-sm', 'placeholder' => 'No. Idoneidad', 'required' => 'required') ) !!}   
+		{!! Form::text('NO_IDONEIDAD', null, array('class'=>'form-control input-sm', 'placeholder' => 'No. Idoneidad') ) !!}   
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('NO_REGISTRO', 'No. Registro:', array('class' => 'control-label')) !!}    
@@ -61,7 +61,7 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_PREGUNTA', 'Pregunta de Recuperación:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_PREGUNTA', array('0' => 'SELECCIONE LA PREGUNTA') +  \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, ['class' => 'form-control input-sm']) !!}   
+		{!! Form::select('ID_PREGUNTA', array('1' => 'SELECCIONE LA PREGUNTA') +  \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, ['class' => 'form-control input-sm']) !!}   
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('RESPUESTA', 'Respuesta:', array('class' => 'control-label')) !!}    

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,7 +20,6 @@
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--script src="../../assets/js/ie-emulation-modes-warning.js"></script-->
      <!-- Fonts -->
-    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -32,6 +30,7 @@
   <body>
   	<div id="wrap">
         <div id="main" class="clearf">
+        	<div id="noty-holder"></div><!-- HERE IS WHERE THE NOTY WILL APPEAR-->
         	<nav class="navbar navbar-default navbar-fixed-top paliative-nav">
 		      <div class="container-fluid border-nav">
 		        <div class="navbar-header">
@@ -43,24 +42,43 @@
 		        </div>		        
 		      </div>
 		    </nav>
-
+		    {{--*/ 
+		    	//recibe la ruta actual para mantener activo el menu lateral
+		    	$url = Request::path(); 
+		    /*--}}
+		   
 		    <div class="container-fluid">
 				<div class="row row-offcanvas row-offcanvas-left">
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="{{route('profesionales.index')}}"><span class="glyphicon glyphicon-user"></span> Profesionales</a></li>
-								<li><a href="{{ route('pacientes.index') }}"><span class="glyphicon glyphicon-user"></span> Pacientes</a></li>
-								<li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Link</a></li>
-
-								<!-- Dropdown-->
-								<li class="panel panel-default active" id="dropdown">
-									<a data-toggle="collapse" href="#dropdown-lvl1">
-										<span class="glyphicon glyphicon-user"></span> Sub Level <span class="caret"></span>
+								<li class="panel panel-default {{ ($url == 'profesionales' or $url == 'pacientes') ? 'active' : '' }}" id="dropdown">
+									<a data-toggle="collapse" href="#drop_1">
+										<span class="fa fa-users"></span> Administración <span class="caret"></span>
 									</a>
 
 									<!-- Dropdown level 1 -->
-									<div id="dropdown-lvl1" class="panel-collapse collapse">
+									<div id="drop_1" class="panel-collapse collapse {{ ($url == 'profesionales' or $url == 'pacientes') ? 'in' : '' }}">
+										<div class="panel-body">
+											<ul class="nav navbar-nav">
+												<li><a href="{{route('profesionales.index')}}"><span class="fa fa-user"></span> Profesionales</a></li>
+												<li><a href="{{ route('pacientes.index') }}"><span class="fa fa-user"></span> Pacientes</a></li>
+												<li><a href="#">Link</a></li>												
+											</ul>
+										</div>
+									</div>
+								</li>
+
+								<li><a href="#"><span class="fa fa-link"></span> Link</a></li>
+
+								<!-- Dropdown-->
+								<li class="panel panel-default" id="dropdown">
+									<a data-toggle="collapse" href="#drop_2">
+										<span class="fa fa-user"></span> Sub Level <span class="caret"></span>
+									</a>
+
+									<!-- Dropdown level 1 -->
+									<div id="drop_2" class="panel-collapse collapse">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
 												<li><a href="#">Link</a></li>
@@ -69,10 +87,10 @@
 
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
-													<a data-toggle="collapse" href="#dropdown-lvl2">
+													<a data-toggle="collapse" href="#drop_2-1">
 														<span class="glyphicon glyphicon-off"></span> Sub Level <span class="caret"></span>
 													</a>
-													<div id="dropdown-lvl2" class="panel-collapse collapse">
+													<div id="drop_2-1" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
 																<li><a href="#">Link</a></li>
@@ -98,7 +116,7 @@
 						<div class="row sub-nav">
 							<div class="col-md-6 col-sm-8 pull-left">
 								<ul class="list-inline">
-									<li class="welcome">Bienvenido, Administrador {{Auth::user()}}</li>
+									<li class="welcome">Bienvenido, {{-- Auth::user() --}}</li>
 								</ul>								
 							</div>
 							<div class="col-md-6 col-sm-4">
@@ -144,7 +162,6 @@
 		  });
 		});
     </script>
-    @yield('scripts')
     <script type="text/javascript">
 	    $(function () {
 	        $('.datetimepicker').datetimepicker({
@@ -152,5 +169,6 @@
 	        });
 	    });
     </script>
+    @yield('scripts')
   </body>
 </html>

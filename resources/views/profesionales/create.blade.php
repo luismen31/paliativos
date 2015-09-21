@@ -7,8 +7,13 @@
 @section('content')	
 	
 	<h2 class="page-header">Agregar o Editar Profesionales</h2>
-
-	@include('profesionales.partials.errors')
+	{{-- Mostrar mensaje exitoso --}}
+	@if(Session::has('mensaje'))
+		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
+	@endif
+	
+	{{-- Mensajes de Error --}}
+	@include('mensajes.errors')
 	
 	@include('profesionales.partials.autocomplete')	
 

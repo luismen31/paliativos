@@ -8,7 +8,6 @@
 	
 	<h2 class="page-header">Sistema de Búsqueda y Captura de Datos de los Pacientes</h2>
 
-
 	<div class="tabbable-panel">
 		<div class="tabbable-line">
 			<ul class="nav nav-tabs ">
@@ -23,7 +22,8 @@
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
-
+					@include('mensajes.errors')
+					
 					@include('pacientes.partials.autocomplete')
 
 				</div>
