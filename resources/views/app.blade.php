@@ -52,18 +52,28 @@
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
-								<li class="panel panel-default {{ ($url == 'profesionales' or $url == 'pacientes') ? 'active' : '' }}" id="dropdown">
+								{{--*/
+										$active = ($url == 'profesionales' or $url == 'pacientes' or $url == 'equipo-medico') ? 'active' : '';
+									/*--}}
+								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_1">
-										<span class="fa fa-users"></span> Administración <span class="caret"></span>
+										<span class="fa fa-dashboard"></span> Administración <span class="caret"></span>
 									</a>
 
+									{{--*/
+										$in = ($url == 'profesionales' or $url == 'pacientes' or $url == 'equipo-medico') ? 'in' : '';
+									/*--}}
 									<!-- Dropdown level 1 -->
-									<div id="drop_1" class="panel-collapse collapse {{ ($url == 'profesionales' or $url == 'pacientes') ? 'in' : '' }}">
+									<div id="drop_1" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
-												<li><a href="{{route('profesionales.index')}}"><span class="fa fa-user"></span> Profesionales</a></li>
-												<li><a href="{{ route('pacientes.index') }}"><span class="fa fa-user"></span> Pacientes</a></li>
-												<li><a href="#">Link</a></li>												
+												<li><a href="{{route('profesionales.index')}}"> Profesionales</a></li>
+												<li><a href="{{ route('pacientes.index') }}"> Pacientes</a></li>
+												<li><a href="{{ route('equipo-medico.index') }}"> Equipo Médico</a></li>
+												<li><a href="{{-- route('camas.index') --}}"> Camas</a></li>
+												<li><a href="{{-- route('salas.index') --}}"> Salas</a></li>
+												<li><a href="{{-- route('servicios-medicos.index') --}}"> Servicios Médicos</a></li>
+												<li><a href="{{-- route('zona.index') --}}"> Zona</a></li>
 											</ul>
 										</div>
 									</div>

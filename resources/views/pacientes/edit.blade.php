@@ -8,8 +8,9 @@
 	
 	<h2 class="page-header">Sistema de Búsqueda y Captura de Datos de los Pacientes</h2>
 
-
 	<div class="tabbable-panel">
+		@include('mensajes.errors')
+
 		<div class="tabbable-line">
 			<ul class="nav nav-tabs ">
 				<li class="active">
@@ -24,8 +25,44 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
 
-					@include('pacientes.partials.autocomplete')
+					@include('pacientes.partials.autocomplete')					
 
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3" >   
+				        <div class="panel panel-success">
+				            <div class="panel-heading">
+				              <h3 class="panel-title"><i class="fa fa-check"></i> <strong>Vista rápida del paciente</strong></h3>
+				            </div>
+				            <div class="panel-body">
+				              <div class="row">
+
+				                <div class=" col-md-9 col-lg-9 col-md-offset-2"> 
+				                  <table class="table table-user-information">
+				                    <tbody>
+				                      <tr>
+				                        <td><strong>Nombre:</strong></td>
+				                        <td>{{ $datos->PRIMER_NOMBRE.' '. $datos->SEGUNDO_NOMBRE}}</td>
+				                      </tr>
+				                      <tr>
+				                        <td><strong>Apellido:</strong></td>
+				                        <td>{{ $datos->APELLIDO_PATERNO.' '.$datos->APELLIDO_MATERNO }}</td>
+				                      </tr>
+				                      {{--*/ $sexo = \App\Sexo::where('ID_SEXO', $datos->ID_SEXO)->first()->SEXO; /*--}}
+				                      <tr>
+				                        <td><strong>Sexo:</strong></td>
+				                        <td>{{ $sexo}}</td>
+				                      </tr>
+				                      {{--*/ $tipo_sangre = \App\TipoSanguineo::where('ID_TIPO_SANGUINEO', $datos->ID_TIPO_SANGUINEO)->first()->TIPO_SANGRE; /*--}}
+				                      <tr>
+				                        <td><strong>Tipo de Sangre:</strong></td>
+				                        <td>{{ $tipo_sangre }}</td>
+				                      </tr>				                        
+				                    </tbody>
+				                  </table>
+				                </div>
+				              </div>
+				            </div>
+				        </div>
+				    </div>	
 				</div>
 				<div class="tab-pane" id="tab2">
 					

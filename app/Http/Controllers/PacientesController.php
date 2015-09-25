@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Requests\SearchAutocompleteRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
@@ -39,6 +38,12 @@ class PacientesController extends Controller
      */
     public function store(Request $request)
     {
+        $PACIENTE = new \App\DatoPaciente;
+        $v = $PACIENTE->validar($request->all(), 'store');
+        if($v->fails()){
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+
         $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
         $Usuario = new \App\User;
         if(empty($request->input('NO_IDENTIFICACION'))){
@@ -127,15 +132,16 @@ class PacientesController extends Controller
         $Paciente->ID_PACIENTE = $ID_PACIENTE;
         $Paciente->save();
 
+        \Session::flash('mensaje', 'El paciente "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se registró exitosamente');
         return redirect()->route('pacientes.index');
 
     }
 
-    public function editPaciente(SearchAutocompleteRequest $request){
-        if ($validator->fails()) {
-            return redirect()->route('pacientes.index')
-                        ->withErrors($validator)
-                        ->withInput();
+    public function editPaciente(Request $request){
+        
+        $v = \Validator::make($request->all(), ['search' => 'required']);
+        if($v->fails()){
+            return redirect()->route('pacientes.index')->withErrors($v);
         }
         
         $DatosPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search'))->first();
@@ -158,21 +164,7 @@ class PacientesController extends Controller
         $DatosPaciente->ID_DISTRITO = $ResidenciaHabitual->ID_DISTRITO;
         $DatosPaciente->ID_CORREGIMIENTO = $ResidenciaHabitual->ID_CORREGIMIENTO;
         $DatosPaciente->ID_ZONA = $ResidenciaHabitual->ID_ZONA;
-        $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;
-        
-        if($request->input('PREFERENCIA_RECUPERACION') == '1'){
-            $pregunta = 1;
-            $correo = 0;            
-        }else{
-            $pregunta = 0;
-            $correo = 1;            
-        }
-
-        $PreferenciasRecuperacion =  \App\PreferenciaRecuperacionAcceso::where('ID_SEGURIDAD', $ID_USUARIO)->first();
-        $PreferenciasRecuperacion->USAR_PREGUNTA_SEGURIDAD = $pregunta;
-        $PreferenciasRecuperacion->USAR_TELEFONO_PREFERENCIAL = 0;
-        $PreferenciasRecuperacion->USAR_EMAIL_PREFERENCIAL = $correo;
-        $PreferenciasRecuperacion->save();
+        $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;        
 
         return view('pacientes.edit')->with('datos', $DatosPaciente);
     }
@@ -199,6 +191,32 @@ class PacientesController extends Controller
         //
     }
 
+    public function errorUpdate($id, $errors){
+
+        $DatosPaciente = \App\DatoPaciente::where('ID_PACIENTE', $id)->first();
+        $Paciente = \App\Paciente::where('ID_PACIENTE', $id)->first();
+        $ID_USUARIO = $Paciente->ID_USUARIO; 
+        $Usuario = \App\User::where('ID_USUARIO', $ID_USUARIO)->first();
+        $DatosPaciente->NO_IDENTIFICACION = $Usuario->NO_IDENTIFICACION;
+        $PreferenciasRecuperacion = \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $ID_USUARIO)->first();
+        if($PreferenciasRecuperacion->USAR_PREGUNTA_SEGURIDAD == 1){
+            $DatosPaciente->PREFERENCIA_RECUPERACION = 1;
+        }else{
+            $DatosPaciente->PREFERENCIA_RECUPERACION = 3;
+        }
+        $DatosAutenticacion = \App\DatoAutenticacionUsuario::where('ID_USUARIO', $ID_USUARIO)->first();
+        $DatosPaciente->ID_PREGUNTA = $DatosAutenticacion->ID_PREGUNTA;
+        $DatosPaciente->RESPUESTA = $DatosAutenticacion->RESPUESTA;
+        $ResidenciaHabitual = \App\ResidenciaHabitual::where('ID_RESIDENCIA_HABITUAL', $DatosPaciente->ID_RESIDENCIA_HABITUAL)->first();
+        $DatosPaciente->ID_PROVINCIA = $ResidenciaHabitual->ID_PROVINCIA;
+        $DatosPaciente->ID_DISTRITO = $ResidenciaHabitual->ID_DISTRITO;
+        $DatosPaciente->ID_CORREGIMIENTO = $ResidenciaHabitual->ID_CORREGIMIENTO;
+        $DatosPaciente->ID_ZONA = $ResidenciaHabitual->ID_ZONA;
+        $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;
+       
+        return view('pacientes.edit')->with('datos', $DatosPaciente)->with('errors', $errors);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -208,7 +226,15 @@ class PacientesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $PACIENTE = new \App\DatoPaciente;
+        $v = $PACIENTE->validar($request->all(), 'update', $id);
+        if($v){
+            return $this->errorUpdate($id, $v->errors());
+        }
+
         $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
+        $ID_RESIDENCIA_HABITUAL = \App\DatoPaciente::where('ID_PACIENTE', $id)->first()->ID_RESIDENCIA_HABITUAL;
+        
         $DatosPaciente = \App\DatoPaciente::find($id);
         $DatosPaciente->NO_CEDULA = $request->input('NO_CEDULA');
         $DatosPaciente->SEGURO_SOCIAL = $request->input('NO_CEDULA');
@@ -228,7 +254,7 @@ class PacientesController extends Controller
         $DatosPaciente->TELEFONO_CASA = $request->input('TELEFONO_CASA');
         $DatosPaciente->TELEFONO_CELULAR = $request->input('TELEFONO_CELULAR');
         $DatosPaciente->E_MAIL = $request->input('E_MAIL');
-        $DatosPaciente->OCUPACION = $request->input('OCUPACION');
+        $DatosPaciente->OCUPACION = $request->input('OCUPACION');        
         $DatosPaciente->ID_RESIDENCIA_HABITUAL = $ID_RESIDENCIA_HABITUAL;
         $DatosPaciente->RESIDENCIA_TRANSITORIA = $request->input('RESIDENCIA_TRANSITORIA');
         $DatosPaciente->NOMBRE_PADRE = $request->input('NOMBRE_PADRE');
@@ -240,7 +266,6 @@ class PacientesController extends Controller
         $DatosPaciente->save();  
 
         $ID_USUARIO = \App\Paciente::where('ID_PACIENTE', $id)->first()->ID_USUARIO;
-        $ID_RESIDENCIA_HABITUAL = \App\DatoPaciente::where('ID_PACIENTE', $id)->first()->ID_RESIDENCIA_HABITUAL;
         $Usuario = \App\User::find($ID_USUARIO);
         $Usuario->NO_IDENTIFICACION = $request->input('NO_IDENTIFICACION');
         if(!empty($request->input('CLAVE_ACCESO'))){
@@ -248,7 +273,6 @@ class PacientesController extends Controller
             $Usuario->CLAVE_ENCRYPT = \Crypt::encrypt($request->input('CLAVE_ACCESO'));
         }
         $Usuario->save();
-
 
         $DatosAutenticacion = \App\DatoAutenticacionUsuario::find($ID_USUARIO);
         $DatosAutenticacion->ID_PREGUNTA = $request->input('ID_PREGUNTA');
@@ -265,6 +289,8 @@ class PacientesController extends Controller
         $ResidenciaHabitual->DETALLE = $request->input('DETALLE');
         $ResidenciaHabitual->save();
 
+        \Session::flash('mensaje', 'El paciente "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se editó exitosamente');
+        return redirect()->route('pacientes.index');
     }
 
     /**

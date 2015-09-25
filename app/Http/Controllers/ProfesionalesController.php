@@ -118,7 +118,13 @@ class ProfesionalesController extends Controller
             return redirect()->route('profesionales.index')->withErrors($v);
         }
 
-        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();
+        
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();            
+        //Sino es nulo retorna un mensaje de error
+        if($DatosProfesionales == null){
+            \Session::flash('msj_error', 'Solo puede ingresar la cédula del profesional');
+            return redirect()->route('profesionales.index');
+        }
         $ProfesionalSalud = \App\ProfesionalSalud::where('ID_PROFESIONAL', $DatosProfesionales->ID_PROFESIONAL)->first();
         $ID_USUARIO = $ProfesionalSalud->ID_USUARIO;
         $Usuario = \App\User::where('ID_USUARIO', $ID_USUARIO)->first();

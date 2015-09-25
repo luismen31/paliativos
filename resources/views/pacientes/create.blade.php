@@ -8,7 +8,14 @@
 	
 	<h2 class="page-header">Sistema de Búsqueda y Captura de Datos de los Pacientes</h2>
 
+	{{-- Mostrar mensaje exitoso --}}
+	@if(Session::has('mensaje'))
+		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
+	@endif
+
 	<div class="tabbable-panel">
+		@include('mensajes.errors')
+		
 		<div class="tabbable-line">
 			<ul class="nav nav-tabs ">
 				<li class="active">
@@ -22,11 +29,11 @@
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
-					@include('mensajes.errors')
 					
 					@include('pacientes.partials.autocomplete')
 
 				</div>
+
 				<div class="tab-pane" id="tab2">
 					
 					{!! Form::open(array('route' => 'pacientes.store', 'method' => 'POST')) !!}

@@ -394,6 +394,7 @@ body {
 
 .tabbable-panel {
   border:1px solid #eee;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   padding: 10px;
 }
 
@@ -447,4 +448,22 @@ body {
 }
 .portlet .tabbable-line > .tab-content {
   padding-bottom: 0;
+}
+
+/*vista rapida paciente*/
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+/*****/
+
+/*PANEL FILTER*/
+.panel-filter .panel-heading div {
+  margin-top: -18px;
+  font-size: 15px;
+}
+.panel-filter .panel-heading div span{
+  margin-left:5px;
+}
+.panel-filter .panel-body{
+  display: block;
 }

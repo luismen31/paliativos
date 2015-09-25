@@ -1,0 +1,35 @@
+Cambios en Paliativos
+-Obviar el campo del numero del seguro.
+-Agregar el tipo de seguro si es dependiente, beneficiario por parte de quien si es padre, hijo, esposo.
+-Fecha de Ingreso del paciente que sea dependiendo de la fecha que se haya puesto.
+-Estado de paciente agregar compensado.
+-Agregar en diario de actividades la observacion y un modal para mostrar toda la informacion.
+-Estado de Curado esta en veremos.
+
+
+
+Profesionales
+
+
+Luis Vallesteros
+8-808-1342
+Psicologo
+valle323@hotmail.com
+
+
+Johanna Beitia
+4-723-574
+Trabajadora Social
+johanmariel27hotmail.es
+
+
+Graciela Lopez
+4-169-600
+Enfermera
+octaviza@hotmail.com
+
+
+Vielka Barroso
+4-223-129
+Enfermera
+vbarroso.29@hotmail.com

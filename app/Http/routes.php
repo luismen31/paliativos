@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
 	Route::resource('pacientes', 'PacientesController');
+
+	Route::resource('equipo-medico', 'EquipoMedicoController');	
 	Route::controller('buscar', 'SearchController');
 });
 
