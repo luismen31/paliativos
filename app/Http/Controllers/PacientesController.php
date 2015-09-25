@@ -131,12 +131,7 @@ class PacientesController extends Controller
 
     }
 
-    public function editPaciente(SearchAutocompleteRequest $request){
-        if ($validator->fails()) {
-            return redirect()->route('pacientes.index')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
+    public function editPaciente(Request $request){
         
         $DatosPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search'))->first();
         $ID_PACIENTE = $DatosPaciente->ID_PACIENTE;
@@ -168,7 +163,7 @@ class PacientesController extends Controller
             $correo = 1;            
         }
 
-        $PreferenciasRecuperacion =  \App\PreferenciaRecuperacionAcceso::where('ID_SEGURIDAD', $ID_USUARIO)->first();
+        $PreferenciasRecuperacion =  \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $ID_USUARIO)->first();
         $PreferenciasRecuperacion->USAR_PREGUNTA_SEGURIDAD = $pregunta;
         $PreferenciasRecuperacion->USAR_TELEFONO_PREFERENCIAL = 0;
         $PreferenciasRecuperacion->USAR_EMAIL_PREFERENCIAL = $correo;
@@ -208,6 +203,7 @@ class PacientesController extends Controller
      */
     public function update(Request $request, $id)
     {
+       
         $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
         $DatosPaciente = \App\DatoPaciente::find($id);
         $DatosPaciente->NO_CEDULA = $request->input('NO_CEDULA');
@@ -229,7 +225,6 @@ class PacientesController extends Controller
         $DatosPaciente->TELEFONO_CELULAR = $request->input('TELEFONO_CELULAR');
         $DatosPaciente->E_MAIL = $request->input('E_MAIL');
         $DatosPaciente->OCUPACION = $request->input('OCUPACION');
-        $DatosPaciente->ID_RESIDENCIA_HABITUAL = $ID_RESIDENCIA_HABITUAL;
         $DatosPaciente->RESIDENCIA_TRANSITORIA = $request->input('RESIDENCIA_TRANSITORIA');
         $DatosPaciente->NOMBRE_PADRE = $request->input('NOMBRE_PADRE');
         $DatosPaciente->NOMBRE_MADRE = $request->input('NOMBRE_MADRE');
@@ -264,6 +259,8 @@ class PacientesController extends Controller
         $ResidenciaHabitual->ID_ZONA = $request->input('ID_ZONA');
         $ResidenciaHabitual->DETALLE = $request->input('DETALLE');
         $ResidenciaHabitual->save();
+
+        return redirect()->route('pacientes.index');
 
     }
 

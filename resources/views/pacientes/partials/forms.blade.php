@@ -113,15 +113,15 @@
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_PROVINCIA', 'Provincia:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_PROVINCIA', array('0'=>'SELECCIONE PROVINCIA') + \App\Provincia::lists('PROVINCIA', 'ID_PROVINCIA')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'provincias')) !!} 
+		{!! Form::select('ID_PROVINCIA', array('0'=>'SELECCIONE PROVINCIA') + \App\Provincia::lists('PROVINCIA', 'ID_PROVINCIA')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'ID_PROVINCIA')) !!} 
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_DISTRITO', 'Distrito:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_DISTRITO', array('0'=>'SELECCIONE DISTRITO') + \App\Distrito::lists('DISTRITO', 'ID_DISTRITO')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'distritos')) !!} 
+		{!! Form::select('ID_DISTRITO', array('0'=>'SELECCIONE DISTRITO') + \App\Distrito::lists('DISTRITO', 'ID_DISTRITO')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'ID_DISTRITO')) !!} 
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_CORREGIMIENTO', 'Corregimiento:', array('class' => 'control-label')) !!}    
-		{!! Form::select('ID_CORREGIMIENTO', array('0'=>'SELECCIONE CORREGIMIENTO') + \App\Corregimiento::lists('CORREGIMIENTO', 'ID_CORREGIMIENTO')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'corregimientos')) !!} 
+		{!! Form::select('ID_CORREGIMIENTO', array('0'=>'SELECCIONE CORREGIMIENTO') + \App\Corregimiento::lists('CORREGIMIENTO', 'ID_CORREGIMIENTO')->toArray(), null, array('class'=>'form-control input-sm', 'id' => 'ID_CORREGIMIENTO')) !!} 
 	</div>
 	<div class="form-group col-sm-4">
 	    {!! Form::label('ID_ZONA', 'Zona:', array('class' => 'control-label')) !!}    

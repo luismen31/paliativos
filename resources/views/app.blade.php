@@ -154,6 +154,7 @@
     <script type="text/javascript">
     	var baseurl = '{!! url() !!}';
     </script>
+    {!! Html::script('assets/js/script.js') !!}
     <script type="text/javascript">
     	$(document).ready(function () {
 		  $('[data-toggle="offcanvas"]').click(function () {		    
