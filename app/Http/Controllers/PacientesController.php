@@ -164,6 +164,7 @@ class PacientesController extends Controller
         $DatosPaciente->ID_DISTRITO = $ResidenciaHabitual->ID_DISTRITO;
         $DatosPaciente->ID_CORREGIMIENTO = $ResidenciaHabitual->ID_CORREGIMIENTO;
         $DatosPaciente->ID_ZONA = $ResidenciaHabitual->ID_ZONA;
+
         $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;        
 
         return view('pacientes.edit')->with('datos', $DatosPaciente);
@@ -291,6 +292,7 @@ class PacientesController extends Controller
 
         \Session::flash('mensaje', 'El paciente "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se editó exitosamente');
         return redirect()->route('pacientes.index');
+
     }
 
     /**

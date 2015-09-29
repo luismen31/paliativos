@@ -29,4 +29,15 @@ class SearchController extends Controller
         }    
 
     }
+
+    public function getDistrito(Request $request){
+        $distrito = \App\Distrito::where('id_provincia',$request->input('provincia'));
+        return ($distrito->get(['id_distrito','distrito']));
+    }
+    public function getCorregimiento(Request $request){
+        $corregimiento = \App\Corregimiento::where('id_distrito',$request->input('distrito'));
+        return ($corregimiento->get(['id_corregimiento','corregimiento']));
+    }
 }
+
+
