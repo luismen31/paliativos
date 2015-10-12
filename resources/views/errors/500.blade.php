@@ -4,6 +4,6 @@
 	<title></title>
 </head>
 <body>
-	ACCESO PROHIBIDO
+	ERROR INTERNO
 </body>
 </html>
