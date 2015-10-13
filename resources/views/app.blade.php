@@ -67,45 +67,146 @@
 									<div id="drop_1" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
-												<li><a href="{{route('profesionales.index')}}"> Profesionales</a></li>
+												<li><a href="{{ route('profesionales.index') }}"> Profesionales</a></li>
 												<li><a href="{{ route('pacientes.index') }}"> Pacientes</a></li>
 												<li><a href="{{ route('equipo-medico.index') }}"> Equipo Médico</a></li>
-												<li><a href="{{-- route('camas.index') --}}"> Camas</a></li>
-												<li><a href="{{-- route('salas.index') --}}"> Salas</a></li>
-												<li><a href="{{-- route('servicios-medicos.index') --}}"> Servicios Médicos</a></li>
-												<li><a href="{{-- route('zona.index') --}}"> Zona</a></li>
+												<li><a href="{{ route('camas.index') }}"> Camas</a></li>
+												<li><a href="{{ route('salas.index') }}"> Salas</a></li>
+												<li><a href="{{ route('servicios.index') }}"> Servicios Médicos</a></li>
+												<li><a href="{{ route('zona.index') }}"> Zona</a></li>
 											</ul>
 										</div>
 									</div>
 								</li>
 
-								<li><a href="#"><span class="fa fa-link"></span> Link</a></li>
-
 								<!-- Dropdown-->
 								<li class="panel panel-default" id="dropdown">
 									<a data-toggle="collapse" href="#drop_2">
-										<span class="fa fa-user"></span> Sub Level <span class="caret"></span>
+										<span class="fa fa-user"></span> Domiciliaria <span class="caret"></span>
 									</a>
 
 									<!-- Dropdown level 1 -->
 									<div id="drop_2" class="panel-collapse collapse">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
-												<li><a href="#">Link</a></li>
-												<li><a href="#">Link</a></li>
-												<li><a href="#">Link</a></li>
-
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
 													<a data-toggle="collapse" href="#drop_2-1">
-														<span class="glyphicon glyphicon-off"></span> Sub Level <span class="caret"></span>
+														<span class="glyphicon"></span>Registro de Visitas Domiciliarias <span class="caret"></span>
 													</a>
 													<div id="drop_2-1" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
-																<li><a href="#">Link</a></li>
-																<li><a href="#">Link</a></li>
-																<li><a href="#">Link</a></li>
+																<li><a href="{{ route('rvd.index') }}">Visitas Realizadas</a></li>
+																<li><a href="#">Agenda</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+												<li><a href="#">Registro Diario de Actividades</a></li>
+												<li><a href="#">Surco</a></li>
+												<!-- Dropdown level 2 -->
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#drop_2-2">
+														<span class="glyphicon"></span>Indicadores<span class="caret"></span>
+													</a>
+													<div id="drop_2-2" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Total de Visitas Realizadas x Periodo de Tiempo</a></li>
+																<li><a href="#">Tiempo Promedio Empleado por Visita</a></li>
+																<li><a href="#">N° de Visitas x Paciente Según Diagnóstico</a></li>
+																<li><a href="#">Actividades Realizadas por Visita</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</li>
+									<!-- Dropdown-->
+								<li class="panel panel-default" id="dropdown">
+									<a data-toggle="collapse" href="#drop_3">
+										<span class="fa fa-user"></span> Ambulatoria <span class="caret"></span>
+									</a>
+
+									<!-- Dropdown level 1 -->
+									<div id="drop_3" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul class="nav navbar-nav">
+												<li><a href="#">Registro Diario de Actividades</a></li>
+												<!-- Dropdown level 2 -->
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#drop_3-1">
+														<span class="glyphicon"></span>Contacto Telefónico<span class="caret"></span>
+													</a>
+													<div id="drop_3-1" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Atención al Paciente</a></li>
+																<li><a href="#">Interconsulta</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+												<!-- Dropdown level 2 -->
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#drop_3-2">
+														<span class="glyphicon"></span>Indicadores<span class="caret"></span>
+													</a>
+													<div id="drop_3-2" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Frecuentación P/F a la Instalación x Periodo de Tiempo</a></li>
+																<li><a href="#">Actividades Realizadas por Paciente</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</li>
+								
+									<!-- Dropdown-->
+								<li class="panel panel-default" id="dropdown">
+									<a data-toggle="collapse" href="#drop_4">
+										<span class="fa fa-user"></span> Hospitalaria <span class="caret"></span>
+									</a>
+
+									<!-- Dropdown level 1 -->
+									<div id="drop_4" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul class="nav navbar-nav">
+												<li><a href="#">Registro Diario de Actividades</a></li>
+												<!-- Dropdown level 2 -->
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#drop_4-1">
+														<span class="glyphicon"></span>RAE<span class="caret"></span>
+													</a>
+													<div id="drop_4-1" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Evolución</a></li>
+															</ul>
+														</div>
+													</div>
+												</li>
+												<li class="panel panel-default" id="dropdown">
+													<a data-toggle="collapse" href="#drop_4-2">
+														<span class="glyphicon"></span>Indicadores<span class="caret"></span>
+													</a>
+													<div id="drop_4-2" class="panel-collapse collapse">
+														<div class="panel-body">
+															<ul class="nav navbar-nav">
+																<li><a href="#">Porcentaje de Ocupación de Camas</a></li>
+																<li><a href="#">Giro de Cama</a></li>
+																<li><a href="#">Promedio de Días de Estancia</a></li>
+																<li><a href="#">Porcentaje de Egreso</a></li>
+																<li><a href="#">Razones de Readmisiones</a></li>
+																<li><a href="#">Porcentaje de Infecciones Nosocomiales</a></li>
+																<li><a href="#">Porcentaje de Hospitalizados referidos de Consulta externa</a></li>
 															</ul>
 														</div>
 													</div>
@@ -115,7 +216,7 @@
 									</div>
 								</li>
 
-								<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
+								<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Red Social</a></li>
 
 							</ul>
 						</div>
@@ -126,7 +227,7 @@
 						<div class="row sub-nav">
 							<div class="col-md-6 col-sm-8 pull-left">
 								<ul class="list-inline">
-									<li class="welcome">Bienvenido, {{-- Auth::user() --}}</li>
+									<li class="welcome">Bienvenido, {{ Auth::user()->NO_IDENTIFICACION }}</li>
 								</ul>								
 							</div>
 							<div class="col-md-6 col-sm-4">

@@ -24,6 +24,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::resource('equipo-medico', 'EquipoMedicoController');	
 	Route::controller('buscar', 'SearchController');
+
+	Route::resource('camas', 'CamasController');	
+	Route::resource('salas', 'SalasController');
+	Route::resource('servicios', 'ServiciosMedicosController');
+	Route::resource('zona', 'ZonasController');
+	Route::resource('rvd', 'RegistroVisitasController');
 });
 
 // Authentication routes...

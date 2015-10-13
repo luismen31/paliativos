@@ -25,7 +25,14 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
 
-					@include('pacientes.partials.autocomplete')					
+					{!! Form::open(array('url' => 'pacientes/editPaciente', 'class' => 'form-horizontal', 'method' => 'POST')) !!}
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 well well-sm search">
+								@include('autocomplete.pacientes')
+							    <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fa fa-search"></i> Buscar</button>
+							</div>
+						</div>
+					{!! Form::close() !!}				
 
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3" >   
 				        <div class="panel panel-success">
