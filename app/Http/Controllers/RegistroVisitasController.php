@@ -37,7 +37,14 @@ class RegistroVisitasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rvd = new \App\RegistroVisitaDomiciliaria;
+        $rvd->FECHA = $request->input('FECHA');
+        $rvd->ID_INSTITUCION = $request->input('ID_INSTITUCION');
+        $rvd->ID_EQUIPO_MEDICO = $request->input('ID_EQUIPO_MEDICO');
+        $rvd->save();
+
+        return $this->show($rvd->ID_RVD);
+
     }
 
     /**
@@ -48,7 +55,8 @@ class RegistroVisitasController extends Controller
      */
     public function show($id)
     {
-        //
+        $datos = \App\RegistroVisitaDomiciliaria::find($id);
+        return view('rvd.create-paciente')->with('datos', $datos);
     }
 
     /**
@@ -71,7 +79,8 @@ class RegistroVisitasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $trazabilidad = new Trazabilidad;
+        $trazabilidad->ID_TRAZABILIDAD = '';
     }
 
     /**
