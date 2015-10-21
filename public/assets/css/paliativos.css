@@ -15,7 +15,7 @@ body > #wrap{height: auto; min-height: 100%;} /*mantiene como minimo el 100% de 
   clear:both;
   /*colores y diseno al footer*/
   b ackground: #258ECD;
-  border-top: 1px solid #dedede;   
+  border-top: 1px solid #dedede;
 }
 .footer{
   font-size: 15px;
@@ -75,10 +75,10 @@ body {
   border-bottom: 1px solid #eee;
 }
 /*css Notificaciones*/
-#noty-holder{    
-    width: 100%;    
+#noty-holder{
+    width: 100%;
     top: 0;
-    font-weight: bold;    
+    font-weight: bold;
     z-index: 1031; /* Max Z-Index in Fixed Nav Menu is 1030*/
     text-align: center;
     position: fixed;
@@ -188,7 +188,7 @@ body {
 }
 .sub-nav .welcome{
   padding-top: 7px;
-  color: #000;  
+  color: #000;
   font-weight: bolder;
 }
 
@@ -235,7 +235,7 @@ body {
 
 /*boton para activar menu sidebar*/
 .navbar-toggle-sidebar {
-  color: #fff;  
+  color: #fff;
   float: left;
   padding: 15px;
   margin: 0;
@@ -250,7 +250,7 @@ body {
   top: 51px;
   bottom: 0;
   left: 0;
-  height: 100%;
+  hei ght: 100%;
   background-color: #f5f5f5;
   border-right: 1px solid #e7e7e7;
 }
@@ -261,7 +261,7 @@ body {
     display: block;
     padding: 0px 0px 20px 0px; /*20px*/
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */    
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
   }
 }
 
@@ -374,7 +374,7 @@ body {
     left: 51%; /* 6 columns */
   }
 
-  .footer-left{    
+  .footer-left{
     left: 47.9%;
   }
 
@@ -390,6 +390,17 @@ body {
   margin-bottom: 5px;
 }
 
+/*Mensaje de bienvenida*/
+.welcome{
+  margin-top: 100px;
+  border-bottom: 0 none;
+}
+
+@media screen and (max-width: 767px){
+  .welcome{
+    margin-top: 50px;
+  }
+}
 /*Tabs*/
 
 .tabbable-panel {
@@ -466,4 +477,11 @@ body {
 }
 .panel-filter .panel-body{
   display: block;
+}
+/* tamaño de letras en las tablas */
+.table-font{
+  font-size: 12px;
+}
+.table-font .btn{
+  font-size: 12px;
 }

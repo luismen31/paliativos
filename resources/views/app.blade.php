@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="shortcut icon" href="" type="image/x-icon">    
+    <link rel="shortcut icon" href="" type="image/x-icon">
     <title>@yield('title', 'Cuidados Paliativos')</title>
-   
+
     <!-- Bootstrap core CSS -->
      {!! Html::style('assets/css/bootstrap.css') !!}
-    
+
     <!-- Custom styles for this template -->
     {!! Html::style('assets/css/paliativos.css') !!}
     {!! Html::style('assets/css/font-awesome.min.css') !!}
@@ -37,16 +37,16 @@
 		          <button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed" data-toggle="offcanvas">
 					<i class="fa fa-bars"></i>
 					<span class="sr-only">Menu</span>
-				  </button>		          
-		          <a href="{{ url('/') }}" class="navbar-brand navbar-brand-centered">Gestión de Cuidados Paliativos Panamá</a>   
-		        </div>		        
+				  </button>
+		          <a href="{{ url('/') }}" class="navbar-brand navbar-brand-centered">Gestión de Cuidados Paliativos Panamá</a>
+		        </div>
 		      </div>
 		    </nav>
-		    {{--*/ 
+		    {{--*/
 		    	//recibe la ruta actual para mantener activo el menu lateral
-		    	$url = Request::path(); 
+		    	$url = Request::path();
 		    /*--}}
-		   
+
 		    <div class="container-fluid">
 				<div class="row row-offcanvas row-offcanvas-left">
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
@@ -168,7 +168,7 @@
 										</div>
 									</div>
 								</li>
-								
+
 									<!-- Dropdown-->
 								<li class="panel panel-default" id="dropdown">
 									<a data-toggle="collapse" href="#drop_4">
@@ -225,21 +225,25 @@
 
 			        <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 						<div class="row sub-nav">
-							<div class="col-md-6 col-sm-8 pull-left">
-								<ul class="list-inline">
-									<li class="welcome">Bienvenido, {{ Auth::user()->NO_IDENTIFICACION }}</li>
-								</ul>								
+
+							<!-- Single button -->
+							<div class="btn-group pull-right">
+							  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    {{ Auth::user()->NO_IDENTIFICACION }} <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu">
+							    <li>
+							    	<a href="{{url('auth/logout')}}" class="btn btn-default btn-outline"><i class="fa fa-sign-out"></i> Cerrar Sesión</a>
+							    </li>
+							  </ul>
 							</div>
-							<div class="col-md-6 col-sm-4">
-								<a href="{{url('auth/logout')}}" class="btn btn-default btn-outline pull-right">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
-							</div>
-						</div>			          
+						</div>
 
 				        {{-- Contenido --}}
                         @yield('content')
-						
+
 			        </div>
-			        
+
 			    </div>
 
 		    </div><!-- end container-fluid -->
@@ -249,7 +253,7 @@
     <div id="footer">
     	<div class="row footer">
     		<div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-       			Place sticky footer content here.
+       			Derechos Reservados
     		</div>
     	</div>
     </div>
@@ -268,7 +272,7 @@
     {!! Html::script('assets/js/script.js') !!}
     <script type="text/javascript">
     	$(document).ready(function () {
-		  $('[data-toggle="offcanvas"]').click(function () {		    
+		  $('[data-toggle="offcanvas"]').click(function () {
 		    $('.row-offcanvas').toggleClass('active');
 		    $('#footer').toggleClass('footer-left');
 		  });
