@@ -14,10 +14,9 @@ class EquipoMedicoController extends Controller
      *
      * @return Response
      */
-    public function index($id = null)
-    {   
-
-        return view('equipo-medico.create')->with(compact($id));
+    public function index()
+    {
+        return view('equipo-medico.create');
     }
 
     /**
@@ -39,21 +38,21 @@ class EquipoMedicoController extends Controller
     public function store(Request $request)
     {
         //validar si el campo "search" va vacio
-        $v = \Validator::make(['search' => $request->input('search')], ['search' => 'required']);
+        $v = \Validator::make($request->all(), ['search_profesional' => 'required']);
         if($v->fails()){
             \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar.');
             return redirect()->route('equipo-medico.index')->withErrors($v);
         }
 
-        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();
         //Si es nulo retorna un mensaje de error
         if($DatosProfesionales == null){
             \Session::flash('msj_error', 'Solo puede ingresar una cédula válida para el profesional');
             return redirect()->route('equipo-medico.index');
         }
-        
+
         $id_especialidad = \App\ProfesionalSalud::where('ID_PROFESIONAL', $DatosProfesionales->ID_PROFESIONAL)->first()->ID_ESPECIALIDAD_MEDICA;
-        
+
         $equipo = new \App\EquipoMedico;
         $equipo->save();
 
@@ -86,7 +85,8 @@ class EquipoMedicoController extends Controller
      */
     public function edit($id)
     {
-        
+        $equipos = \App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $id)->get();
+        return view('equipo-medico.create')->with('equipos', $equipos);
     }
 
     /**
@@ -98,7 +98,36 @@ class EquipoMedicoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //validar si el campo "search_profesional" va vacio
+        $v = \Validator::make($request->all(), ['search_profesional' => 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar.');
+            return redirect()->route('equipo-medico.index')->withErrors($v);
+        }
+
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();
+        //Si es nulo retorna un mensaje de error
+        if($DatosProfesionales == null){
+            \Session::flash('msj_error', 'Solo puede ingresar una cédula válida para el profesional');
+            return redirect()->route('equipo-medico.index');
+        }
+
+        //Verifica si ya existe el profesional en el equipo
+        if(\App\DetalleEquipoMedico::where('ID_PROFESIONAL', $DatosProfesionales->ID_PROFESIONAL)->where('ID_EQUIPO_MEDICO', $id)->first()){
+            \Session::flash('msj_error', 'Este profesional ya existe en el Equipo Medico #'.$id);
+            return redirect()->route('equipo-medico.edit', $id);
+        }
+
+        $id_especialidad = \App\ProfesionalSalud::where('ID_PROFESIONAL', $DatosProfesionales->ID_PROFESIONAL)->first()->ID_ESPECIALIDAD_MEDICA;
+
+        $detalle_equipo = new \App\DetalleEquipoMedico;
+        $detalle_equipo->ID_EQUIPO_MEDICO = $id;
+        $detalle_equipo->ID_PROFESIONAL = $DatosProfesionales->ID_PROFESIONAL;
+        $detalle_equipo->ID_ESPECIALIDAD_MEDICA = $id_especialidad;
+        $detalle_equipo->save();
+
+        \Session::flash('msj_success', 'Se ha agregado exitosamente el profesional "'.$DatosProfesionales->PRIMER_NOMBRE.' '.$DatosProfesionales->APELLIDO_PATERNO.'" al Equipo Medico #'.$id);
+        return redirect()->route('equipo-medico.edit', $id);
     }
 
     /**

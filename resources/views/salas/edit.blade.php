@@ -4,34 +4,44 @@
 	Eitar Salas
 @stop
 
-@section('content')	
-	
-	<h2 class="page-header">Salas</h2>
+@section('content')
 
-	{{-- Mostrar mensaje exitoso --}}
-	@if(Session::has('mensaje'))
-		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
+	{{-- MENSAJES DE NOTIFICACION --}}
+	@if(Session::has('msj_error'))
+		@include('mensajes.notify', ['mensaje' => Session::get('msj_error'), 'tipo' => 'danger'])
 	@endif
 
-	<div class="tabbable-panel">
-		@include('mensajes.errors')
-		
-			<div class="tab-content">
-					
-					{!! Form::model($datos, array('route' => array('salas.update', $datos->ID_SALA), 'method' => 'PUT')) !!}
+	<h2 class="page-header">Lista de Salas</h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<a href="{{ route('salas.index').'#form' }}" class="btn btn-primary pull-right">
+			  <i class="fa fa-plus"></i> Agregar Sala
+			</a>
+		</div>
+	</div></br>
 
-						@include('salas.partials.forms')
+	{{-- Filtro de Camas --}}
+	@include('salas.partials.list-salas')
 
-						<div class="row">
-							<div class="form-group col-sm-12">
-								<center>
-									{!! Form::submit('Editar', array('class' => 'btn btn-success')) !!}
-								</center>
-							</div>
+	<h2 class="page-header">Agregar o Editar Salas</h2>
+	<div class="row">
+		<div class="col-sm-12">
+			@include('mensajes.errors')
+
+				{!! Form::model($datos, array('route' => array('salas.update', $datos->ID_SALA), 'method' => 'PUT', 'id' => 'form')) !!}
+
+					@include('salas.partials.forms')
+
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<center>
+								{!! Form::submit('Editar', array('class' => 'btn btn-success')) !!}
+							</center>
 						</div>
-					{!! Form::close() !!}			
-			</div>
+					</div>
+				{!! Form::close() !!}
+		</div>
 	</div>
 
-	
+
 @stop

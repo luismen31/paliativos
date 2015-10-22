@@ -37,11 +37,19 @@ class ServiciosMedicosController extends Controller
      */
     public function store(Request $request)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['DESCRIPCION'=> 'required', 'ID_TIEMPO_ATENCION' => 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('servicios.index')->withErrors($v)->withInput();
+        }
+
         $Servicios = new \App\ServicioMedico;
         $Servicios->DESCRIPCION = $request->input('DESCRIPCION');
         $Servicios->ID_TIEMPO_ATENCION = $request->input('ID_TIEMPO_ATENCION');
         $Servicios->save();
 
+        \Session::flash('msj_success', 'Se ha agregado correctamente el servicio médico: '.$request->input('DESCRIPCION'));
         return redirect()->route('servicios.index');
     }
 
@@ -78,11 +86,18 @@ class ServiciosMedicosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['DESCRIPCION'=> 'required', 'ID_TIEMPO_ATENCION' => 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('servicios.edit', ['id' => $id])->withErrors($v);
+        }
         $Servicios = \App\ServicioMedico::find($id);
         $Servicios->DESCRIPCION = $request->input('DESCRIPCION');
         $Servicios->ID_TIEMPO_ATENCION = $request->input('ID_TIEMPO_ATENCION');
         $Servicios->save();
 
+        \Session::flash('msj_success', 'Se ha editado correctamente el servicio médico: '.$request->input('DESCRIPCION'));
         return redirect()->route('servicios.index');
     }
 

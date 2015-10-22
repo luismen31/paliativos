@@ -17,13 +17,13 @@
     {!! Html::style('assets/css/easy-autocomplete.min.css') !!}
  	{!! Html::style('assets/css/easy-autocomplete.themes.min.css') !!}
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--script src="../../assets/js/ie-emulation-modes-warning.js"></script-->
+    <!--[if lt IE 9]>
+    {!! Html::script('assets/js/ie8-responsive-file-warning.min.js') !!}
      <!-- Fonts -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <script src="{!! Html::script('assets/js/html5shiv.min.js') !!}"></script>
+      <script src="{!! Html::script('assets/js/respond.min.js') !!}"></script>
     <![endif]-->
   </head>
 
@@ -42,10 +42,6 @@
 		        </div>
 		      </div>
 		    </nav>
-		    {{--*/
-		    	//recibe la ruta actual para mantener activo el menu lateral
-		    	$url = Request::path();
-		    /*--}}
 
 		    <div class="container-fluid">
 				<div class="row row-offcanvas row-offcanvas-left">
@@ -53,16 +49,16 @@
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
 								{{--*/
-										$active = ($url == 'profesionales' or $url == 'pacientes' or $url == 'equipo-medico') ? 'active' : '';
-									/*--}}
+								$active =  Active::pattern(['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*']);
+								/*--}}
 								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_1">
 										<span class="fa fa-dashboard"></span> Administración <span class="caret"></span>
 									</a>
 
-									{{--*/
-										$in = ($url == 'profesionales' or $url == 'pacientes' or $url == 'equipo-medico') ? 'in' : '';
-									/*--}}
+								{{--*/
+								$in = Active::pattern(['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*'], 'in');
+								/*--}}
 									<!-- Dropdown level 1 -->
 									<div id="drop_1" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
@@ -78,15 +74,21 @@
 										</div>
 									</div>
 								</li>
-
+                                
 								<!-- Dropdown-->
-								<li class="panel panel-default" id="dropdown">
+                                {{--*/
+								$active =  Active::pattern(['rvd', 'rvd/*']);
+								/*--}}
+								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_2">
 										<span class="fa fa-user"></span> Domiciliaria <span class="caret"></span>
 									</a>
 
 									<!-- Dropdown level 1 -->
-									<div id="drop_2" class="panel-collapse collapse">
+    								{{--*/
+    								$in = Active::pattern(['rvd', 'rvd/*'], 'in');
+    								/*--}}
+									<div id="drop_2" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
 												<!-- Dropdown level 2 -->

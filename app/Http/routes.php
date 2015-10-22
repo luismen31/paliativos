@@ -22,10 +22,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
 	Route::resource('pacientes', 'PacientesController');
 
-	Route::resource('equipo-medico', 'EquipoMedicoController');	
+	Route::resource('equipo-medico', 'EquipoMedicoController');
 	Route::controller('buscar', 'SearchController');
 
-	Route::resource('camas', 'CamasController');	
+	Route::resource('camas', 'CamasController');
 	Route::resource('salas', 'SalasController');
 	Route::resource('servicios', 'ServiciosMedicosController');
 	Route::resource('zona', 'ZonasController');

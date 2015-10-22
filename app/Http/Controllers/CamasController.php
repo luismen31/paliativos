@@ -37,13 +37,19 @@ class CamasController extends Controller
      */
     public function store(Request $request)
     {
+        $v = \Validator::make($request->all(), ['CAMA' => 'required', 'ID_SALA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('camas.index')->withErrors($v)->withInput();
+        }
+
         $Cama = new \App\Cama;
         $Cama->CAMA = $request->input('CAMA');
         $Cama->ID_SALA = $request->input('ID_SALA');
         $Cama->save();
 
+        \Session::flash('msj_success', 'Se ha almacenado correctamente la cama: '.$request->input('CAMA'));
         return redirect()->route('camas.index');
-
     }
 
     /**
@@ -79,11 +85,18 @@ class CamasController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $Cama = \App\Cama::find($id);
+        $v = \Validator::make($request->all(), ['CAMA' => 'required', 'ID_SALA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('camas.edit', ['id' => $id])->withErrors($v);
+        }
+
+        $Cama = \App\Cama::find($id);
         $Cama->CAMA = $request->input('CAMA');
         $Cama->ID_SALA = $request->input('ID_SALA');
         $Cama->save();
 
+        \Session::flash('msj_success', 'Se ha actualizado correctamente la cama: '.$request->input('CAMA'));
         return redirect()->route('camas.index');
     }
 
