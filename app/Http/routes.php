@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('servicios', 'ServiciosMedicosController');
 	Route::resource('zona', 'ZonasController');
 	Route::resource('rvd', 'RegistroVisitasController');
+	Route::resource('agenda', 'AgendaController');
 });
 
 // Authentication routes...

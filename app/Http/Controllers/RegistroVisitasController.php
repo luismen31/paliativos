@@ -79,8 +79,30 @@ class RegistroVisitasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $trazabilidad = new Trazabilidad;
-        $trazabilidad->ID_TRAZABILIDAD = '';
+        $DatoPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
+        if(\App\DetalleRegistroVisitaDomiciliaria::where('ID_RVD', $id)->where('ID_PACIENTE', $DatoPaciente->ID_PACIENTE)->first()){
+            dd('Repetido');//return $this->show($id);
+        }else{
+            $hora = new \Carbon;
+            $ID_TRAZABILIDAD = $DatoPaciente->ID_PACIENTE.'_'.$hora->format('d-m-Y').'_'.$hora->toTimeString();
+            $trazabilidad = new \App\Trazabilidad;
+            $trazabilidad->ID_TRAZABILIDAD = $ID_TRAZABILIDAD;
+            $trazabilidad->ID_PACIENTE = $DatoPaciente->ID_PACIENTE;
+            $trazabilidad->FECHA = $hora->format('Y-m-d');
+            $trazabilidad->save();
+
+            $ID_PROGRAMA = \App\Categoria::find($request->input('ID_CATEGORIA'))->ID_PROGRAMA;
+            $DetalleRVD = new \App\DetalleRegistroVisitaDomiciliaria;
+            $DetalleRVD->ID_RVD = $id;
+            $DetalleRVD->ID_PACIENTE = $DatoPaciente->ID_PACIENTE;
+            $DetalleRVD->ID_TRAZABILIDAD = $ID_TRAZABILIDAD;
+            $DetalleRVD->ID_PROGRAMA = $ID_PROGRAMA;
+            $DetalleRVD->ID_CATEGORIA = $request->input('ID_CATEGORIA');
+            $DetalleRVD->OBSERVACIONES = $request->input('OBSERVACIONES');
+            $DetalleRVD->save();
+
+            return $this->show($id);
+        }
     }
 
     /**

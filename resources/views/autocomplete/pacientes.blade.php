@@ -1,5 +1,5 @@
 
-{!! Form::text('search', null, ['class' => 'form-control input-sm', 'id' => 'search_paciente', 'placeholder' => 'Buscar']) !!} 	
+{!! Form::text('search_paciente', null, ['class' => 'form-control input-sm', 'id' => 'search_paciente', 'placeholder' => 'Buscar Paciente']) !!} 	
 
  @section('scripts')
 	<script type="text/javascript">

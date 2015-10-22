@@ -1,4 +1,5 @@
-{!! Form::text('search', null, ['class' => 'form-control input-sm', 'id' => 'search_profesional', 'placeholder' => 'Buscar']) !!} 	
+
+{!! Form::text('search_profesional', null, ['class' => 'form-control input-sm', 'id' => 'search_profesional', 'placeholder' => 'Buscar Profesional']) !!} 	
 
  @section('scripts')
 	<script type="text/javascript">
@@ -8,7 +9,6 @@
 					if (search !== "") {
 						return baseurl+'/buscar/buscarpersona/profesional/'+search
 					}
-					console.log(search);
 				},
 				getValue: 'cedula',
 				template:{
