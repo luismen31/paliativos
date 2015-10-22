@@ -139,12 +139,12 @@ class PacientesController extends Controller
 
     public function editPaciente(Request $request){
         
-        $v = \Validator::make($request->all(), ['search' => 'required']);
+        $v = \Validator::make($request->all(), ['search_paciente' => 'required']);
         if($v->fails()){
             return redirect()->route('pacientes.index')->withErrors($v);
         }
         
-        $DatosPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search'))->first();
+        $DatosPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
         $ID_PACIENTE = $DatosPaciente->ID_PACIENTE;
         $Paciente = \App\Paciente::where('ID_PACIENTE', $DatosPaciente->ID_PACIENTE)->first();
         $ID_USUARIO = $Paciente->ID_USUARIO; 

@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('title')
-	Registro de Visitas Domiciliarias
+		Citas Médicas
 @stop
 
 @section('content')	
 	
-	<h2 class="page-header">Registro de Visitas Domiciliarias</h2>
+	<h2 class="page-header">Editar Citas Médica</h2>
 
 	{{-- Mostrar mensaje exitoso --}}
 	@if(Session::has('mensaje'))
@@ -15,14 +15,16 @@
 
 	<div class="tabbable-panel">
 		@include('mensajes.errors')
-		
+			
 			<div class="tab-content">
-					
-					{!! Form::open(array('route' => 'rvd.store', 'method' => 'POST')) !!}
-						<li><a href="{{ route('rvd.show', 1) }}"> Vista</a></li>
 
-						@include('rvd.partials.forms')
+					{!! Form::model($datos, array('route' => array('agenda.update', $datos->ID_CITA), 'method' => 'PUT')) !!}
 
+						@include('agenda.partials.forms')
+						<div class="form-group col-sm-2 col-sm-offset-5">
+								{!! Form::label('RESERVADA', 'Reservada:', array('class' => 'control-label')) !!}	    
+								{!! Form::select('RESERVADA', array('1' => 'SI', '0' => 'NO') ,null, array('class'=>'form-control input-sm') ) !!}
+						</div>
 						<div class="row">
 							<div class="form-group col-sm-12">
 								<center>

@@ -100,7 +100,7 @@
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
 																<li><a href="{{ route('rvd.index') }}">Visitas Realizadas</a></li>
-																<li><a href="#">Agenda</a></li>
+																<li><a href="{{ route('agenda.index') }}">Agenda</a></li>
 															</ul>
 														</div>
 													</div>

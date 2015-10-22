@@ -113,13 +113,13 @@ class ProfesionalesController extends Controller
 
     public function editProfesional(Request $request){
 
-        $v = \Validator::make($request->all(), ['search' => 'required']);
+        $v = \Validator::make($request->all(), ['search_profesional' => 'required']);
         if($v->fails()){
             return redirect()->route('profesionales.index')->withErrors($v);
         }
 
         
-        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();            
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();            
         //Sino es nulo retorna un mensaje de error
         if($DatosProfesionales == null){
             \Session::flash('msj_error', 'Solo puede ingresar la cédula del profesional');
