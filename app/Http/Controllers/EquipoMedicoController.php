@@ -14,9 +14,10 @@ class EquipoMedicoController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
-        return view('equipo-medico.create');
+    public function index($id = null)
+    {   
+
+        return view('equipo-medico.create')->with(compact($id));
     }
 
     /**
@@ -37,7 +38,33 @@ class EquipoMedicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validar si el campo "search" va vacio
+        $v = \Validator::make(['search' => $request->input('search')], ['search' => 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar.');
+            return redirect()->route('equipo-medico.index')->withErrors($v);
+        }
+
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search'))->first();
+        //Si es nulo retorna un mensaje de error
+        if($DatosProfesionales == null){
+            \Session::flash('msj_error', 'Solo puede ingresar una cédula válida para el profesional');
+            return redirect()->route('equipo-medico.index');
+        }
+        
+        $id_especialidad = \App\ProfesionalSalud::where('ID_PROFESIONAL', $DatosProfesionales->ID_PROFESIONAL)->first()->ID_ESPECIALIDAD_MEDICA;
+        
+        $equipo = new \App\EquipoMedico;
+        $equipo->save();
+
+        $detalle_equipo = new \App\DetalleEquipoMedico;
+        $detalle_equipo->ID_EQUIPO_MEDICO = $equipo->ID_EQUIPO_MEDICO;
+        $detalle_equipo->ID_PROFESIONAL = $DatosProfesionales->ID_PROFESIONAL;
+        $detalle_equipo->ID_ESPECIALIDAD_MEDICA = $id_especialidad;
+        $detalle_equipo->save();
+
+        \Session::flash('msj_success', 'Se ha registrado exitosamente el Equipo Medico: #'.$equipo->ID_EQUIPO_MEDICO);
+        return redirect()->route('equipo-medico.index');
     }
 
     /**
@@ -59,7 +86,7 @@ class EquipoMedicoController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**

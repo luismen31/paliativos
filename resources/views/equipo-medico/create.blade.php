@@ -5,16 +5,36 @@
 @stop
 
 @section('content')
+	@if(isset($id))
+		{{--*/ dd($id); /*--}}
+	@endif
+	@if(Session::has('msj_error'))
+		@include('mensajes.notify', ['mensaje' => Session::get('msj_error'), 'tipo' => 'danger'])
+	@endif
+
+	@if(Session::has('msj_success'))
+		@include('mensajes.notify', ['mensaje' => Session::get('msj_success'), 'tipo' => 'success'])
+	@endif
+
+	<h2 class="page-header">Lista de Equipos Médicos</h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<a href="{{ route('equipo-medico.index') }}" class="btn btn-primary pull-right">
+			  <i class="fa fa-plus"></i> Agregar Equipo Médico
+			</a>
+		</div>
+	</div><br>
+
 	<div class="panel panel-primary panel-filter">
 		<div class="panel-heading">
-			<h3 class="panel-title">Equipos Médicos</h3>
-			
+			<h3 class="panel-title"><i class="fa fa-filter"></i> Lista de Equipos Médicos</h3>
+
 		</div>
 		<div class="panel-body">
 			<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filtrar Equipos" />
 		</div>
 		<div class="table-responsive">
-			<table class="table table-hover table-bordered" id="dev-table">
+			<table class="table table-hover table-bordered table-font" id="dev-table">
 				<thead>
 					<tr class="info">
 						<th>#</th>
@@ -26,28 +46,55 @@
 				</thead>
 				<tbody>
 				{{--*/$x=1;/*--}}
-				@foreach(\App\DatoProfesionalSalud::all() as $profesionales)
-					{{--*/
-						$id_especialidad = \App\ProfesionalSalud::where('ID_PROFESIONAL', $profesionales->ID_PROFESIONAL)->first()->ID_ESPECIALIDAD_MEDICA;
-						$especialidad = \App\EspecialidadMedica::where('ID_ESPECIALIDAD_MEDICA', $id_especialidad)->first()->DESCRIPCION;
-					/*--}}
-					<tr>
-						<td>{{$x}}</td>
-						<td>1</td>
-						<td>{{ $profesionales->PRIMER_NOMBRE.' '.$profesionales->APELLIDO_PATERNO }}</td>
-						<td>{{ $especialidad }}</td>
-						<td>
-							<a href="{{route('equipo-medico.edit', 1)}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Editar</a>
-						</td>
-					</tr>
-					{{--*/ $x++; /*--}}
+				@foreach(\App\EquipoMedico::all() as $equipo)
+					@foreach (\App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $equipo->ID_EQUIPO_MEDICO)->get() as $detalle)
+						{{--*/
+							$profesional = \App\DatoProfesionalSalud::where('ID_PROFESIONAL', $detalle->ID_PROFESIONAL)->first();
+							$especialidad = \App\EspecialidadMedica::where('ID_ESPECIALIDAD_MEDICA', $detalle->ID_ESPECIALIDAD_MEDICA)->first()->DESCRIPCION;
+						/*--}}
+						<tr>
+							<td>{{$x}}</td>
+							<td>{{ $equipo->ID_EQUIPO_MEDICO }}</td>
+							<td>{{ $profesional->PRIMER_NOMBRE.' '.$profesional->APELLIDO_PATERNO }}</td>
+							<td>{{ $especialidad }}</td>
+							<td>
+								<a href="{{ route('equipo-medico.edit', $equipo->ID_EQUIPO_MEDICO) }}" class="btn btn-success btn-sm "><i class="fa fa-edit"></i> Editar</a>
+							</td>
+						</tr>
+						{{--*/ $x++; /*--}}
+					@endforeach
 				@endforeach
 				</tbody>
 			</table>
 		</div>
 	</div>
+
+	<h2 class="page-header">Crear o Editar Equipos Médicos</h2>
+
+	@include('mensajes.errors')
+
+	<div class="row">
+		<div class="col-sm-12">
+			{!! Form::open(['route' => 'equipo-medico.store']) !!}
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-4">
+						{!! Form::label('search_profesional', 'Buscar Profesionales', ['class' => 'control-label']) !!}
+						@include("autocomplete.profesionales")
+					</div>
+				</div></br>
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<center>
+							{!! Form::submit('Agregar', array('class' => 'btn btn-success')) !!}
+						</center>
+					</div>
+				</div>
+			{!! Form::close() !!}
+		</div>
+	</div>
 @stop
 
+{{-- script para filtrado de equipos medicos --}}
 @section('scripts')
 	<script type="text/javascript">
 		(function(){
@@ -58,14 +105,14 @@
 					return this.each(function(){
 						$(this).on('keyup', function(e){
 							$('.filterTable_no_results').remove();
-							var $this = $(this), 
-		                        search = $this.val().toLowerCase(), 
-		                        target = $this.attr('data-filters'), 
-		                        $target = $(target), 
+							var $this = $(this),
+		                        search = $this.val().toLowerCase(),
+		                        target = $this.attr('data-filters'),
+		                        $target = $(target),
 		                        $rows = $target.find('tbody tr');
-		                        
+
 							if(search == '') {
-								$rows.show(); 
+								$rows.show();
 							} else {
 								$rows.each(function(){
 									var $this = $(this);
@@ -87,11 +134,11 @@
 		$(function(){
 		    // attach table filter plugin to inputs
 			$('[data-action="filter"]').filterTable();
-			
+
 			$('.container').on('click', '.panel-heading span.filter', function(e){
-				var $this = $(this), 
+				var $this = $(this),
 					$panel = $this.parents('.panel');
-				
+
 				$panel.find('.panel-body').slideToggle();
 				if($this.css('display') != 'none') {
 					$panel.find('.panel-body input').focus();
