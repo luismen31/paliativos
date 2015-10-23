@@ -80,7 +80,8 @@ class AgendaController extends Controller
         $datos = \App\CitaMedica::find($id);
         $datos->search_profesional = \App\DatoProfesionalSalud::find($datos->ID_PROFESIONAL)->NO_CEDULA;
         $datos->search_paciente = \App\DatoPaciente::find($datos->ID_PACIENTE)->NO_CEDULA;
-        return view('agenda.edit')->with('datos', $datos);
+        $citas = \App\CitaMedica::where('FECHA', $datos->FECHA)->get();
+        return view('agenda.edit')->with('datos', $datos)->with('citas', $citas);
     }
 
     /**

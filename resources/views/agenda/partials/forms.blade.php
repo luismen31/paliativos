@@ -36,12 +36,13 @@
 			{{--*/ $s = 'PM'; /*--}}
 		@endif
 @endfor
-@if(!empty($citas))
+@if(isset($citas))
 	<table width="100%">
 		<tr>
 			<td>Hora</td>
 			<td>Paciente</td>
 			<td>Profesional</td>
+			<td>Equipo Médico</td>
 			<td>Servicio</td>
 			<td>Status</td>
 			<td>Editar</td>
@@ -55,6 +56,7 @@
 				<td>{{ $cita->HORA }}</td>
 				<td>{{ $paciente->PRIMER_NOMBRE.' '.$paciente->APELLIDO_PATERNO }}</td>
 				<td>{{ $profesional->PRIMER_NOMBRE.' '.$profesional->APELLIDO_PATERNO }}</td>
+				<td>{{ $cita->ID_EQUIPO_MEDICO }}</td>
 				<td>{{ \App\ServicioMedico::find($cita->ID_SERVICIO)->DESCRIPCION }}</td>
 				<td> 
 					@if($cita->RESERVADA == '1')
