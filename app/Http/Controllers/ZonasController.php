@@ -37,10 +37,18 @@ class ZonasController extends Controller
      */
     public function store(Request $request)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['ZONA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('zona.index')->withErrors($v)->withInput();
+        }
+
         $Zona = new \App\Zona;
         $Zona->ZONA = $request->input('ZONA');
         $Zona->save();
 
+        \Session::flash('msj_success', 'Se ha agregado correctamente la zona: '.$request->input('ZONA'));
         return redirect()->route('zona.index');
     }
 
@@ -77,10 +85,18 @@ class ZonasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['ZONA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('zona.edit', ['id' => $id])->withErrors($v);
+        }
+
         $Zona = \App\Zona::find($id);
         $Zona->ZONA = $request->input('ZONA');
         $Zona->save();
 
+        \Session::flash('msj_success', 'Se ha editado correctamente la zona: '.$request->input('ZONA'));
         return redirect()->route('zona.index');
     }
 

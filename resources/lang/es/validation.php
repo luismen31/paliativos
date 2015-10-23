@@ -105,7 +105,8 @@ return [
     */
 
     'attributes' => [
-        'search' => 'Búsqueda',
+        'search_paciente' => 'Buscar Paciente',
+        'search_profesional' => 'Buscar Profesional',
         'NO_CEDULA' => 'Cédula',
         'PRIMER_NOMBRE' => 'Primer Nombre',
         'APELLIDO_PATERNO' => 'Apellido Paterno',
@@ -120,6 +121,12 @@ return [
         'ID_ESPECIALIDAD_MEDICA' => 'Especialidad Médica',
         'NO_IDENTIFICACION' => 'Usuario',
         'CLAVE_ACCESO' => 'Contraseña',
+        'CAMA' => 'Cama',
+        'ID_SALA' => 'Sala',
+        'SALA' => 'Sala',
+        'DESCRIPCION' => 'Servicio Médico',
+        'ID_TIEMPO_ATENCION' => 'Tiempo de Atención',
+        'ZONA' => 'Zona',
     ],
 
 ];

@@ -4,7 +4,7 @@
  @section('scripts')
 	<script type="text/javascript">
 		$(function(){
-			$('#search_paciente').easyAutocomplete({		
+			$('#search_paciente').easyAutocomplete({
 				url: function(search){
 					if (search !== "") {
 						return baseurl+'/buscar/buscarpersona/paciente/'+search
@@ -16,7 +16,7 @@
 					fields:{
 						description: 'nombre'
 					}
-				},				
+				},
 				theme: "blue-light"
 			});
 		});

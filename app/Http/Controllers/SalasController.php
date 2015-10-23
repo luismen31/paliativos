@@ -37,10 +37,18 @@ class SalasController extends Controller
      */
     public function store(Request $request)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['SALA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('salas.index')->withErrors($v)->withInput();
+        }
+
         $Salas = new \App\Sala;
         $Salas->SALA = $request->input('SALA');
         $Salas->save();
 
+        \Session::flash('msj_success', 'Se ha almacenado correctamente la sala: '.$request->input('SALA'));
         return redirect()->route('salas.index');
     }
 
@@ -77,10 +85,18 @@ class SalasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Si no envia nada envia un error.
+        $v = \Validator::make($request->all(), ['SALA'=> 'required']);
+        if($v->fails()){
+            \Session::flash('msj_error', 'Ha ocurrido un error, proceda a verificar');
+            return redirect()->route('salas.edit', ['id' => $id])->withErrors($v);
+        }
+
         $Salas = \App\Sala::find($id);
         $Salas->SALA = $request->input('SALA');
         $Salas->save();
 
+        \Session::flash('msj_success', 'Se ha editado correctamente la sala: '.$request->input('SALA'));
         return redirect()->route('salas.index');
     }
 
