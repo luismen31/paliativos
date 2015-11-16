@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('zona', 'ZonasController');
 	Route::resource('rvd', 'RegistroVisitasController');
 	Route::resource('agenda', 'AgendaController');
+	Route::resource('rda', 'RegistroDiarioActividadesController');
 });
 
 // Authentication routes...

@@ -19,7 +19,7 @@
 			<div class="tab-content">
 					
 					{!! Form::open(array('route' => 'rvd.store', 'method' => 'POST')) !!}
-						<li><a href="{{ route('rvd.show', 1) }}"> Vista</a></li>
+						<li><a href="{{ route('rvd.edit', 1) }}"> Vista</a></li>
 
 						@include('rvd.partials.forms')
 

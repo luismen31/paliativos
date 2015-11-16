@@ -105,7 +105,7 @@
 														</div>
 													</div>
 												</li>
-												<li><a href="#">Registro Diario de Actividades</a></li>
+												<li><a href="{{ route('rda.show', 1) }}">Registro Diario de Actividades</a></li>
 												<li><a href="#">Surco</a></li>
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
@@ -137,7 +137,7 @@
 									<div id="drop_3" class="panel-collapse collapse">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
-												<li><a href="#">Registro Diario de Actividades</a></li>
+												<li><a href="{{ route('rda.show', 2) }}">Registro Diario de Actividades</a></li>
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
 													<a data-toggle="collapse" href="#drop_3-1">
@@ -181,7 +181,7 @@
 									<div id="drop_4" class="panel-collapse collapse">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
-												<li><a href="#">Registro Diario de Actividades</a></li>
+												<li><a href="{{ route('rda.show', 3) }}">Registro Diario de Actividades</a></li>
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
 													<a data-toggle="collapse" href="#drop_4-1">
