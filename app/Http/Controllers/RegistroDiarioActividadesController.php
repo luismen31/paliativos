@@ -43,7 +43,13 @@ class RegistroDiarioActividadesController extends Controller
         $rda->TIPO_ATENCION = $request->input('TIPO_ATENCION');
         $rda->save();
 
-        return $request->input('TIPO_ATENCION');
+        return $this->edit($rda->ID_RDA);
+    }
+
+    public function storeDetails(Request $request)
+    {
+        
+        return '';
     }
 
     /**
@@ -65,7 +71,8 @@ class RegistroDiarioActividadesController extends Controller
      */
     public function edit($id)
     {
-        return $id;
+        $rda = \App\RegistroDiarioActividad::find($id);
+        return view('rda.create-details')->with('rda', $rda);
     }
 
     /**

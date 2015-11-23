@@ -84,7 +84,7 @@ class RegistroVisitasController extends Controller
             dd('Repetido');//return $this->show($id);
         }else{
             $hora = new \Carbon;
-            $ID_TRAZABILIDAD = $DatoPaciente->ID_PACIENTE.'_'.$hora->format('d-m-Y').'_'.$hora->toTimeString();
+            $ID_TRAZABILIDAD = \App\Trazabilidad::getTrazabilidad($DatoPaciente->ID_PACIENTE);
             $trazabilidad = new \App\Trazabilidad;
             $trazabilidad->ID_TRAZABILIDAD = $ID_TRAZABILIDAD;
             $trazabilidad->ID_PACIENTE = $DatoPaciente->ID_PACIENTE;

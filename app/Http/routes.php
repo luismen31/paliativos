@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('rvd', 'RegistroVisitasController');
 	Route::resource('agenda', 'AgendaController');
 	Route::resource('rda', 'RegistroDiarioActividadesController');
+	Route::post('rda.storedetails', 'RegistroDiarioActividadesController@storeDetails');
 });
 
 // Authentication routes...

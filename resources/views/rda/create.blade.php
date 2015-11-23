@@ -14,7 +14,7 @@
 		@include('mensajes.notify', ['mensaje' => Session::get('msj_success'), 'tipo' => 'success'])
 	@endif
 
-	<h2 class="page-header">Registro Diario de Actividades <i>(Atención Domiciliaria)</i></h2>
+	<h2 class="page-header">Registro Diario de Actividades <i>9</i></h2>
 	
 	<div class="row">
 		<div class="col-sm-12">
@@ -24,7 +24,6 @@
 				<li><a href="{{ route('rda.edit', 1) }}"> Vista</a></li>
 				<input type="hidden" name="TIPO_ATENCION" value="{{ $id }}">
 				@include('rvd.partials.forms')
-
 				<div class="row">
 					<div class="form-group col-sm-12">
 						<center>
