@@ -38,6 +38,39 @@ class SearchController extends Controller
         $corregimiento = \App\Corregimiento::where('id_distrito',$request->input('distrito'));
         return ($corregimiento->get(['id_corregimiento','corregimiento']));
     }
+
+    public function getObtenerrvd(Request $request){
+        if(!$request->ajax()) abort(403);
+
+        $fecha_inicio =  $request->input('fecha_inicio');
+        $fecha_fin = $request->input('fecha_fin');
+        
+        $comilla = "'";
+        $data = array();
+               
+        foreach(\App\RegistroVisitaDomiciliaria::whereBetween('FECHA', array($fecha_inicio, $fecha_fin))->orderBy('FECHA')->get() as $rvd) {
+                    
+            $data[] = array(
+                'fecha' => $rvd->FECHA,
+                'denominacion' => \App\Institucion::where('ID_INSTITUCION', $rvd->ID_INSTITUCION)->first()->DENOMINACION,
+                'equipo' => \App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $rvd->ID_EQUIPO_MEDICO)->count(),
+                'pacientes' => \App\DetalleRegistroVisitaDomiciliaria::where('ID_RVD', $rvd->ID_RVD)->count(),
+                'horas' => $rvd->HORAS_DE_ATENCION,
+                'url' => '<a href='.$comilla.route('rvd.show', $rvd->ID_RVD).$comilla.' class='.$comilla.'btn btn-info btn-sm'.$comilla.'><i class='.$comilla.'glyphicon glyphicon-search'.$comilla.'></i> Buscar </a>',  
+            );
+        }
+        
+        return \Response::json($data);
+    }
+
+    //Filtro para las agenda de citas medicas
+    public function postCitamedica(Request $request){
+        
+        $fecha = $request->input('FECHA');
+        $equipo = $request->input('ID_EQUIPO_MEDICO');
+
+        return view('agenda.veragenda')->with('fechaFilter', $fecha)->with('equipoFilter', $equipo);
+    }
 }
 
 

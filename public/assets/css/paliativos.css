@@ -478,10 +478,30 @@ body {
 .panel-filter .panel-body{
   display: block;
 }
+.panel-filter .panel-heading span {
+  margin-top: -20px;
+  font-size: 15px;
+}
+.clickable{
+    cursor: pointer;   
+}
+/*Fin de PANEL FILTER*/
+
 /* tamaño de letras en las tablas */
 .table-font{
   font-size: 12px;
 }
 .table-font .btn{
   font-size: 12px;
+}
+/*Fin de letras para tablas*/
+
+.table-hour tr th.hour-head{
+  width: 100px;
+}
+
+.table-hour tr td.hour-body{
+  font-weight: bold;
+  background: #efefef;
+
 }
