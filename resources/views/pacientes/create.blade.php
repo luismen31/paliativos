@@ -4,18 +4,22 @@
 	Agregar Nuevo Paciente
 @stop
 
-@section('content')	
-	
+@section('content')
+
 	<h2 class="page-header">Sistema de Búsqueda y Captura de Datos de los Pacientes</h2>
 
 	{{-- Mostrar mensaje exitoso --}}
 	@if(Session::has('mensaje'))
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
-
+	{{-- Mostrar mensaje de error --}}
+	@if(Session::has('msj_error'))
+		@include('mensajes.notify', ['mensaje' => Session::get('msj_error'), 'tipo' => 'danger'])
+	@endif
+	
 	<div class="tabbable-panel">
 		@include('mensajes.errors')
-		
+
 		<div class="tabbable-line">
 			<ul class="nav nav-tabs ">
 				<li class="active">
@@ -25,7 +29,7 @@
 				<li>
 					<a href="#tab2" data-toggle="tab">
 					Capturar </a>
-				</li>				
+				</li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
@@ -41,7 +45,7 @@
 				</div>
 
 				<div class="tab-pane" id="tab2">
-					
+
 					{!! Form::open(array('route' => 'pacientes.store', 'method' => 'POST')) !!}
 
 						@include('pacientes.partials.forms')
@@ -55,10 +59,10 @@
 						</div>
 					{!! Form::close() !!}
 
-				</div>				
+				</div>
 			</div>
 		</div>
 	</div>
 
-	
+
 @stop

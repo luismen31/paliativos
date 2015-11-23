@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('servicios', 'ServiciosMedicosController');
 	Route::resource('zona', 'ZonasController');
 	Route::resource('rvd', 'RegistroVisitasController');
+
+	Route::get('verAgenda', 'AgendaController@verAgenda');
 	Route::resource('agenda', 'AgendaController');
 });
 

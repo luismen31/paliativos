@@ -69,6 +69,10 @@ class AgendaController extends Controller
         return view('agenda.create')->with('citas', $citas);
     }
 
+    public function verAgenda(){
+        return view('agenda.veragenda');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

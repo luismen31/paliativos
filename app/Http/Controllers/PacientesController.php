@@ -73,10 +73,10 @@ class PacientesController extends Controller
 
         if($request->input('PREFERENCIA_RECUPERACION') == '1'){
             $pregunta = 1;
-            $correo = 0;            
+            $correo = 0;
         }else{
             $pregunta = 0;
-            $correo = 1;            
+            $correo = 1;
         }
 
         $PreferenciasRecuperacion = new \App\PreferenciaRecuperacionAcceso;
@@ -138,16 +138,20 @@ class PacientesController extends Controller
     }
 
     public function editPaciente(Request $request){
-        
+
         $v = \Validator::make($request->all(), ['search_paciente' => 'required']);
         if($v->fails()){
             return redirect()->route('pacientes.index')->withErrors($v);
         }
-        
+
         $DatosPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
+        if ($DatosPaciente == null) {
+            \Session::flash('msj_error', 'Solo puede ingresar una cédula del paciente');
+            return redirect()->route('pacientes.index');
+        }
         $ID_PACIENTE = $DatosPaciente->ID_PACIENTE;
         $Paciente = \App\Paciente::where('ID_PACIENTE', $DatosPaciente->ID_PACIENTE)->first();
-        $ID_USUARIO = $Paciente->ID_USUARIO; 
+        $ID_USUARIO = $Paciente->ID_USUARIO;
         $Usuario = \App\User::where('ID_USUARIO', $ID_USUARIO)->first();
         $DatosPaciente->NO_IDENTIFICACION = $Usuario->NO_IDENTIFICACION;
         $PreferenciasRecuperacion = \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $ID_USUARIO)->first();
@@ -165,7 +169,7 @@ class PacientesController extends Controller
         $DatosPaciente->ID_CORREGIMIENTO = $ResidenciaHabitual->ID_CORREGIMIENTO;
         $DatosPaciente->ID_ZONA = $ResidenciaHabitual->ID_ZONA;
 
-        $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;        
+        $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;
 
         return view('pacientes.edit')->with('datos', $DatosPaciente);
     }
@@ -196,7 +200,7 @@ class PacientesController extends Controller
 
         $DatosPaciente = \App\DatoPaciente::where('ID_PACIENTE', $id)->first();
         $Paciente = \App\Paciente::where('ID_PACIENTE', $id)->first();
-        $ID_USUARIO = $Paciente->ID_USUARIO; 
+        $ID_USUARIO = $Paciente->ID_USUARIO;
         $Usuario = \App\User::where('ID_USUARIO', $ID_USUARIO)->first();
         $DatosPaciente->NO_IDENTIFICACION = $Usuario->NO_IDENTIFICACION;
         $PreferenciasRecuperacion = \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $ID_USUARIO)->first();
@@ -214,7 +218,7 @@ class PacientesController extends Controller
         $DatosPaciente->ID_CORREGIMIENTO = $ResidenciaHabitual->ID_CORREGIMIENTO;
         $DatosPaciente->ID_ZONA = $ResidenciaHabitual->ID_ZONA;
         $DatosPaciente->DETALLE = $ResidenciaHabitual->DETALLE;
-       
+
         return view('pacientes.edit')->with('datos', $DatosPaciente)->with('errors', $errors);
     }
 
@@ -235,7 +239,7 @@ class PacientesController extends Controller
 
         $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
         $ID_RESIDENCIA_HABITUAL = \App\DatoPaciente::where('ID_PACIENTE', $id)->first()->ID_RESIDENCIA_HABITUAL;
-        
+
         $DatosPaciente = \App\DatoPaciente::find($id);
         $DatosPaciente->NO_CEDULA = $request->input('NO_CEDULA');
         $DatosPaciente->SEGURO_SOCIAL = $request->input('NO_CEDULA');
@@ -255,7 +259,7 @@ class PacientesController extends Controller
         $DatosPaciente->TELEFONO_CASA = $request->input('TELEFONO_CASA');
         $DatosPaciente->TELEFONO_CELULAR = $request->input('TELEFONO_CELULAR');
         $DatosPaciente->E_MAIL = $request->input('E_MAIL');
-        $DatosPaciente->OCUPACION = $request->input('OCUPACION');        
+        $DatosPaciente->OCUPACION = $request->input('OCUPACION');
         $DatosPaciente->ID_RESIDENCIA_HABITUAL = $ID_RESIDENCIA_HABITUAL;
         $DatosPaciente->RESIDENCIA_TRANSITORIA = $request->input('RESIDENCIA_TRANSITORIA');
         $DatosPaciente->NOMBRE_PADRE = $request->input('NOMBRE_PADRE');
@@ -264,7 +268,7 @@ class PacientesController extends Controller
         $DatosPaciente->CUIDADOR = $request->input('CUIDADOR');
         $DatosPaciente->PARENTEZCO_CUIDADOR = $request->input('PARENTEZCO_CUIDADOR');
         $DatosPaciente->TIPO_SEGURO = $request->input('TIPO_SEGURO');
-        $DatosPaciente->save();  
+        $DatosPaciente->save();
 
         $ID_USUARIO = \App\Paciente::where('ID_PACIENTE', $id)->first()->ID_USUARIO;
         $Usuario = \App\User::find($ID_USUARIO);

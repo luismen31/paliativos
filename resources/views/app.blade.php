@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,7 +49,8 @@
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
 								{{--*/
-								$active =  Active::pattern(['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*']);
+                                $dashboard = ['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*'];
+								$active =  Active::pattern($dashboard);
 								/*--}}
 								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_1">
@@ -57,7 +58,7 @@
 									</a>
 
 								{{--*/
-								$in = Active::pattern(['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*'], 'in');
+								$in = Active::pattern($dashboard, 'in');
 								/*--}}
 									<!-- Dropdown level 1 -->
 									<div id="drop_1" class="panel-collapse collapse {{ $in }}">
@@ -74,10 +75,11 @@
 										</div>
 									</div>
 								</li>
-                                
+
 								<!-- Dropdown-->
                                 {{--*/
-								$active =  Active::pattern(['rvd', 'rvd/*']);
+                                $domciliaria = ['rvd', 'rvd/*'];
+								$active =  Active::pattern($domciliaria);
 								/*--}}
 								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_2">
@@ -86,7 +88,7 @@
 
 									<!-- Dropdown level 1 -->
     								{{--*/
-    								$in = Active::pattern(['rvd', 'rvd/*'], 'in');
+    								$in = Active::pattern($domciliaria, 'in');
     								/*--}}
 									<div id="drop_2" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
@@ -271,7 +273,13 @@
     <script type="text/javascript">
     	var baseurl = '{!! url() !!}';
     </script>
-    {!! Html::script('assets/js/script.js') !!}
+    <script type="text/javascript">
+	    $(function () {
+	        $('.datetimepicker').datetimepicker({
+	        	format: 'YYYY/MM/DD'
+	        });
+	    });
+    </script>
     <script type="text/javascript">
     	$(document).ready(function () {
 		  $('[data-toggle="offcanvas"]').click(function () {
@@ -280,13 +288,8 @@
 		  });
 		});
     </script>
-    <script type="text/javascript">
-	    $(function () {
-	        $('.datetimepicker').datetimepicker({
-	        	format: 'YYYY/MM/DD'
-	        });
-	    });
-    </script>
+    {!! Html::script('assets/js/script.js') !!}
+    {!! Html::script('assets/js/jquery.datosReportes.js') !!}
     @yield('scripts')
   </body>
 </html>

@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class ProfesionalesController extends Controller
-{   
+{
     /**
      * Display a listing of the resource.
      *
@@ -36,8 +36,8 @@ class ProfesionalesController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {   
-        //Funcion para validar datos antes de ser almacenados 
+    {
+        //Funcion para validar datos antes de ser almacenados
         $prof = new \App\DatoProfesionalSalud;
         $v = $prof->validar($request->all(), 'store');
         if($v){
@@ -52,7 +52,7 @@ class ProfesionalesController extends Controller
         $Usuario->TERMINOS = '0';
         $Usuario->save();
         $ID_USUARIO = \App\User::where('ID_USUARIO', '>', '0')->orderBy('ID_USUARIO', 'desc')->first()->ID_USUARIO;
-        
+
         $ProfesionalSalud = new \App\ProfesionalSalud;
         $ProfesionalSalud->ID_ESPECIALIDAD_MEDICA = $request->input('ID_ESPECIALIDAD_MEDICA');
         $ProfesionalSalud->ID_USUARIO = $ID_USUARIO;
@@ -83,10 +83,10 @@ class ProfesionalesController extends Controller
 
         if($request->input('PREFERENCIA_RECUPERACION') == '1'){
             $pregunta = 1;
-            $correo = 0;            
+            $correo = 0;
         }else{
             $pregunta = 0;
-            $correo = 1;            
+            $correo = 1;
         }
 
         $PreferenciasRecuperacion = new \App\PreferenciaRecuperacionAcceso;
@@ -118,9 +118,9 @@ class ProfesionalesController extends Controller
             return redirect()->route('profesionales.index')->withErrors($v);
         }
 
-        
-        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();            
-        //Sino es nulo retorna un mensaje de error
+
+        $DatosProfesionales = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();
+        //Si es nulo retorna un mensaje de error
         if($DatosProfesionales == null){
             \Session::flash('msj_error', 'Solo puede ingresar la cédula del profesional');
             return redirect()->route('profesionales.index');
@@ -143,7 +143,7 @@ class ProfesionalesController extends Controller
         $DatosProfesionales->PREFERENCIA_RECUPERACION = $PREFERENCIA_RECUPERACION;
         $DatosProfesionales->ID_PREGUNTA = $DatosAutenticacion->ID_PREGUNTA;
         $DatosProfesionales->RESPUESTA = $DatosAutenticacion->RESPUESTA;
-        return view('profesionales.edit')->with('datos', $DatosProfesionales);   
+        return view('profesionales.edit')->with('datos', $DatosProfesionales);
     }
 
     /**
@@ -227,10 +227,10 @@ class ProfesionalesController extends Controller
 
         if($request->input('PREFERENCIA_RECUPERACION') == '1'){
             $pregunta = 1;
-            $correo = 0;            
+            $correo = 0;
         }else{
             $pregunta = 0;
-            $correo = 1;            
+            $correo = 1;
         }
 
         $PreferenciasRecuperacion = \App\PreferenciaRecuperacionAcceso::find($ID_USUARIO);
@@ -246,7 +246,7 @@ class ProfesionalesController extends Controller
         $DatosAutenticacion->E_MAIL_PREFERENCIAL = $request->input('E_MAIL');
         $DatosAutenticacion->save();
 
-        \Session::flash('mensaje', 'Profesional "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se edito exitosamente');
+        \Session::flash('mensaje', 'El Profesional "'. $request->input('PRIMER_NOMBRE').' '.$request->input('APELLIDO_PATERNO').'", se edito exitosamente');
         return redirect()->route('profesionales.index');
     }
 

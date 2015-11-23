@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function($){ 
 	//Funcion que carga al cambiar el id_provincia
         $("#ID_PROVINCIA").change(function(){
             //Funcion GET como primer parametro recibe el url que queremos ejecutar.
@@ -42,4 +42,45 @@ $(document).ready(function() {
         		});
         	});
         });   
+        
+        $(document).on('click', '.panel-heading span.clickable', function(e){
+            var $this = $(this);
+            if(!$this.hasClass('panel-collapsed')) {
+                $this.parents('.panel').find('.panel-body').slideUp();
+                $this.addClass('panel-collapsed');
+                $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            } else {
+                $this.parents('.panel').find('.panel-body').slideDown();
+                $this.removeClass('panel-collapsed');
+                $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+        });
+        
+        //Filtros de fecha para Registro de Visita Domiciliaria
+        $("#fecha_inicio").on("dp.change", function(event) {
+            //Llama el plugin para filtrar los datos con las fechas ingresada
+            $(this).reporte({
+                tabla: $('#filter_rvd'),
+                ruta: 'buscar/obtenerrvd',
+                msg_error: 'No existen Registro de Visita Domiciliaria para este rango de fecha',
+                datos: { 
+                    fecha_inicio: event.currentTarget.value, 
+                    fecha_fin: $('#fecha_fin').val() 
+                }
+            });
+            event.stopPropagation();
+        });
+
+        $("#fecha_fin").on("dp.change", function(event) {
+            $(this).reporte({
+                tabla: $('#filter_rvd'),
+                ruta: 'buscar/obtenerrvd',
+                msg_error: 'No existen Registro de Visita Domiciliaria para este rango de fecha',
+                datos: { 
+                    fecha_inicio: $('#fecha_inicio').val(),
+                    fecha_fin: event.currentTarget.value
+                }
+            });
+            event.stopPropagation();
+        });
 });
