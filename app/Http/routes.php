@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('verAgenda', 'AgendaController@verAgenda');
 	Route::resource('agenda', 'AgendaController');
+	Route::resource('rda', 'RegistroDiarioActividadesController');
 });
 
 // Authentication routes...

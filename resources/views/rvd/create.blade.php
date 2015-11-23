@@ -13,7 +13,6 @@
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
 
-	
 	@include('mensajes.errors')
 	
 	<div class="panel panel-primary">
@@ -25,6 +24,7 @@
 				{!! Form::text('fecha_inicio', $fecha_actual, array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_inicio', 'placeholder' => 'AAAA/MM/DD')) !!}			 
 			  <span class="input-group-addon">hasta</span>
 			  {!! Form::text('fecha_fin', $fecha_actual, array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_fin', 'placeholder' => 'AAAA/MM/DD')) !!}
+
 			</div>
 		</div>
 		<div class="table-responsive">

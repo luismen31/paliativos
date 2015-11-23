@@ -43,7 +43,7 @@ class RegistroVisitasController extends Controller
         $rvd->ID_EQUIPO_MEDICO = $request->input('ID_EQUIPO_MEDICO');
         $rvd->save();
 
-        return $this->show($rvd->ID_RVD);
+        return $this->edit($rvd->ID_RVD);
 
     }
 
@@ -55,8 +55,7 @@ class RegistroVisitasController extends Controller
      */
     public function show($id)
     {
-        $datos = \App\RegistroVisitaDomiciliaria::find($id);
-        return view('rvd.create-paciente')->with('datos', $datos);
+        //
     }
 
     /**
@@ -67,7 +66,8 @@ class RegistroVisitasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $datos = \App\RegistroVisitaDomiciliaria::find($id);
+        return view('rvd.create-details')->with('datos', $datos);
     }
 
     /**
@@ -101,7 +101,7 @@ class RegistroVisitasController extends Controller
             $DetalleRVD->OBSERVACIONES = $request->input('OBSERVACIONES');
             $DetalleRVD->save();
 
-            return $this->show($id);
+            return $this->edit($id);
         }
     }
 
