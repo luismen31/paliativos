@@ -505,3 +505,26 @@ body {
   background: #efefef;
 
 }
+
+.well.fecha {
+  background: #258ECD;
+  color: #fff;
+  margin:0 auto;
+  text-align: center;
+  text-shadow:1px 1px 0px #3D85AF;
+  width: 200px;
+}
+.fecha .day{
+  margin: 0px;
+  padding: 5px;
+  text-transform: capitalize;
+}
+.fecha .month{
+  margin: 0px;
+  padding: 3px;
+  text-transform: italic;
+}
+.fecha .year{
+  margin: 0px;
+  padding: 5px;
+}

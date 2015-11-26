@@ -36,11 +36,18 @@ class AgendaController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {  
+    {   
+        //obtiene el arreglo de horas del helper creado.
+        $hora = horas();
+        //Obtiene la hora respecto a la posicion del arreglo enviado por el form.
+        $getHora = array_pull($hora, $request->input('HORA'));
         $paciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
-        if( \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('ID_PACIENTE', $paciente->ID_PACIENTE)->where('RESERVADA', '1')->first() OR \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('HORA', $request->input('HORA'))->where('ID_EQUIPO_MEDICO', $request->input('ID_EQUIPO_MEDICO'))->where('RESERVADA', '1')->first()){
-            return 'Ya existe este paciente para esta fecha o una cita para esta hora.';
+        if( \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('ID_PACIENTE', $paciente->ID_PACIENTE)->where('RESERVADA', '1')->first() OR \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('HORA', $getHora)->where('ID_EQUIPO_MEDICO', $request->input('ID_EQUIPO_MEDICO'))->where('RESERVADA', '1')->first()){
+            \Session::flash('msg_error', 'Ya existe este paciente para esta fecha o una cita para esta hora.');
+            
+            return redirect()->back();
         }else{
+            
             $profesional = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();
             $agenda = new \App\CitaMedica;
             $agenda->ID_PACIENTE = $paciente->ID_PACIENTE;
@@ -48,7 +55,7 @@ class AgendaController extends Controller
             $agenda->ID_SERVICIO = $request->input('ID_SERVICIO');
             $agenda->ID_EQUIPO_MEDICO = $request->ID_EQUIPO_MEDICO;
             $agenda->FECHA = $request->input('FECHA');
-            $agenda->HORA = $request->input('HORA');
+            $agenda->HORA = $getHora;
             $agenda->RESERVADA = '1';
             $agenda->save();
             return $this->show($agenda->ID_CITA);
@@ -69,8 +76,25 @@ class AgendaController extends Controller
         return view('agenda.create')->with('citas', $citas);
     }
 
+    //Funcion para ver la agenda de citas
     public function verAgenda(){
         return view('agenda.veragenda');
+    }
+
+    //Funcion para crear nueva cita.
+    public function crearCita(Request $request){
+        $rules = [
+            'hora' => 'required',
+            'fecha' => 'required'
+        ];
+
+        $v = \Validator::make($request->all(), $rules);        
+        if($v->fails()){
+            \Session::flash('msg_error', 'Envío de datos erróneo');
+            return $this->verAgenda();
+        }
+
+        return view('agenda/create')->with('horaCita', $request->input('hora'))->with('fechaCita', $request->input('fecha'));
     }
 
     /**
@@ -97,9 +121,16 @@ class AgendaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //obtiene el arreglo de horas del helper creado.
+        $hora = horas();
+        //Obtiene la hora respecto a la posicion del arreglo enviado por el form.
+        $getHora = array_pull($hora, $request->input('HORA'));
         $agenda = \App\CitaMedica::find($id);
-        if( \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('ID_EQUIPO_MEDICO', $request->input('ID_EQUIPO_MEDICO'))->where('HORA', $request->input('HORA'))->where('ID_PACIENTE', '<>', $agenda->ID_PACIENTE)->where('RESERVADA', '1')->first() AND  $request->input('RESERVADA') == '1' ){
-            return 'Ya existe una cita para esta fecha y hora.';
+        
+        if( \App\CitaMedica::where('FECHA', $request->input('FECHA'))->where('ID_EQUIPO_MEDICO', $request->input('ID_EQUIPO_MEDICO'))->where('HORA', $getHora)->where('ID_PACIENTE', '<>', $agenda->ID_PACIENTE)->where('RESERVADA', '1')->first() AND  $request->input('RESERVADA') == '1' ){
+            \Session::flash('msg_error', 'Ya existe una cita para esta fecha y hora.');
+
+            return redirect()->back();
         }else{
             $paciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
             $profesional = \App\DatoProfesionalSalud::where('NO_CEDULA', $request->input('search_profesional'))->first();
@@ -108,7 +139,7 @@ class AgendaController extends Controller
             $agenda->ID_SERVICIO = $request->input('ID_SERVICIO');
             $agenda->ID_EQUIPO_MEDICO = $request->ID_EQUIPO_MEDICO;
             $agenda->FECHA = $request->input('FECHA');
-            $agenda->HORA = $request->input('HORA');
+            $agenda->HORA = $getHora;
             $agenda->RESERVADA = $request->input('RESERVADA');
             $agenda->save();
             return redirect()->route('agenda.index');

@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('rvd', 'RegistroVisitasController');
 
 	Route::get('verAgenda', 'AgendaController@verAgenda');
+	Route::post('crearCita', 'AgendaController@crearCita');
 	Route::resource('agenda', 'AgendaController');
 	Route::resource('rda', 'RegistroDiarioActividadesController');
 });

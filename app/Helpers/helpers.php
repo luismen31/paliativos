@@ -21,7 +21,7 @@
 			}
 				
 			$hora = ''.$cero.''.$horas.':'.$minutos.' '.$s.''; 
-			$tiempo[$hora] = $hora;
+			$tiempo[$x] = $hora;
 				
 			if($sw == 1){
 				if($minutos == 30){

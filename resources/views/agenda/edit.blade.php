@@ -13,6 +13,17 @@
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
 
+	{{-- MENSAJES DE ERROR --}}
+	@if(\Session::has('msg_error'))
+		@include('mensajes.notify', ['mensaje' => \Session::get('msg_error'), 'tipo' => 'danger'])
+	@endif
+
+	<div class="row">
+		<div class="col-sm-12">
+			<a href="{{ url('verAgenda') }}" class="btn btn-primary pull-right">Ver Agenda</a></br>
+		</div>
+	</div>
+	
 	@include('mensajes.errors')
 			
 	{!! Form::model($datos, array('route' => array('agenda.update', $datos->ID_CITA), 'method' => 'PUT')) !!}

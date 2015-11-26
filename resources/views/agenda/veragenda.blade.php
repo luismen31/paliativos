@@ -36,7 +36,19 @@
 		//Obtiene la cita para agendarla
 		$citas = \App\CitaMedica::fecha($fecha)->equipo($equipo, $change)->where('RESERVADA', 1)->get();
 	/*--}}
+
+	{{-- MENSAJES DE ERROR --}}
+	@if(\Session::has('msg_error'))
+		@include('mensajes.notify', ['mensaje' => \Session::get('msg_error'), 'tipo' => 'danger'])
+	@endif
 	<h2 class="page-header">Agenda de Citas Médica</h2>
+	
+	@if(count($citas) <= 0)
+		<div class="alert alert-danger alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			No existen citas registradas para esta fecha o equipo médico
+		</div>	
+	@endif
 
 	<div class="row">
 		<div class="col-sm-10 col-sm-offset-1">
@@ -74,10 +86,10 @@
 
 	<div class="row">
 		<div class="col-sm-3">
-			<div class="well well-sm">
-				<h3 class="page-header text-capitalize text-center">{{ Carbon::parse($fecha)->formatLocalized('%A') }}</h3>
-				<h1 class="text-center">{{ Carbon::parse($fecha)->formatLocalized('%d') }}</h1>
-				<h5 class="text-center">{{ 'de '. Carbon::parse($fecha)->formatLocalized('%Y') }}</h5>
+			<div class="well well-sm fecha">
+				<h3 class="day">{{ utf8_encode(Carbon::parse($fecha)->formatLocalized('%A')) }}</h3>
+				<h2 class="month">{{ Carbon::parse($fecha)->formatLocalized('%d') .' de '. Carbon::parse($fecha)->formatLocalized('%b')}} </h2>
+				<h4 class="year">{{ 'de '. Carbon::parse($fecha)->formatLocalized('%Y') }}</h4>
 			</div>
 		</div>
 		<div class="col-sm-9">
@@ -90,31 +102,56 @@
 						</tr>
 					</thead>
 					<tbody>
-				@for($x=0; $x<20; $x++)
+					@for($x=0; $x<20; $x++)
 						<tr>
 							<td class="hour-body">
 								{{ $values[$x] }}
 							</td>
-					<td>
-					@if(count($citas) > 0)
-						@foreach($citas as $cita)
-							@if($cita->HORA == $values[$x])
-							
-								{{--*/
-									$paciente = \App\DatoPaciente::where('ID_PACIENTE', $cita->ID_PACIENTE)->first();
-								/*--}}
-								{{ $paciente->PRIMER_NOMBRE.' '.$paciente->APELLIDO_PATERNO }}</br>
-							
-								<a href="{{ route('agenda.edit', $cita->ID_CITA) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Editar</a>
-							
-							@endif
-						@endforeach
-						</td>
-					@else
-						<td></td>
-					@endif
+						@if(count($citas) > 0)				
+							<td>
+							@foreach($citas as $cita)
+								@if($cita->HORA == $values[$x])
+								
+									{{--*/
+										$paciente = \App\DatoPaciente::where('ID_PACIENTE', $cita->ID_PACIENTE)->first();
+									/*--}}
+									<p class="text-center">
+										{{ $paciente->PRIMER_NOMBRE.' '.$paciente->APELLIDO_PATERNO }}
+										<a href="{{ route('agenda.edit', $cita->ID_CITA) }}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Editar</a>
+									</p>
+									<center>
+										{!! Form::open(['url' => 'crearCita', 'method' => 'POST']) !!}
+											{!! Form::hidden('hora', $x)  !!}
+											{!! Form::hidden('fecha', $fecha)  !!}
+											<button type="submit" class="btn btn-primary btn-xs" title="Agregar Cita a las {{ $values[$x] }}"><i class="fa fa-plus"></i> Nueva Cita</button>
+										{!! Form::close() !!}
+									</center>
+								@else
+									<center>
+										{!! Form::open(['url' => 'crearCita', 'method' => 'POST']) !!}
+											{!! Form::hidden('hora', $x)  !!}
+											{!! Form::hidden('fecha', $fecha)  !!}
+											<button type="submit" class="btn btn-primary btn-xs" title="Agregar Cita a las {{ $values[$x] }}"><i class="fa fa-plus"></i> Nueva Cita</button>
+										{!! Form::close() !!}
+										
+									</center>
+								@endif
+							@endforeach
+							</td>
+						@else
+							<td>						
+								<center>
+									{!! Form::open(['url' => 'crearCita', 'method' => 'POST']) !!}
+										{!! Form::hidden('hora', $x)  !!}
+										{!! Form::hidden('fecha', $fecha)  !!}
+										<button type="submit" class="btn btn-primary btn-xs" title="Agregar Cita a las {{ $values[$x] }}"><i class="fa fa-plus"></i> Nueva Cita</button>
+									{!! Form::close() !!}
+								</center>
+							</td>
+						@endif
 						</tr>
-				@endfor
+					@endfor
+
 					</tbody>
 				</table>
 
