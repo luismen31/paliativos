@@ -41,6 +41,7 @@ class RegistroVisitasController extends Controller
         $rvd->FECHA = $request->input('FECHA');
         $rvd->ID_INSTITUCION = $request->input('ID_INSTITUCION');
         $rvd->ID_EQUIPO_MEDICO = $request->input('ID_EQUIPO_MEDICO');
+        $rvd->HORAS_DE_ATENCION = 0;
         $rvd->save();
 
         return $this->edit($rvd->ID_RVD);
@@ -85,11 +86,6 @@ class RegistroVisitasController extends Controller
         }else{
             $hora = new \Carbon;
             $ID_TRAZABILIDAD = \App\Trazabilidad::getTrazabilidad($DatoPaciente->ID_PACIENTE);
-            $trazabilidad = new \App\Trazabilidad;
-            $trazabilidad->ID_TRAZABILIDAD = $ID_TRAZABILIDAD;
-            $trazabilidad->ID_PACIENTE = $DatoPaciente->ID_PACIENTE;
-            $trazabilidad->FECHA = $hora->format('Y-m-d');
-            $trazabilidad->save();
 
             $ID_PROGRAMA = \App\Categoria::find($request->input('ID_CATEGORIA'))->ID_PROGRAMA;
             $DetalleRVD = new \App\DetalleRegistroVisitaDomiciliaria;
@@ -101,6 +97,10 @@ class RegistroVisitasController extends Controller
             $DetalleRVD->OBSERVACIONES = $request->input('OBSERVACIONES');
             $DetalleRVD->save();
 
+            $rvd = \App\RegistroVisitaDomiciliaria::find($id);
+            $horas = $rvd->HORAS_DE_ATENCION;
+            $rvd->HORAS_DE_ATENCION = $horas + 0.5;
+            $rvd->save();
             return $this->edit($id);
         }
     }

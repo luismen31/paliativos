@@ -14,7 +14,7 @@
 		@include('mensajes.notify', ['mensaje' => Session::get('msj_success'), 'tipo' => 'success'])
 	@endif
 
-	<h2 class="page-header">Registro Diario de Actividades <i>9</i></h2>
+	<h2 class="page-header">Registro Diario de Actividades <i>@if($id == '1') (Atención Domiciliaria) @elseif($id == '2') (Atención Ambulatoria) @elseif($id == '3') (Atención Hospitalaria) @endif</i></h2>
 	
 	<div class="row">
 		<div class="col-sm-12">

@@ -8,5 +8,5 @@ class EstadoPaciente extends Model
 {
     protected $primaryKey = 'ID_ESTADO_PACIENTE';
     public $timestamps = false;
-    protected $table = 'estados_civiles';
+    protected $table = 'estado_paciente';
 }
