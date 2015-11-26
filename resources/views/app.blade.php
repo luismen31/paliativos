@@ -108,7 +108,7 @@
 													</div>
 												</li>
 												<li><a href="{{ route('rda.show', 1) }}">Registro Diario de Actividades</a></li>
-												<li><a href="#">Surco</a></li>
+												<li><a href="{{ route('surco.index') }}">Surco</a></li>
 												<!-- Dropdown level 2 -->
 												<li class="panel panel-default" id="dropdown">
 													<a data-toggle="collapse" href="#drop_2-2">

@@ -10,23 +10,21 @@ use App\Http\Controllers\Controller;
 class SearchController extends Controller
 {
     public function getBuscarpersona(Request $request, $type, $search){
-        if($request->ajax()){
-            if($type == 'profesional'){
-                $modelo = '\App\DatoProfesionalSalud';
-            }else{
-                $modelo = '\App\DatoPaciente';
-            }
+        if(!$request->ajax()) abort(403);
 
-            $datospersona = $modelo::where(\DB::raw('CONCAT(NO_CEDULA," ",PRIMER_NOMBRE," ",APELLIDO_PATERNO)'), 'LIKE', '%'.$search.'%')
-                ->select(\DB::raw('CONCAT(PRIMER_NOMBRE," ",APELLIDO_PATERNO) AS nombre'), 'NO_CEDULA AS cedula')
-                ->orderBy('cedula', 'DESC')
-                ->take(10)
-                ->get();
-            
-            return utf8_encode($datospersona);            
+        if($type == 'profesional'){
+            $modelo = '\App\DatoProfesionalSalud';
         }else{
-            abort(403);
-        }    
+            $modelo = '\App\DatoPaciente';
+        }
+
+        $datospersona = $modelo::where(\DB::raw('CONCAT(NO_CEDULA," ",PRIMER_NOMBRE," ",APELLIDO_PATERNO)'), 'LIKE', '%'.$search.'%')
+            ->select(\DB::raw('CONCAT(PRIMER_NOMBRE," ",APELLIDO_PATERNO) AS nombre'), 'NO_CEDULA AS cedula')
+            ->orderBy('cedula', 'DESC')
+            ->take(10)
+            ->get();
+        
+        return utf8_encode($datospersona);            
 
     }
 
@@ -71,6 +69,18 @@ class SearchController extends Controller
 
         return view('agenda.veragenda')->with('fechaFilter', $fecha)->with('equipoFilter', $equipo);
     }
+
+    public function getBuscarcie10(Request $request, $search){
+        if(!$request->ajax()) abort(403);
+         $cie10 = \App\Cie10::where(\DB::raw('CONCAT(ID_CIE10," ", DESCRIPCION)'), 'LIKE', '%'.$search.'%')
+            ->select(\DB::raw('CONCAT(DESCRIPCION) AS CIE10'), 'ID_CIE10')
+            ->orderBy('DESCRIPCION', 'DESC')
+            ->take(10)
+            ->get();
+        
+        return utf8_encode($cie10);
+    }
 }
+
 
 

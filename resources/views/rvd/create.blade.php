@@ -50,7 +50,7 @@
 						<td>{{ \App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $rvd->ID_EQUIPO_MEDICO)->count() }}</td>
 						<td>{{ \App\DetalleRegistroVisitaDomiciliaria::where('ID_RVD', $rvd->ID_RVD)->count() }}</td>
 						<td>{{ $rvd->HORAS_DE_ATENCION }}</td>
-						<td><a href="{{ route('rvd.show', $rvd->ID_RVD) }}" class="btn btn-info btn-sm"><i class="fa fa-search"></i> Buscar</a></td>
+						<td><a href="{{ route('rvd.edit', $rvd->ID_RVD) }}" class="btn btn-info btn-sm"><i class="fa fa-search"></i> Buscar</a></td>
 					</tr>
 					@endforeach
 				</tbody>
