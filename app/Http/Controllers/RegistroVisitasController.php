@@ -82,9 +82,10 @@ class RegistroVisitasController extends Controller
     {
         $DatoPaciente = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
         if(\App\DetalleRegistroVisitaDomiciliaria::where('ID_RVD', $id)->where('ID_PACIENTE', $DatoPaciente->ID_PACIENTE)->first()){
-            dd('Repetido');//return $this->show($id);
+            
+            $request->session()->flash('msg_warning', 'El paciente ya se encuentra registrado');
+            return redirect()->back();
         }else{
-            $hora = new \Carbon;
             $ID_TRAZABILIDAD = \App\Trazabilidad::getTrazabilidad($DatoPaciente->ID_PACIENTE);
 
             $ID_PROGRAMA = \App\Categoria::find($request->input('ID_CATEGORIA'))->ID_PROGRAMA;

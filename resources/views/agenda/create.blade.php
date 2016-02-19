@@ -9,8 +9,8 @@
 	<h2 class="page-header">Nueva Cita Médica</h2>
 
 	{{-- Mostrar mensaje exitoso --}}
-	@if(Session::has('mensaje'))
-		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
+	@if(\Session::has('mensaje'))
+		@include('mensajes.notify', ['mensaje' => \Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
 
 	{{-- MENSAJES DE ERROR --}}

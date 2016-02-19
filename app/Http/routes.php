@@ -18,24 +18,38 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('auth/logout', 'Auth\AuthController@getLogout');
 	Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
 	Route::resource('profesionales', 'ProfesionalesController');
+	Route::controller('buscar', 'SearchController');
 
 	Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
 	Route::resource('pacientes', 'PacientesController');
 
 	Route::resource('equipo-medico', 'EquipoMedicoController');
-	Route::controller('buscar', 'SearchController');
 
 	Route::resource('camas', 'CamasController');
 	Route::resource('salas', 'SalasController');
 	Route::resource('servicios', 'ServiciosMedicosController');
 	Route::resource('zona', 'ZonasController');
-	Route::resource('rvd', 'RegistroVisitasController');
-	Route::resource('surco', 'SurcoController');
-	Route::post('surco/paciente', 'SurcoController@create');
 
 	Route::get('verAgenda', 'AgendaController@verAgenda');
 	Route::post('crearCita', 'AgendaController@crearCita');
 	Route::resource('agenda', 'AgendaController');
+	Route::resource('rvd', 'RegistroVisitasController');
+	Route::resource('surco', 'SurcoController');
+	Route::post('surco/paciente', 'SurcoController@create');
+	Route::post('surco/respuesta', 'SurcoController@storeRespuesta');
+	Route::get('surco/verRespuesta/{id_respuesta}', 'SurcoController@verRespuesta');
+	
+	Route::resource('atencion_paciente', 'AtencionPacienteController');
+	Route::post('atencion_paciente/paciente', 'AtencionPacienteController@create');
+	Route::post('atencion_paciente/agregar_respuesta', 'AtencionPacienteController@storeRespuestaInterconsulta');
+
+	Route::resource('interconsulta', 'InterconsultaController');
+	Route::post('interconsulta/paciente', 'InterconsultaController@create');
+
+	Route::resource('evolucion', 'EvolucionController');
+	Route::post('evolucion/paciente', ['as' => 'buscarPaciente', 'uses' => 'EvolucionController@buscarPaciente']);
+	Route::post('evolucion/responsable/{id_paciente}', ['as' => 'responsable', 'uses' => 'EvolucionController@registrarResponsable']);
+
 	Route::resource('rda', 'RegistroDiarioActividadesController');
 	Route::post('rda.storedetails', 'RegistroDiarioActividadesController@storeDetails');
 });

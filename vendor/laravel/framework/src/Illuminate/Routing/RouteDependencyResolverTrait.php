@@ -74,7 +74,7 @@ trait RouteDependencyResolverTrait
      * @param  \ReflectionParameter  $parameter
      * @param  array  $parameters
      * @param  array  $originalParameters
-     * @return mixed|null
+     * @return mixed
      */
     protected function transformDependency(ReflectionParameter $parameter, $parameters, $originalParameters)
     {
@@ -108,10 +108,12 @@ trait RouteDependencyResolverTrait
      *
      * @param  \ReflectionParameter  $parameter
      * @param  array  $originalParameters
+     *
+     * @return mixed
      */
     protected function extractModelIdentifier(ReflectionParameter $parameter, array $originalParameters)
     {
-        return array_first($originalParameters, function ($parameterKey) use ($parameter) {
+        return Arr::first($originalParameters, function ($parameterKey) use ($parameter) {
             return $parameterKey === $parameter->name;
         });
     }

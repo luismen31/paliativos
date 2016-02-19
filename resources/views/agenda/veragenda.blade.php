@@ -133,7 +133,6 @@
 											{!! Form::hidden('fecha', $fecha)  !!}
 											<button type="submit" class="btn btn-primary btn-xs" title="Agregar Cita a las {{ $values[$x] }}"><i class="fa fa-plus"></i> Nueva Cita</button>
 										{!! Form::close() !!}
-										
 									</center>
 								@endif
 							@endforeach

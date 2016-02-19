@@ -1,7 +1,11 @@
 Active for Laravel 4/5
 ======
 [![Build Status](https://travis-ci.org/letrunghieu/active.png?branch=master)](https://travis-ci.org/letrunghieu/active)
-[![Latest Stable Version](https://poser.pugx.org/hieu-le/active/v/stable.svg)](https://packagist.org/packages/hieu-le/active) [![Total Downloads](https://poser.pugx.org/hieu-le/active/downloads.svg)](https://packagist.org/packages/hieu-le/active) [![Latest Unstable Version](https://poser.pugx.org/hieu-le/active/v/unstable.svg)](https://packagist.org/packages/hieu-le/active) [![License](https://poser.pugx.org/hieu-le/active/license.svg)](https://packagist.org/packages/hieu-le/active)
+[![Latest Stable Version](https://poser.pugx.org/hieu-le/active/v/stable.svg)](https://packagist.org/packages/hieu-le/active)
+[![Code Climate](https://codeclimate.com/github/letrunghieu/active/badges/gpa.svg)](https://codeclimate.com/github/letrunghieu/active)
+[![Test Coverage](https://codeclimate.com/github/letrunghieu/active/badges/coverage.svg)](https://codeclimate.com/github/letrunghieu/active/coverage)
+[![Total Downloads](https://poser.pugx.org/hieu-le/active/downloads.svg)](https://packagist.org/packages/hieu-le/active)
+[![License](https://poser.pugx.org/hieu-le/active/license.svg)](https://packagist.org/packages/hieu-le/active)
 
 The helper class for Laravel 4/5 applications to get active class base on current route.
 ## Installation
@@ -50,5 +54,9 @@ Support new method `Active::routePattern`. This method will check the current **
 ### Changes in version 2.2/1.4
 
 * Support optional parameter for inactive class, thanks @lowerends
+
+### Changes in version 2.3
+
+* Support new method `Active::routeParam`. This method check the current route name and route parameters with some specific values.
 
 For more details about usage see: [this page](http://www.hieule.info/products/active-class-helper-laravel-4/)

@@ -236,7 +236,7 @@ class PacientesController extends Controller
         if($v){
             return $this->errorUpdate($id, $v->errors());
         }
-
+        
         $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
         $ID_RESIDENCIA_HABITUAL = \App\DatoPaciente::where('ID_PACIENTE', $id)->first()->ID_RESIDENCIA_HABITUAL;
 

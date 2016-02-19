@@ -12,6 +12,10 @@
 	@if(Session::has('mensaje'))
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
+
+	@if(Session::has('msg_warning'))
+		@include('mensajes.notify', ['mensaje' => Session::get('msg_warning'), 'tipo' => 'warning'])
+	@endif
 	
 	@include('mensajes.errors')
 					

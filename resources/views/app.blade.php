@@ -78,7 +78,7 @@
 
 								<!-- Dropdown-->
                                 {{--*/
-                                $domciliaria = ['rvd', 'rvd/*'];
+                                $domciliaria = ['rvd', 'rvd/*', 'agenda', 'agenda/*', 'rda', 'rda/1', 'surco', 'surco/*'];
 								$active =  Active::pattern($domciliaria);
 								/*--}}
 								<li class="panel panel-default {{ $active }}" id="dropdown">
@@ -129,14 +129,21 @@
 										</div>
 									</div>
 								</li>
-									<!-- Dropdown-->
-								<li class="panel panel-default" id="dropdown">
+								<!-- Dropdown-->
+								{{--*/
+									$ambulatoria = ['rda', 'rda/2', 'atencion_paciente', 'atencion_paciente/*'];
+									$active =  Active::pattern($ambulatoria);
+								/*--}}
+								<li class="panel panel-default {{ $active }}" id="dropdown">
 									<a data-toggle="collapse" href="#drop_3">
 										<span class="fa fa-user"></span> Ambulatoria <span class="caret"></span>
 									</a>
 
 									<!-- Dropdown level 1 -->
-									<div id="drop_3" class="panel-collapse collapse">
+									{{--*/
+    								$in = Active::pattern($ambulatoria, 'in');
+    								/*--}}
+									<div id="drop_3" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
 												<li><a href="{{ route('rda.show', 2) }}">Registro Diario de Actividades</a></li>
@@ -148,8 +155,8 @@
 													<div id="drop_3-1" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
-																<li><a href="#">Atención al Paciente</a></li>
-																<li><a href="#">Interconsulta</a></li>
+																<li><a href="{{ route('atencion_paciente.index') }}">Atención al Paciente</a></li>
+																<li><a href="{{ route('interconsulta.index') }}">Interconsulta</a></li>
 															</ul>
 														</div>
 													</div>
@@ -192,7 +199,7 @@
 													<div id="drop_4-1" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
-																<li><a href="#">Evolución</a></li>
+																<li><a href="{{ route('evolucion.index') }}">Evolución</a></li>
 															</ul>
 														</div>
 													</div>
@@ -265,18 +272,25 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     {!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
-    {!! Html::script('assets/js/moment.js') !!}
-    {!! Html::script('assets/js/moment-es.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/moment.js') !!}
+    {!! Html::script('assets/js/moment-with-locales.js') !!}
     {!! Html::script('assets/js/bootstrap-datetimepicker.min.js') !!}
     {!! Html::script('assets/js/jquery.easy-autocomplete.min.js') !!}
     <script type="text/javascript">
     	var baseurl = '{!! url() !!}';
-    </script>
-    <script type="text/javascript">
+    
 	    $(function () {
 	        $('.datetimepicker').datetimepicker({
-	        	format: 'YYYY-MM-DD'
+	        	format: 'YYYY/MM/DD',
+	        	locale: 'es'
+	        });
+	    });
+
+	     $(function () {
+	        $('.datetime').datetimepicker({
+	        	format: 'LT',
+
 	        });
 	    });
     </script>

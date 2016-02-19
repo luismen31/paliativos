@@ -107,6 +107,7 @@ return [
     'attributes' => [
         'search_paciente' => 'Buscar Paciente',
         'search_profesional' => 'Buscar Profesional',
+        'search_cie10' => 'Diagnóstico/CIE-10',
         'NO_CEDULA' => 'Cédula',
         'PRIMER_NOMBRE' => 'Primer Nombre',
         'APELLIDO_PATERNO' => 'Apellido Paterno',
@@ -127,6 +128,8 @@ return [
         'DESCRIPCION' => 'Servicio Médico',
         'ID_TIEMPO_ATENCION' => 'Tiempo de Atención',
         'ZONA' => 'Zona',
+        'ID_REFERIDO' => 'Referido',
+        'ID_CAMA' => 'Cama',
     ],
 
 ];

@@ -31,7 +31,7 @@ trait AuthenticatesUsers
      * @return \Illuminate\Http\Response
      */
     public function postLogin(Request $request)
-    {
+    {        
         $this->validate($request, [
             $this->loginUsername() => 'required', 'CLAVE_ACCESO' => 'required',
         ]);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetalleDiagnosticoEgreso extends Model
 {
-    protected $primaryKey = 'ID_DIAGNOSTICO_EGRESO';
+    protected $primaryKey = 'SECUENCIA';
     public $timestamps = false;
     protected $table = 'detalle_diagnostico_egreso';
 }

@@ -12,7 +12,7 @@
 		var x = 1;
 		var res_tabla = '';
 		var datos = [];
-
+		
 		$.ajax({
 			type: opcs.metodo,
 			url: baseurl + '/' + opcs.ruta,
@@ -24,17 +24,16 @@
 	        success: function(data){
 	        	//Si el objeto recibido esta vacío muestra mensaje
 	        	//sino rellena la tabla dinamicamente con los datos obtenidos
-	        	
-				$.each(data, function(index, element){
+	        		
+				//Si esta vacio el objeto muestra error, sino rellena la tabla con los datos correspondientes
+	        	if($.isEmptyObject(data)){
+					tbody.html('<tr><td colspan="'+columns+'"><p style="color:red;text-align:center;padding:0;margin:0;">'+ opcs.msg_error +'</p></td></tr>');	        		
+	        	}else{
+					$.each(data, function(index, element){
 
-					//convierte en arreglo los datos recibidos
-					datos = $.map(element, function(el){ return el; })
-
-					//Si es 0 en la posicion 0, significa que no recibe datos
-					if(datos[0] == 0){
-						tbody.html('<tr><td colspan="'+columns+'"><p style="color:red;text-align:center;padding:0;margin:0;">'+ opcs.msg_error +'</p></td></tr>');
-					}else{
-
+						//convierte en arreglo los datos recibidos
+						datos = $.map(element, function(el){ return el; })
+						
 						//Empieza a generar las filas y columnas de la tabla de forma dinamica
 						res_tabla += '<tr><td>'+x+'.</td>';
 						
@@ -48,9 +47,9 @@
 						tbody.html(res_tabla);
 						
 						x++;
-					}
-
-				});
+						
+					});
+	        	}
 				
 			},
 			error: function(error){

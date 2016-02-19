@@ -9,7 +9,7 @@
 	<h2 class="page-header">Editar Citas Médica</h2>
 
 	{{-- Mostrar mensaje exitoso --}}
-	@if(Session::has('mensaje'))
+	@if(\Session::has('mensaje'))
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
 	@endif
 

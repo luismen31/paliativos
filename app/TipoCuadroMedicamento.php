@@ -8,4 +8,5 @@ class TipoCuadroMedicamento extends Model
 {
     public $timestamps = false;
     protected $table = 'tipos_cuadros_medicamentos';
+    protected $primaryKey = 'ID_TIPO_CUADRO';
 }

@@ -145,6 +145,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         'HieuLe\Active\ActiveServiceProvider',
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -198,6 +199,7 @@ return [
         'Html'      => Collective\Html\HtmlFacade::class,
         'Carbon'    => 'Carbon\Carbon',
         'Active' => 'HieuLe\Active\Facades\Active',
+        'PDF' => 'Barryvdh\DomPDF\Facade',
     ],
 
 ];
