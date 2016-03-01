@@ -130,6 +130,11 @@ return [
         'ZONA' => 'Zona',
         'ID_REFERIDO' => 'Referido',
         'ID_CAMA' => 'Cama',
+        'FRECUENCIA' => 'Frecuencia',
+        'ID_MOTIVO_SALIDA' => 'Motivo Salida',
+        'ID_CONDICION_SALIDA' => 'Condición Salida',
+        'TOTAL_DIAS_ESTANCIA' => 'Total días de Estancia',
+        'FECHA_AUTOPSIA' => 'Fecha Autopsia',
     ],
 
 ];

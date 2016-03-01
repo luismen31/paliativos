@@ -4,8 +4,7 @@
 	Registro Diario de Actividades
 @stop
 
-@section('content')
-	{{--*/ $fecha_actual = Carbon::now()->format('Y-m-d'); /*--}}
+@section('content')	
 	{{-- MENSAJES DE NOTIFICACION --}}
 	@if(\Session::has('msj_error'))
 		@include('mensajes.notify', ['mensaje' => \Session::get('msj_error'), 'tipo' => 'danger'])
@@ -23,9 +22,9 @@
 		</div>
 		<div class="panel-body">
 			<div class="input-group col-sm-6 col-sm-offset-3">
-				{!! Form::text('fecha_inicio', $fecha_actual, array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_inicio_rda', 'placeholder' => 'AAAA/MM/DD')) !!}			 
+				{!! Form::text('fecha_inicio', dateNow(), array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_inicio_rda', 'placeholder' => 'AAAA-MM/DD')) !!}			 
 			  <span class="input-group-addon">hasta</span>
-			  {!! Form::text('fecha_fin', $fecha_actual, array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_fin_rda', 'placeholder' => 'AAAA/MM/DD')) !!}
+			  {!! Form::text('fecha_fin', dateNow(), array('class' => 'form-control input-sm datetimepicker', 'id' => 'fecha_fin_rda', 'placeholder' => 'AAAA-MM-DD')) !!}
 			  {!! Form::hidden('id_tipo_rda', $id, ['id' => 'id_tipo_rda']) !!}
 
 			</div>
@@ -53,7 +52,7 @@
 						<td>{{ App\Institucion::where('ID_INSTITUCION', $rda->ID_INSTITUCION)->first()->DENOMINACION }}</td>
 						<td>{{ App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $rda->ID_EQUIPO_MEDICO)->count() }}</td>
 						<td>{{ App\DetalleRda::where('ID_RDA', $rda->ID_RDA)->count() }}</td>
-						<td>{{ $rda->HORAS_DE_ATENCION }}</td>
+						<td>{{ ($rda->HORAS_DE_ATENCION == null) ? 0 : $rda->HORAS_DE_ATENCION }}</td>
 						<td><a href="{{ route('rda.edit', $rda->ID_RDA) }}" class="btn btn-info btn-xs"><i class="fa fa-search"></i> Buscar</a></td>
 					</tr>
 					@endforeach

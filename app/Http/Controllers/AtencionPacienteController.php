@@ -53,7 +53,7 @@ class AtencionPacienteController extends Controller
         $atencion = new \App\AtencionPaciente;
         $atencion->ID_PROFESIONAL = 6;
         $atencion->ID_PACIENTE = $request->input('paciente');
-        $atencion->FECHA = \Carbon::now()->setTimezone('America/Panama')->format('Y/m/d');
+        $atencion->FECHA = dateNow();
         $atencion->HORA_INICIO = $request->input('HORA_INICIO');
         $atencion->HORA_FIN = $request->input('HORA_FIN');
         $atencion->MINUTOS_UTILIZADOS = $request->input('MINUTOS_UTILIZADOS');
@@ -77,7 +77,7 @@ class AtencionPacienteController extends Controller
             $respuestaInterconsulta = new \App\RespuestaInterconsulta;
             $respuestaInterconsulta->ID_INTERCONSULTA = $request->input('cod_interconsulta');
             $respuestaInterconsulta->ID_PROFESIONAL = 6;
-            $respuestaInterconsulta->FECHA = \Carbon::now()->setTimezone('America/Panama')->format('Y/m/d');
+            $respuestaInterconsulta->FECHA = dateNow();
             $respuestaInterconsulta->ID_PACIENTE = $request->input('paciente');
             $respuestaInterconsulta->OBSERVACIONES = $request->input('observaciones');
             $respuestaInterconsulta->save();

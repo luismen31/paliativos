@@ -19,7 +19,7 @@ class Trazabilidad extends Model
 
         $trazabilidad->ID_TRAZABILIDAD = $ID_TRAZABILIDAD;
         $trazabilidad->ID_PACIENTE = $id;
-        $trazabilidad->FECHA = $hora->format('Y-m-d');
+        $trazabilidad->FECHA = dateNow();
         $trazabilidad->save();
 
         return $ID_TRAZABILIDAD;

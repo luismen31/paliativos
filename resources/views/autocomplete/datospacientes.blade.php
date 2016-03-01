@@ -18,14 +18,13 @@
 						<p class="text-center table-font">{{ \App\Sexo::find($datos->ID_SEXO)->SEXO }}</p>
 					</div>
 					<div class="col-md-4">
-						<p class="text-center table-font">{{ $datos->FECHA_NACIMIENTO }}</p>
+						<p class="text-center table-font">{{ format_date($datos->FECHA_NACIMIENTO) }}</p>
 					</div>
 					<div class="col-md-4">
 						<p class="text-center table-font">{{\App\TipoPaciente::find($datos->ID_TIPO_PACIENTE)->TIPO_PACIENTE }}</p>
 					</div>
 					<div class="col-md-4">
-						{{--*/ $nacimiento = explode('/', $datos->FECHA_NACIMIENTO);/*--}}
-						<p class="text-center table-font">{{ \Carbon::createFromDate($nacimiento[0], $nacimiento[1], $nacimiento[2])->age .' años'}}</p>
+						<p class="text-center table-font">{{ edad($datos->FECHA_NACIMIENTO) .' años'}}</p>
 					</div>
 				</div>
 			</div>
@@ -65,14 +64,13 @@
 							<p class="text-center table-font">{{ \App\Sexo::find($datos->ID_SEXO)->SEXO }}</p>
 						</div>
 						<div class="col-md-4">
-							<p class="text-center table-font">{{ $datos->FECHA_NACIMIENTO }}</p>
+							<p class="text-center table-font">{{ format_date($datos->FECHA_NACIMIENTO) }}</p>
 						</div>
 						<div class="col-md-4">
 							<p class="text-center table-font">{{\App\TipoPaciente::find($datos->ID_TIPO_PACIENTE)->TIPO_PACIENTE }}</p>
 						</div>
-						<div class="col-md-4">
-							{{--*/ $nacimiento = explode('/', $datos->FECHA_NACIMIENTO);/*--}}
-							<p class="text-center table-font">{{ \Carbon::createFromDate($nacimiento[0], $nacimiento[1], $nacimiento[2])->age .' años'}}</p>
+						<div class="col-md-4">						
+							<p class="text-center table-font">{{ edad($datos->FECHA_NACIMIENTO) .' años'}}</p>
 						</div>
 					</div>
 				</div>

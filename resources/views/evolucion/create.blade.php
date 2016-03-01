@@ -115,7 +115,7 @@
 						</div>
 						<div class="form-group col-sm-6">
 							{!! Form::label('FRECUENCIA', 'Frecuencia:') !!}
-							{!! Form::select('FRECUENCIA', ['0' => 'SELECCIONE FRECUENCIA', '1' => 'NUEVO', '2' => 'SUBSECUENCIA'], null, ['class' => 'form-control']) !!}
+							{!! Form::select('FRECUENCIA', ['0' => 'SELECCIONE FRECUENCIA'] + \App\Frecuencia::lists('FRECUENCIA', 'ID_FRECUENCIA')->toArray(), null, ['class' => 'form-control']) !!}
 						</div>
 						<div class="form-group col-sm-6">
 							{!! Form::label('INFECCION', 'Infección Nosocomial') !!}

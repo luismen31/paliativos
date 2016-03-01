@@ -20,7 +20,7 @@ class SearchController extends Controller
 
         $datospersona = $modelo::where(\DB::raw('CONCAT(NO_CEDULA," ",PRIMER_NOMBRE," ",APELLIDO_PATERNO)'), 'LIKE', '%'.$search.'%')
             ->select(\DB::raw('CONCAT(PRIMER_NOMBRE," ",APELLIDO_PATERNO) AS nombre'), 'NO_CEDULA AS cedula')
-            ->orderBy('cedula', 'DESC')
+            ->orderBy('nombre', 'ASC')
             ->take(10)
             ->get();
         
@@ -133,7 +133,7 @@ class SearchController extends Controller
                 'institucion' => \App\Institucion::where('ID_INSTITUCION', $rda->ID_INSTITUCION)->first()->DENOMINACION,
                 'prof' => \App\DetalleEquipoMedico::where('ID_EQUIPO_MEDICO', $rda->ID_EQUIPO_MEDICO)->count(),
                 'pacientes' => \App\DetalleRda::where('ID_RDA', $rda->ID_RDA)->count(),
-                'horas' => $rda->HORAS_DE_ATENCION,
+                'horas' => ($rda->HORAS_DE_ATENCION == NULL) ? 0 : $rda->HORAS_DE_ATENCION,
                 'url' => $url
             ];
         }

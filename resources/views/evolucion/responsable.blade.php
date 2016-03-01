@@ -33,8 +33,8 @@
 				{!! Form::text('apellido', null, ['class' => 'form-control', 'placeholder' => 'Apellido']) !!}
 			</div>
 			<div class="form-group col-sm-6">
-				{!! Form::label('parentezco', 'Parentezco:', ['class' => 'control-label']) !!}
-				{!! Form::text('parentezco', null, ['class' => 'form-control', 'placeholder' => 'Parentezco']) !!}
+				{!! Form::label('parentesco', 'Parentesco:', ['class' => 'control-label']) !!}
+				{!! Form::text('parentesco', null, ['class' => 'form-control', 'placeholder' => 'Parentesco']) !!}
 			</div>
 			<div class="form-group col-sm-6">
 				{!! Form::label('telefono', 'Teléfono:', ['class' => 'control-label']) !!}

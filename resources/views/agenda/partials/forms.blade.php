@@ -6,7 +6,7 @@
 @else
 	{{--*/ 
 		$selectHora = null;
-		$fecha = null;
+		$fecha = dateNow();
 	/*--}}
 @endif
 @if(isset($citas))

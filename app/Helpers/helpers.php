@@ -41,3 +41,30 @@
 		
 		return $tiempo;
 	}
+	//Fecha actual
+	function dateNow(){
+		return \Carbon::now()->setTimezone('America/Panama')->format('Y-m-d');
+	}
+	/***
+		Para estas funciones se debe tener en el modelo que las fechas son como instancias de 
+		Carbon, como updated_at y created_at.
+	**/
+	//Funcion que permite formatear las fechas en formato 'dd-mm-yyyy'
+	function format_date($value){
+    	$dateFormat = $value;
+    	return $dateFormat->format('d-m-Y');
+
+    }
+
+    //Calcula la edad enviada por el usuario
+    function calcular_edad($fecha){
+
+    	return Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2])->age;
+    }
+
+    //Funcion que permite calcular la edad
+    function edad($value){
+
+    	return $value->age;
+    	
+    }

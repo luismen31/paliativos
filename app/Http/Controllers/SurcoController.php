@@ -30,14 +30,14 @@ class SurcoController extends Controller
             return redirect()->route('surco.index')->withErrors($v);
         }
 
-        $datos = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();
+        $datos = \App\DatoPaciente::where('NO_CEDULA', $request->input('search_paciente'))->first();        
         if ($datos == null) {
             \Session::flash('msj_error', 'Solo puede ingresar una cédula del paciente');
             return redirect()->route('surco.index');
         }
 
         //Si el paciente no tiene registrado un SURCO envia al formulario para crear, sino carga el SURCO del mismo
-        $surcoPaciente = \App\Surco::where('ID_PACIENTE', $datos->ID_PACIENTE)->first();
+        $surcoPaciente = \App\Surco::where('ID_PACIENTE', $datos->ID_PACIENTE)->first();        
         if($surcoPaciente == null){
             return view('surco.create')->with('datos', $datos);            
         }else{
@@ -55,8 +55,7 @@ class SurcoController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $idPaciente = $data['ID'];
-        $fecha = new \Carbon;
+        $idPaciente = $data['ID'];        
         $idProf = \App\DatoProfesionalSalud::where('NO_CEDULA', $data['search_profesional'])->first()->ID_PROFESIONAL;
         $idTrazabilidad = \App\Trazabilidad::getTrazabilidad($idPaciente);
 
@@ -81,7 +80,7 @@ class SurcoController extends Controller
         $surco = new \App\Surco;
         $surco->ID_PACIENTE = $idPaciente;
         $surco->ID_TRAZABILIDAD = $idTrazabilidad;
-        $surco->FECHA = $fecha->format('Y/m/d');
+        $surco->FECHA = dateNow();
         $surco->INSTALACION_REFIERE = $data['instalacion_refiere'];
         $surco->INSTALACION_RECEPTORA = $data['instalacion_receptora'];
         $surco->ID_MOTIVO_REFERENCIA = $data['motivo_referencia'];

@@ -11,7 +11,7 @@
 		list($keys, $values) = array_divide(horas());
 
 		//Fecha Actual
-		$fecha = Carbon::today()->format('Y-m-d');
+		$fecha = dateNow();		
 		$equipo = "0";
 		$change = ">";
 

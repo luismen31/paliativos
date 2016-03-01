@@ -39,12 +39,12 @@ class PacientesController extends Controller
     public function store(Request $request)
     {
         $PACIENTE = new \App\DatoPaciente;
-        $v = $PACIENTE->validar($request->all(), 'store');
-        if($v->fails()){
+        $v = $PACIENTE->validar($request->all(), 'store');        
+        if($v){
             return redirect()->back()->withErrors($v)->withInput();
         }
 
-        $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
+        $fecha = explode('-', $request->input('FECHA_NACIMIENTO'));
         $Usuario = new \App\User;
         if(empty($request->input('NO_IDENTIFICACION'))){
             $Usuario->NO_IDENTIFICACION = $request->input('NO_CEDULA');
@@ -107,7 +107,7 @@ class PacientesController extends Controller
         $DatosPaciente->ID_SEXO = $request->input('ID_SEXO');
         $DatosPaciente->FECHA_NACIMIENTO = $request->input('FECHA_NACIMIENTO');
         $DatosPaciente->LUGAR_NACIMIENTO = $request->input('LUGAR_NACIMIENTO');
-        $DatosPaciente->EDAD_PACIENTE = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2])->age;
+        $DatosPaciente->EDAD_PACIENTE = calcular_edad($fecha);
         $DatosPaciente->ID_ETNIA = $request->input('ID_ETNIA');
         $DatosPaciente->ID_TIPO_SANGUINEO = $request->input('ID_TIPO_SANGUINEO');
         $DatosPaciente->ID_NACIONALIDAD = $request->input('ID_NACIONALIDAD');
@@ -231,13 +231,13 @@ class PacientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $PACIENTE = new \App\DatoPaciente;
-        $v = $PACIENTE->validar($request->all(), 'update', $id);
+        $paciente = new \App\DatoPaciente;        
+        $v = $paciente->validar($request->all(), 'update', $id);
         if($v){
             return $this->errorUpdate($id, $v->errors());
         }
         
-        $fecha = explode('/', $request->input('FECHA_NACIMIENTO'));
+        $fecha = explode('-', $request->input('FECHA_NACIMIENTO'));        
         $ID_RESIDENCIA_HABITUAL = \App\DatoPaciente::where('ID_PACIENTE', $id)->first()->ID_RESIDENCIA_HABITUAL;
 
         $DatosPaciente = \App\DatoPaciente::find($id);
@@ -248,10 +248,10 @@ class PacientesController extends Controller
         $DatosPaciente->APELLIDO_PATERNO = $request->input('APELLIDO_PATERNO');
         $DatosPaciente->APELLIDO_MATERNO = $request->input('APELLIDO_MATERNO');
         $DatosPaciente->ID_ESTADO_CIVIL = $request->input('ID_ESTADO_CIVIL');
-        $DatosPaciente->ID_SEXO = $request->input('ID_SEXO');
+        $DatosPaciente->ID_SEXO = $request->input('ID_SEXO');        
         $DatosPaciente->FECHA_NACIMIENTO = $request->input('FECHA_NACIMIENTO');
         $DatosPaciente->LUGAR_NACIMIENTO = $request->input('LUGAR_NACIMIENTO');
-        $DatosPaciente->EDAD_PACIENTE = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2])->age;
+        $DatosPaciente->EDAD_PACIENTE = calcular_edad($fecha);
         $DatosPaciente->ID_ETNIA = $request->input('ID_ETNIA');
         $DatosPaciente->ID_TIPO_SANGUINEO = $request->input('ID_TIPO_SANGUINEO');
         $DatosPaciente->ID_NACIONALIDAD = $request->input('ID_NACIONALIDAD');
