@@ -31,7 +31,7 @@ trait AuthenticatesUsers
      * @return \Illuminate\Http\Response
      */
     public function postLogin(Request $request)
-    {        
+    {
         $this->validate($request, [
             $this->loginUsername() => 'required', 'CLAVE_ACCESO' => 'required',
         ]);
@@ -116,7 +116,7 @@ trait AuthenticatesUsers
     public function getLogout()
     {
         Auth::logout();
-
+        \Session::flush(); //Elimina las variables de sesion creadas
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 

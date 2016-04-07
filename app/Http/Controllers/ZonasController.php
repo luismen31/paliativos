@@ -15,7 +15,7 @@ class ZonasController extends Controller
      * @return Response
      */
     public function index()
-    {
+    {       
         return view('zonas.create');
     }
 

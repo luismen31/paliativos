@@ -5,6 +5,7 @@
 	@else
 		{{--*/ $read = []; /*--}}
 	@endif
+	
 	{!! Form::text('search_cie10'.$num_examen, $cie10, ['class' => 'form-control input-sm', 'id' => 'search_cie10_'.$num_examen, 'placeholder' => 'Buscar CIE10'] + $read) !!}
 
 

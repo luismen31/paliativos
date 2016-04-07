@@ -615,3 +615,31 @@ body {
 }
 
 /* TREEVIEW */
+
+
+
+
+/***** CSS DE SOAP *****/
+.margin-soap {
+  margin-top: 20px;
+  padding-right: 10px; 
+}
+/* acomoda imagen del panel de datos del pacientes */
+@media(max-width: 768px){
+  .mobile-center{
+    text-align: center;
+  }
+  .mobile-center .img-user{
+    margin: auto;
+  }
+  .img-user{    
+    width: 30%;
+    min-width: 30%; 
+  }
+}
+
+.overflow-pacientes{
+  min-height: 250px;
+  height: 260px;
+  overflow-y: auto;
+}

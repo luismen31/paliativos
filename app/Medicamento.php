@@ -8,4 +8,5 @@ class Medicamento extends Model
 {
     public $timestamps = false;
     protected $table = 'medicamentos';
+    protected $primaryKey = 'ID_MEDICAMENTO';
 }

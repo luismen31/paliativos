@@ -8,4 +8,5 @@ class Soap extends Model
 {
     public $timestamps = false;
     protected $table = 'soap';
+    protected $primaryKey = "ID_SOAP";    
 }

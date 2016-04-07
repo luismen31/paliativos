@@ -16,10 +16,12 @@
 				{!! Form::label('ID_TIPO_PACIENTE', 'Tipo Paciente:', array('class' => 'control-label')) !!}
 				{!! Form::select('ID_TIPO_PACIENTE', array('0'=>'SELECCIONE TIPO PACIENTE') + \App\TipoPaciente::lists('TIPO_PACIENTE', 'ID_TIPO_PACIENTE')->toArray(), null, array('class'=>'form-control input-sm')) !!}
 			</div>
+		@if(Auth::user()->ID_GRUPO_USUARIO != 5)
 			<div class="form-group col-sm-4">
 				{!! Form::label('TIPO_SEGURO', 'Tipo de Seguro:', array('class' => 'control-label')) !!}
 				{!! Form::select('TIPO_SEGURO', array('0'=>'SELECCIONE TIPO SEGURO', '1' => 'DEPENDIENTE', '2' => 'BENEFICIARIO'), null, array('class'=>'form-control input-sm')) !!}
 			</div>
+		@endif
       	</div>
     </div>
 </div>
@@ -119,6 +121,7 @@
 			    {!! Form::label('ID_ZONA', 'Zona:', array('class' => 'control-label')) !!}    
 				{!! Form::select('ID_ZONA', array('0'=>'SELECCIONE ZONA') + \App\Zona::lists('ZONA', 'ID_ZONA')->toArray(), null, array('class'=>'form-control input-sm')) !!} 
 			</div>
+		@if(Auth::user()->ID_GRUPO_USUARIO != 5)
 			<div class="form-group col-sm-4">
 			    {!! Form::label('DETALLE', 'Dirección Detallada:', array('class' => 'control-label')) !!}    
 				{!! Form::text('DETALLE', null, array('class'=>'form-control input-sm', 'placeholder' => 'Dirección Detallada')) !!}   
@@ -127,6 +130,23 @@
 			    {!! Form::label('RESIDENCIA_TRANSITORIA', 'Residencia Transitoria:', array('class' => 'control-label')) !!}    
 				{!! Form::text('RESIDENCIA_TRANSITORIA', null, array('class'=>'form-control input-sm', 'placeholder' => 'Residencia Transitoria')) !!}   
 			</div>
+		@else
+			<div class="form-group col-sm-3">
+				<div class="radio">
+					<label>
+					  <input type="radio" name="tipoResidencia" value="1"> <strong>Residencia Permanente</strong>
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+					  <input type="radio" name="tipoResidencia" value="0"> <strong>Residencia Transitoria</strong>
+					</label>
+				</div>				
+			</div>
+			<div class="form-group col-sm-4">
+				{!! Form::textarea('detalleResidencia', null, ['class' => 'form-control', 'size' => '1x3', 'placeholder' => 'Dirección Detallada']) !!}
+			</div>
+		@endif
 		</div>
     </div>
 </div>
@@ -151,7 +171,7 @@
 			</div>
 			<div class="form-group col-sm-4">
 				{!! Form::label('ID_PREGUNTA', 'Pregunta de Recuperación:', array('class' => 'control-label')) !!}
-				{!! Form::select('ID_PREGUNTA', array('1'=>'SELECCIONE PREG. RECUPERACIÓN') + \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, array('class'=>'form-control input-sm')) !!}
+				{!! Form::select('ID_PREGUNTA', array('1'=>'NO USARE PREG. RECUPERACIÓN') + \App\PreguntaSeguridad::lists('PREGUNTA', 'ID_PREGUNTA')->toArray(), null, array('class'=>'form-control input-sm')) !!}
 			</div>
 			<div class="form-group col-sm-4">
 			    {!! Form::label('RESPUESTA', 'Respuesta Pregunta:', array('class' => 'control-label')) !!}    
@@ -167,7 +187,7 @@
 			</div>
 			<div class="form-group col-sm-4">
 			    {!! Form::label('FECHA_INGRESO', 'Fecha Ingreso:', array('class' => 'control-label')) !!}    
-				{!! Form::text('FECHA_INGRESO', null, array('class'=>'form-control input-sm datetimepicker', 'placeholder' => 'AAAA-MM-DD')) !!}   
+				{!! Form::text('FECHA_INGRESO', dateNow(), array('class'=>'form-control input-sm datetimepicker', 'placeholder' => 'AAAA-MM-DD')) !!}   
 			</div>
       	</div>
     </div>

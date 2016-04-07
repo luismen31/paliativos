@@ -48,4 +48,8 @@ class DatoProfesionalSalud extends Model
 	    }
     }
 
+    public function getFullNameAttribute(){
+    	return $this->PRIMER_NOMBRE.' '.$this->APELLIDO_PATERNO;
+    }
+
 }

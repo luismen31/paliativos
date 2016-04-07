@@ -8,4 +8,5 @@ class ViaAdministracion extends Model
 {
     public $timestamps = false;
     protected $table = 'vias_administracion';
+    protected $primaryKey = 'ID_VIA';
 }

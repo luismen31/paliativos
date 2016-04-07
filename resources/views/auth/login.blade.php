@@ -42,6 +42,7 @@
 	                        {!! Form::password('CLAVE_ACCESO', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
 	                        {!! $errors->first('CLAVE_ACCESO', '<p style="color:red;font-size:12px;">:message</p>') !!}
 	                    </div>
+	                    <a href="{{ url('password/enviar') }}" class="btn btn-link pull-right">¿Olvido Contraseña?</a>
 	                    <div class="form-group text-center">
 	                        <button type="submit" class="btn btn-success btn-block">Iniciar</button>
 	                    </div>
@@ -51,7 +52,7 @@
 	    </div>
 	
 	</div>
-</body>
 	{!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+</body>
 </html>

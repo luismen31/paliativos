@@ -135,6 +135,14 @@ return [
         'ID_CONDICION_SALIDA' => 'Condición Salida',
         'TOTAL_DIAS_ESTANCIA' => 'Total días de Estancia',
         'FECHA_AUTOPSIA' => 'Fecha Autopsia',
+        'year' => 'Año',
+        'observacion_diagnostico' => 'Observación Diagnóstico',
+        'cuadro_medicamento' => 'Cuadro Medicamento',
+        'nombre_medicamento' => 'Nombre del Medicamento',
+        'MINUTOS_UTILIZADOS' => 'Minutos Utilizados',
+        'TIPO_CONTACTO' => 'Tipo de Contacto',
+        'MOTIVO' => 'Motivo',
+        'OBSERVACION' => 'Observación',
     ],
 
 ];

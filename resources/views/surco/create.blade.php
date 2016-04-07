@@ -5,8 +5,12 @@
 @stop
 
 @section('content')	
+
 	<h2 class="page-header">Sistema Único de Referencia y Contra-Referencia (SURCO)</h2>
 
+    @if(isset($datos->id_soap))
+        <a href="{{ route('soapCategory', ['id_categoria' => 1, 'id_paciente' => $datos->ID_PACIENTE, 'id_soap' => $datos->id_soap]) }}" class="btn btn-primary pull-left"><i class="fa fa-arrow-left"></i> <span class="sr-only">Regresar</span></a><br><br>
+    @endif
 	{{-- Mostrar mensaje exitoso --}}
 	@if(Session::has('mensaje'))
 		@include('mensajes.notify', ['mensaje' => Session::get('mensaje'), 'tipo' => 'success'])
@@ -18,6 +22,9 @@
 	@endif
 
 	@include('mensajes.errors')
+
+    {{-- SOLO SE MUESTRA LA BUSQUEDA PARA ROL QUE NO SEA SOAP --}}
+    @if(!isset($datos->id_soap))
 		{!! Form::open(array('url' => 'surco/paciente', 'class' => 'form-horizontal', 'method' => 'POST')) !!}
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 well well-sm search">
@@ -26,7 +33,8 @@
 				</div>
 			</div>
 		{!! Form::close() !!}
-	
+	@endif
+
 	@if(isset($datos))
         {{-- Carga los datos del paciente --}}
     	@include('autocomplete.datospacientes', ['datos' => $datos])
@@ -47,6 +55,11 @@
 				<div class="tab-pane active" id="tab1">
 					{!! Form::open(['route' => 'surco.store', 'method' => 'POST']) !!}
                     {!! Form::hidden('ID', $datos->ID_PACIENTE)!!}
+                    {{-- Solo se agregan estos campos para SOAP --}}
+                    @if(isset($datos->id_soap))
+                        {!! Form::hidden('id_soap', $datos->id_soap) !!}
+                        {!! Form::hidden('id_categoria', 1) !!}
+                    @endif
 					<div class="panel-group" id="accordion">
                         <div class="panel panel-default panel-faq">
                             <div class="panel-heading">

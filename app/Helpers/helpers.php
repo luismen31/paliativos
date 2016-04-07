@@ -53,7 +53,11 @@
 	function format_date($value){
     	$dateFormat = $value;
     	return $dateFormat->format('d-m-Y');
+    }
 
+    function dateLocalized($date){
+    	setlocale(LC_TIME, 'Spanish');
+    	return \Carbon::parse($date)->formatLocalized('%d de %B de %Y');
     }
 
     //Calcula la edad enviada por el usuario

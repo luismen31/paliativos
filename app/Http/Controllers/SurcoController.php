@@ -117,8 +117,19 @@ class SurcoController extends Controller
             
         }
 
-        $request->session()->flash('msj_success', 'Se ha registrado exitosamente.');
-        return $this->show($surco->ID_SURCO);
+        //Almacena en detalle soap el surco que se registro y retorna a soap
+        if(!empty($data['id_soap'])){
+            $det_soap = \App\DetalleSoap::where('ID_SOAP', $data['id_soap'])->first();
+            $det_soap->ID_SURCO = $surco->ID_SURCO;
+            $det_soap->save();
+
+            $return = \Redirect::route('soapCategory', [$data['id_categoria'], $idPaciente, $data['id_soap']]);
+        }else{
+
+            $request->session()->flash('msj_success', 'Se ha registrado exitosamente.');
+            $return = $this->show($surco->ID_SURCO);
+        }
+        return $return;
     }
 
     /**
@@ -128,18 +139,18 @@ class SurcoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {        
-        $surco = \App\Surco::find($id);
+    {                
+        $surco = \App\Surco::find($id);        
         $paciente = \App\DatoPaciente::where('ID_PACIENTE', $surco->ID_PACIENTE)->first();
         $history = \App\HistoriaPaciente::where('ID_HISTORIA_PACIENTE', $surco->ID_HISTORIA_PACIENTE)->first();
         $examen = \App\ExamenFisico::where('ID_EXAMEN_FISICO', $history->ID_EXAMEN_FISICO)->first();
         $respuestas = \App\RespuestaReferencia::where('ID_SURCO', $id)->get();
         //Si no contiene respuestas muestra el formulario para llear los datos, sino carga una tabla con las distintas respuestas
-        if($respuestas == null){
-            return view('surco.show', compact(['surco', 'paciente', 'history', 'examen']));
+        if(count($respuestas) > 0){  
             
-        }else{
             return view('surco.show', compact(['surco', 'paciente', 'history', 'examen', 'respuestas']));
+        }else{            
+            return view('surco.show', compact(['surco', 'paciente', 'history', 'examen']));
         }
     }
 
@@ -164,8 +175,9 @@ class SurcoController extends Controller
         $paciente = \App\DatoPaciente::where('ID_PACIENTE', $surco->ID_PACIENTE)->first();
         $history = \App\HistoriaPaciente::where('ID_HISTORIA_PACIENTE', $surco->ID_HISTORIA_PACIENTE)->first();
         $examen = \App\ExamenFisico::where('ID_EXAMEN_FISICO', $history->ID_EXAMEN_FISICO)->first();
-
-        return view('surco.show', compact(['surco', 'paciente', 'history', 'examen', 'referencia']));
+        $respuestas = \App\RespuestaReferencia::where('ID_SURCO', $referencia->ID_SURCO)->get();
+        
+        return view('surco.show', compact(['surco', 'paciente', 'history', 'examen', 'referencia', 'respuestas']));
 
     }
 
@@ -177,14 +189,17 @@ class SurcoController extends Controller
         $diagnostico = new \App\Diagnostico;
         $diagnostico->save();
 
+        $idProfesional = \App\ProfesionalSalud::where('ID_USUARIO', \Auth::user()->ID_USUARIO)->first()->ID_PROFESIONAL;
+
         $detDiag = new \App\DetalleDiagnostico;
         $detDiag->ID_DIAGNOSTICO = $diagnostico->ID_DIAGNOSTICO;
         $detDiag->ID_CIE10 = $data['search_cie10respuesta'];
         $detDiag->ID_FRECUENCIA = $data['frecuencia'];
-        $detDiag->ID_PROFESIONAL = 6; //Profesional que se encuentra logueado
+        $detDiag->ID_PROFESIONAL = $idProfesional; //Profesional que se encuentra logueado
         $detDiag->OBSERVACION = $data['observaciones'];
         $detDiag->save();
 
+        $idProfesional = \App\DatoProfesionalSalud::where('NO_CEDULA', $data['search_profesional_respuesta'])->first()->ID_PROFESIONAL;
         $respuesta = new \App\RespuestaReferencia;
         $respuesta->FECHA = $data['fecha_respuesta'];
         $respuesta->ID_DIAGNOSTICO = $diagnostico->ID_DIAGNOSTICO;
@@ -193,7 +208,7 @@ class SurcoController extends Controller
         $respuesta->REEVALUACION_ESPECIALIZADA = $data['reev_especializada'];
         $respuesta->INSTITUCION_RESPONDE = $data['instalacion_responde'];
         $respuesta->INSTALACION_RECEPTORA = $data['instalacion_receptora'];
-        $respuesta->ID_PROFESIONAL = 6;
+        $respuesta->ID_PROFESIONAL = $idProfesional;
         $respuesta->ID_SURCO = $data['id_surco'];
         $respuesta->save();
 

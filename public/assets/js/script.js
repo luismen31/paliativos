@@ -154,5 +154,208 @@ jQuery(document).ready(function($){
         );
 
 
-    })
+    });
+
+    //Limpiamos los mensajes antes de abrir el modal
+    $('#showModal[data-toggle="modal"]').on('click', function(){        
+        clearMessages();
+    });
+
+    //Permite almacenar un nuevo medicamento y mostrar si tiene errores
+    $("form#addMedicamento").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: "POST", 
+            dataType: 'json',
+            success:function(data){
+                //Si es success true, muestra el mensaje success
+                if(data.success)
+                {
+                    clearMessages();
+ 
+                    var html = "<div class='alert alert-success'>";
+ 
+                    html+="<strong><i class='fa fa-check'></i>" + data.message + "</strong>";
+ 
+                    html += "</div>";
+ 
+                    $(".successMessages").html(html);
+ 
+                    $("form#addMedicamento")[0].reset();
+                }else{
+                    //Muestra los errores de validacion
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger"><strong>Error: Por favor corrige los siguientes errores:</strong><ul>';
+
+                    $.each( data.errors , function( key, value ) {                        
+                        errorsHtml += '<li>' + value + '</li>'; 
+                    });
+                    errorsHtml += '</ul></div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                //Si ocurre error dentro del server
+                if( jqXHR.status === 500 ) {
+                    
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger">';
+
+                    errorsHtml += 'Ha ocurrido un error en el servidor, recargue por favor.</div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                
+                    console.log('Ha surgido un error');
+                }
+            }
+            
+
+        });
+
+    });
+    
+    $('.btn-edit-receta').on('click', function(e){
+        e.preventDefault();
+        clearMessages();
+
+        var id = $(this).data('id');
+        $.get(baseurl + '/buscar/obtener-tratamiento',
+            { det_receta_id : id },
+            function(data){
+                $('#id_det_receta').val(data.det_receta);
+                $('#medicamento_edit').val(data.descripcion_medicamento);
+                $('#medicamento_id').val(data.medicamento_id);
+                $('#cantidad_dosis').val(data.cant_dosis);
+                $('#frecuencia_edit').val(data.frecuencia_trat);
+                $('#via_edit').val(data.via);
+                $('#tratamiento_edit').val(data.tratamiento);
+                $('#periodo_edit').val(data.periodo);
+                $('#observaciones_edit').val(data.indicaciones);
+            }, 'json');
+    });
+
+    //Permite almacenar un nuevo medicamento y mostrar si tiene errores
+    $("form#formEditReceta").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: "POST", 
+            dataType: 'json',            
+            success:function(data){
+                //Si es success true, muestra el mensaje success
+                if(data.success)
+                {
+                    clearMessages();                    
+ 
+                    $("form#formEditReceta")[0].reset();
+                    //Recarga la pagina
+                    window.location.reload();
+                }else{
+                    //Muestra los errores de validacion
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger"><strong>Error: Por favor corrige los siguientes errores:</strong><ul>';
+
+                    $.each( data.errors , function( key, value ) {                        
+                        errorsHtml += '<li>' + value + '</li>'; 
+                    });
+                    errorsHtml += '</ul></div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                //Si ocurre error dentro del server
+                if( jqXHR.status === 500 ) {
+                    
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger">';
+
+                    errorsHtml += 'Ha ocurrido un error en el servidor, recargue por favor.</div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                
+                    console.log('Ha surgido un error');
+                }
+            }
+            
+
+        });
+
+    });
+
+    $('#show_add_observacion[data-toggle="modal"]').on('click', function(){        
+        clearMessages();
+    });
+    
+    //Permite registrar la observaciones ambulatoria
+    $("form#formObservacionAmbulatoria").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: "POST", 
+            dataType: 'json',            
+            success:function(data){
+                //Si es success true, muestra el mensaje success
+                if(data.success)
+                {
+                    clearMessages();                    
+ 
+                    $("form#formObservacionAmbulatoria")[0].reset();
+                    //Recarga la pagina
+                    window.location.reload();
+                }else{
+                    //Muestra los errores de validacion
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger"><strong>Error: Por favor corrige los siguientes errores:</strong><ul>';
+
+                    $.each( data.errors , function( key, value ) {                        
+                        errorsHtml += '<li>' + value + '</li>'; 
+                    });
+                    errorsHtml += '</ul></div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                //Si ocurre error dentro del server
+                if( jqXHR.status === 500 ) {
+                    
+                    clearMessages();
+                    
+                    errorsHtml = '<div class="alert alert-danger">';
+
+                    errorsHtml += 'Ha ocurrido un error en el servidor, recargue por favor.</div>';
+
+                    $('.errorMessages').html(errorsHtml);
+                
+                    console.log('Ha surgido un error');
+                }
+            }
+            
+
+        });
+
+    });
+
 });
+
+function clearMessages(){
+    $(".errorMessages").html('');
+    $(".successMessages").html('');
+}

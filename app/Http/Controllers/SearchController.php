@@ -155,6 +155,59 @@ class SearchController extends Controller
         return response()->json($datos); 
 
     }
+
+    public function getBuscarMedicamentos(Request $request){
+        if(!$request->ajax()) abort(403);
+        
+        $search = $request->input('search');
+        if(trim($search)){
+            $medicamentos = \App\Medicamento::where('DESCRIPCION', 'LIKE', '%'.$search.'%')
+                ->select('DESCRIPCION', 'ID_MEDICAMENTO')
+                ->orderBy('DESCRIPCION', 'DESC')
+                ->take(10)
+                ->get();
+            
+            return utf8_encode($medicamentos);
+        }
+    }
+
+    //FUNCION PARA OBTENER LOS DATOS DEL PACIENTE SOAP
+    public function pacienteSoap(Request $request){
+
+        $this->validate($request, ['search_paciente' => 'required']);
+        // dd($request->get('search_paciente'));
+        $paciente = \App\DatoPaciente::where('NO_CEDULA', $request->get('search_paciente'))->first();
+        
+        if($paciente == null){
+            \Session::flash('msj_error', 'Solo se puede enviar la cédula del paciente');
+            return redirect()->back();
+        }
+
+        return redirect()->route('categorias', [$paciente->ID_PACIENTE]);
+    }
+
+    public function getObtenerTratamiento(Request $request){
+        $id_detalle_receta = $request->input('det_receta_id');
+
+        $detalle_receta = \App\DetalleReceta::where('ID_DETALLE_RECETA', $id_detalle_receta)->first();
+        $medicamento = \App\Medicamento::where('ID_MEDICAMENTO', $detalle_receta->ID_MEDICAMENTO)->first();
+
+        $indicaciones = (!empty($detalle_receta->OTRAS_INDICACIONES)) ? $detalle_receta->OTRAS_INDICACIONES : '';
+
+        $data = array(
+            'det_receta' => $id_detalle_receta,
+            'descripcion_medicamento' => $medicamento->DESCRIPCION,
+            'medicamento_id' => $medicamento->ID_MEDICAMENTO,
+            'cant_dosis' => $detalle_receta->DOSIS,
+            'frecuencia_trat' => $detalle_receta->ID_FRECUENCIA_TRATAMIENTO,
+            'tratamiento' => $detalle_receta->TRATAMIENTO,
+            'via' => $detalle_receta->ID_VIA,
+            'periodo' => $detalle_receta->ID_PERIODO_TRATAMIENTO,
+            'indicaciones' => utf8_encode($indicaciones)
+        );
+
+        return \Response::json($data);
+    }
 }
 
 

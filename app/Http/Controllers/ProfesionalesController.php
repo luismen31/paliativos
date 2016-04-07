@@ -219,7 +219,7 @@ class ProfesionalesController extends Controller
         $Usuario = \App\User::find($ID_USUARIO);
         $Usuario->NO_IDENTIFICACION = $request->input('NO_IDENTIFICACION');
         if(!empty($request->input('CLAVE_ACCESO'))){
-            $Usuario->CLAVE_ACCESSO = \Hash::make($request->input('CLAVE_ACCESO'));
+            $Usuario->CLAVE_ACCESO = \Hash::make($request->input('CLAVE_ACCESO'));
             $Usuario->CLAVE_ENCRYPT = \Crypt::encrypt($request->input('CLAVE_ACCESO'));
         }
         $Usuario->ID_GRUPO_USUARIO = $request->input('ID_GRUPO_USUARIO');

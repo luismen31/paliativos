@@ -25,6 +25,7 @@
       <script src="{!! Html::script('assets/js/html5shiv.min.js') !!}"></script>
       <script src="{!! Html::script('assets/js/respond.min.js') !!}"></script>
     <![endif]-->
+    @yield('new_css')
   </head>
 
   <body>
@@ -34,10 +35,12 @@
         	<nav class="navbar navbar-default navbar-fixed-top paliative-nav">
 		      <div class="container-fluid border-nav">
 		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed" data-toggle="offcanvas">
-					<i class="fa fa-bars"></i>
-					<span class="sr-only">Menu</span>
-				  </button>
+		        	@if(Auth::user()->ID_GRUPO_USUARIO != 5)
+			          <button type="button" class="navbar-toggle navbar-toggle-sidebar collapsed" data-toggle="offcanvas">
+						<i class="fa fa-bars"></i>
+						<span class="sr-only">Menu</span>
+					  </button>
+				  	@endif
 		          <a href="{{ url('/') }}" class="navbar-brand navbar-brand-centered">Gestión de Cuidados Paliativos Panamá</a>
 		        </div>
 		      </div>
@@ -45,6 +48,8 @@
 
 		    <div class="container-fluid">
 				<div class="row row-offcanvas row-offcanvas-left">
+
+					@if(Auth::user()->ID_GRUPO_USUARIO != 5)
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
@@ -117,10 +122,10 @@
 													<div id="drop_2-2" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
-																<li><a href="#">Total de Visitas Realizadas x Periodo de Tiempo</a></li>
-																<li><a href="#">Tiempo Promedio Empleado por Visita</a></li>
-																<li><a href="#">N° de Visitas x Paciente Según Diagnóstico</a></li>
-																<li><a href="#">Actividades Realizadas por Visita</a></li>
+																<li><a href="{{ route('totalVisitas') }}">Total de Visitas Realizadas x Periodo de Tiempo</a></li>
+																<li><a href="{{ route('tiempoPromedio') }}">Tiempo Promedio Empleado por Visita</a></li>
+																<li><a href="{{ route('pacienteDiag') }}">N° de Visitas x Paciente Según Diagnóstico</a></li>
+																<li><a href="{{ route('actividadesDom') }}">Actividades Realizadas por Visita</a></li>
 															</ul>
 														</div>
 													</div>
@@ -170,7 +175,7 @@
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
 																<li><a href="#">Frecuentación P/F a la Instalación x Periodo de Tiempo</a></li>
-																<li><a href="#">Actividades Realizadas por Paciente</a></li>
+																<li><a href="{{ route('actividadesAmb') }}">Actividades Realizadas por Paciente</a></li>
 															</ul>
 														</div>
 													</div>
@@ -211,7 +216,7 @@
 													<div id="drop_4-2" class="panel-collapse collapse">
 														<div class="panel-body">
 															<ul class="nav navbar-nav">
-																<li><a href="#">Porcentaje de Ocupación de Camas</a></li>
+																<li><a href="{{ route('porcentaje-ocupacion') }}">Porcentaje de Ocupación de Camas</a></li>
 																<li><a href="#">Giro de Cama</a></li>
 																<li><a href="#">Promedio de Días de Estancia</a></li>
 																<li><a href="#">Porcentaje de Egreso</a></li>
@@ -232,13 +237,14 @@
 							</ul>
 						</div>
 			      	</div>
+			      	@endif
 
 
-			        <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			        <div class="col-xs-12 {{ (Auth::user()->ID_GRUPO_USUARIO != 5) ? 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' : '' }} ">
 						<div class="row sub-nav">
 
 							<!-- Single button -->
-							<div class="btn-group pull-right">
+							<div class="btn-group pull-right {{ (Auth::user()->ID_GRUPO_USUARIO == 5 ) ? 'margin-soap' : '' }}">
 							  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							    {{ Auth::user()->NO_IDENTIFICACION }} <span class="caret"></span>
 							  </button>
@@ -263,7 +269,7 @@
 
     <div id="footer">
     	<div class="row footer">
-    		<div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+    		<div class="col-xs-12 {{ (Auth::user()->ID_GRUPO_USUARIO != 5) ? 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2' : '' }}">
        			Derechos Reservados
     		</div>
     	</div>

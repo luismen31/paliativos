@@ -59,5 +59,10 @@ class DatoPaciente extends Model
 	    }else{
 	    	return false;
 	    }
+
+    }
+    
+    public function getFullNameAttribute(){
+    	return $this->PRIMER_NOMBRE.' '.$this->APELLIDO_PATERNO;
     }
 }

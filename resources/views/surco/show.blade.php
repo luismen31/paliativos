@@ -7,6 +7,11 @@
 @section('content')	
 	<h2 class="page-header">Sistema Único de Referencia y Contra-Referencia (SURCO)</h2>
 
+    {{-- Si tiene las sesiones de id_soap y id_categoria, mostrara el boton de regreso a la vista soap --}}
+    @if(session()->has('id_soap') and session()->has('id_categoria'))
+        <a href="{{ route('soapCategory', ['id_categoria' => session()->get('id_categoria'), 'id_paciente' => $paciente->ID_PACIENTE, 'id_soap' => session()->get('id_soap')]) }}" class="btn btn-primary pull-left"><i class="fa fa-arrow-left"></i> <span class="sr-only">Regresar</span></a><br><br>
+    @endif
+
 	{{-- Mostrar mensaje exitoso --}}
 	@if(Session::has('msj_success'))
 		@include('mensajes.notify', ['mensaje' => Session::get('msj_success'), 'tipo' => 'success'])
@@ -14,6 +19,9 @@
 
 	
 	@include('mensajes.errors')
+
+    {{-- Solo sino tiene las variables de sesion cargara la busqueda --}}
+    @if(!session()->has('id_soap') and !session()->has('id_categoria'))
 		{!! Form::open(array('url' => 'surco/paciente', 'class' => 'form-horizontal', 'method' => 'POST')) !!}
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 well well-sm search">
@@ -22,6 +30,7 @@
 				</div>
 			</div>
 		{!! Form::close() !!}
+    @endif
 	
     {{-- Carga los datos del paciente --}}
 	@include('autocomplete.datospacientes', ['datos' => $paciente])
@@ -43,8 +52,8 @@
 					
                     <div class="row">
                         <div class="form-group col-sm-4">
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Imprimir</a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-download"></i> Descargar</a>
+                            <a href="{{ url('imprimir/surco-referencia/'.$paciente->ID_PACIENTE.'/'.$surco->ID_SURCO) }}" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-print"></i> Imprimir</a>
+                            <a href="{{ url('imprimir/descargar-surco-referencia/'.$paciente->ID_PACIENTE.'/'.$surco->ID_SURCO) }}" class="btn btn-info btn-xs"><i class="fa fa-download"></i> Descargar</a>
                         </div>
                     </div>
 					<div class="panel-group" id="accordion">
@@ -177,7 +186,7 @@
                                 					</tr>
                                 				</thead>
                                 				<tbody>
-                                                    
+                                                
                                                 @foreach(\DB::select('SELECT te.*, red.* FROM tipo_examen AS te LEFT JOIN resultados_examen_diagnostico AS red ON te.ID_TIPO_EXAMEN = red.ID_TIPO_EXAMEN AND red.ID_SURCO = ? WHERE te.ID_TIPO_EXAMEN > 0;', [$surco->ID_SURCO]) as $tipoExamen)
                                                     {{--*/
                                                         $idTipoExamen = $tipoExamen->ID_TIPO_EXAMEN;
@@ -191,8 +200,30 @@
                                                                 $dd = \App\DetalleDiagnostico::where('ID_DIAGNOSTICO', $tipoExamen->ID_DIAGNOSTICO)->first();                                                                
                                                             /*--}}
                                                             @if(!empty($dd->ID_CIE10))
-                                                                <td>
-                                                                    @include('autocomplete.cie10', ['num_examen' => $idTipoExamen, 'cie10' => $dd->ID_CIE10, 'readonly' => true])
+                                                                <td>                                                                    
+                                                                    {!! Form::text('search_cie10'.$idTipoExamen, $dd->ID_CIE10, ['class' => 'form-control input-sm', 'id' => 'search_cie10_'.$idTipoExamen, 'placeholder' => 'Buscar CIE10', 'readonly' => 'readonly']) !!}
+
+                                                                    @section('scripts')
+                                                                        <script type="text/javascript">
+                                                                            $(function(){
+                                                                                $('#search_cie10_{{ $idTipoExamen }}').easyAutocomplete({
+                                                                                    url: function(search){
+                                                                                        if (search !== "") {
+                                                                                            return baseurl+'/buscar/buscarcie10/'+search
+                                                                                        }
+                                                                                    },
+                                                                                    getValue: 'ID_CIE10',
+                                                                                    template:{
+                                                                                        type: 'description',
+                                                                                        fields:{
+                                                                                            description: 'CIE10'
+                                                                                        }
+                                                                                    },
+                                                                                    theme: "blue-light"
+                                                                                });
+                                                                            });
+                                                                        </script>
+                                                                    @append
                                                                 </td>
                                                                 <td>
                                                                     {!! Form::select('frecuencia'.$idTipoExamen, ['0' => 'Seleccionar Frecuencia'] + \App\Frecuencia::lists('FRECUENCIA', 'ID_FRECUENCIA')->toArray(), $dd->ID_FRECUENCIA, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
@@ -207,8 +238,30 @@
                                                                     {!! Form::text('fecha_examen'.$idTipoExamen, $tipoExamen->FECHA, ['class' => 'form-control datetimepicker', 'placeholder' => 'AAAA/MM/DD', 'readonly' => 'readonly']) !!}
                                                                 </td>
                                                             @else
-                                                                <td>
-                                                                    @include('autocomplete.cie10', ['num_examen' => $idTipoExamen, 'cie10' => null, 'readonly' => true])
+                                                                <td>                                                                    
+                                                                    {!! Form::text('search_cie10'.$idTipoExamen, null, ['class' => 'form-control input-sm', 'id' => 'search_cie10_'.$idTipoExamen, 'placeholder' => 'Buscar CIE10', 'readonly' => 'readonly']) !!}
+
+                                                                    @section('scripts')
+                                                                        <script type="text/javascript">
+                                                                            $(function(){
+                                                                                $('#search_cie10_{{ $idTipoExamen }}').easyAutocomplete({
+                                                                                    url: function(search){
+                                                                                        if (search !== "") {
+                                                                                            return baseurl+'/buscar/buscarcie10/'+search
+                                                                                        }
+                                                                                    },
+                                                                                    getValue: 'ID_CIE10',
+                                                                                    template:{
+                                                                                        type: 'description',
+                                                                                        fields:{
+                                                                                            description: 'CIE10'
+                                                                                        }
+                                                                                    },
+                                                                                    theme: "blue-light"
+                                                                                });
+                                                                            });
+                                                                        </script>
+                                                                    @append
                                                                 </td>
                                                                 <td>
                                                                     {!! Form::select('frecuencia'.$idTipoExamen, ['0' => 'Seleccionar Frecuencia'] + \App\Frecuencia::lists('FRECUENCIA', 'ID_FRECUENCIA')->toArray(), null, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
@@ -256,7 +309,17 @@
 				</div>
 				<div class="tab-pane" id="tab2">
 
-                    {{-- Tabla de respuestas a la referencia --}}
+                    @if(isset($referencia))                        
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <a href="{{ url('imprimir/surco-respuesta-referencia/'.$paciente->ID_PACIENTE.'/'.$referencia->ID_RESPUESTA_REFERENCIA) }}" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-print"></i> Imprimir</a>
+                                <a href="{{ url('imprimir/descargar-surco-respuesta-referencia/'.$paciente->ID_PACIENTE.'/'.$referencia->ID_RESPUESTA_REFERENCIA) }}" class="btn btn-info btn-xs"><i class="fa fa-download"></i> Descargar</a>
+                            </div>
+                        </div>
+                    @endif
+
+
+                    {{-- Tabla de respuestas a la referencia --}}                    
                     @if(isset($respuestas))
                         <div class="table-responsive">
                             <table class="table table-bordered table-font">
@@ -288,7 +351,7 @@
                                         <td>{{ $respuesta->HALLAZGOS_CLINICOS }}</td>
                                         <td>{{ $respuesta->TRATAMIENTO }}</td>
                                         <td>{{ $prof->PRIMER_NOMBRE.' '.$prof->APELLIDO_PATERNO }}</td>
-                                        <td><a href="{{ url('surco/verRespuesta/'.$respuesta->ID_RESPUESTA_REFERENCIA) }}" class="btn btn-primary btn-xs"><i class="fa fa-search"></i> Buscar</a></td>
+                                        <td><a href="{{ url('surco/verRespuesta/'.$respuesta->ID_RESPUESTA_REFERENCIA) }}" class="btn btn-success btn-xs"><i class="fa fa-search"></i> Buscar</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -387,8 +450,30 @@
                                                 {!! Form::text('fecha_respuesta', null, ['class' => 'form-control datetimepicker', 'placeholder' => 'AAAA/MM/DD'] + $read) !!}
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                {!! Form::label('search_profesional', 'Profesional:') !!}
-                                                @include('autocomplete.profesionales', ['prof' => null, 'readonly' => $readField, 'num' => 'respuesta'])
+                                                {!! Form::label('search_profesional_respuesta', 'Profesional:') !!}
+                                                {!! Form::text('search_profesional_respuesta', null, ['class' => 'form-control input-sm', 'id' => 'search_profesional_respuesta', 'placeholder' => 'Buscar'] + $read) !!}
+
+                                                @section('scripts')
+                                                    <script type="text/javascript">
+                                                        $(function(){
+                                                            $('#search_profesional_respuesta').easyAutocomplete({
+                                                                url: function(search){
+                                                                    if (search !== "") {
+                                                                        return baseurl+'/buscar/buscarpersona/profesional/'+search
+                                                                    }
+                                                                },
+                                                                getValue: 'cedula',
+                                                                template:{
+                                                                    type: 'description',
+                                                                    fields:{
+                                                                        description: 'nombre'
+                                                                    }
+                                                                },
+                                                                theme: "blue-light"
+                                                            });
+                                                        });
+                                                    </script>
+                                                @append
                                             </div>
                                         </div>
                                     </div>
