@@ -116,7 +116,7 @@ trait AuthenticatesUsers
     public function getLogout()
     {
         Auth::logout();
-        \Session::flush(); //Elimina las variables de sesion creadas
+
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 

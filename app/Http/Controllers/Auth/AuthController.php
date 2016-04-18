@@ -28,7 +28,7 @@ class AuthController extends Controller
      * TAMBIEN SE CAMBIO EL PASSWORD DENTRO DE: Illuminate\Auth\EloquentUserProvider
      */
     protected $username = 'NO_IDENTIFICACION';
-    protected $redirectTo = '/';
+    protected $redirectTo = '/registrar-sesion';
     protected $redirectAfterLogout = 'auth/login';
 
     /**

@@ -2,11 +2,11 @@
 	<div class="col-sm-3 col-sm-offset-4 well  ">
 		<div class="form-group">
 			{!! Form::label('COMPLETADO_POR', 'Completado Por:', ['class' => 'control-label']) !!}
-			{!! Form::select('COMPLETADO_POR', ['0' => 'SELECCIONAR', '1' => 'PACIENTE', '2' => 'FAMILIAR DEL PACIENTE', '3' => 'PROFESIONAL MÉDICO', '4' => 'ASISTIDO POR EL CUIDADOR'], null, ['class' => 'form-control']) !!}
+			{!! Form::select('COMPLETADO_POR', ['0' => 'SELECCIONAR', '1' => 'PACIENTE', '2' => 'FAMILIAR DEL PACIENTE', '3' => 'PROFESIONAL MÉDICO', '4' => 'ASISTIDO POR EL CUIDADOR'], null, ['class' => 'form-control input-sm']) !!}
 		</div>
 		<div class="form-group">
 			{!! Form::label('TIPO_CATEGORIA', 'Categoría:', ['class' => 'control-label']) !!}
-			{!! Form::select('TIPO_CATEGORIA', ['0' => 'SELECCIONAR', '1' => 'DOMICILIARIA', '2' => 'AMBULATORIA', '3' => 'HOSPITALARIA'], $id_categoria, ['class' => 'form-control']) !!}
+			{!! Form::select('TIPO_CATEGORIA', ['0' => 'SELECCIONAR', '1' => 'DOMICILIARIA', '2' => 'AMBULATORIA', '3' => 'HOSPITALARIA'], $id_categoria, ['class' => 'form-control input-sm']) !!}
 		</div>
 	</div>
 </div>

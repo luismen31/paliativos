@@ -12,20 +12,50 @@
 */
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/', function () {
+
+	//Registra la trazabilidad de los usuarios que inicien en la aplicacion
+	Route::get('registrar-sesion', function(){
+
+		$sesiones = new \App\SesionUsuario;
+		$sesiones->ID_USUARIO = \Auth::user()->ID_USUARIO;
+		$sesiones->FECHA_SESION = \Carbon::now()->setTimezone('America/Panama');
+		$sesiones->IP_USUARIO = getIp();
+		$sesiones->save();
+	
+
+		return redirect()->to('/');
+	});
+
+	//Ruta inicial
+	Route::get('/', function () {	
+
 		return view('inicio');
 	});
 
+	//Cierra la sesion de los usuarios
+	Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
 	//Actualiza los terminos para los usuarios
 	Route::patch('actualizar-usuario/{user_id}', ['as' => 'updateTerminos', 'uses' => 'UserController@updateTerminos']);
-	Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+	//Ruta de controladores genericos
 	Route::controllers([
 		'buscar' => 'SearchController', 
 		'imprimir' => 'ImprimirController'
 	]);
 	
+	/******************** RUTAS DEL SISTEMA CON SUS RESPECTIVAS RUTAS AGRUPADAS POR LOS DISTINTOS ROLES ********************/
+
+	//RUTAS DE ADMIN
+	Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function(){
+		Route::get('gestionar-usuarios', ['as' => 'users', 'uses' => 'AdministradorController@indexUsers']);
+		Route::post('gestion-usuario/{id?}', ['as' => 'createOrEditUser', 'uses' => 'AdministradorController@createOrEditUser']);
+		Route::get('trazabilidad-usuarios', ['as' => 'trazabilidad', 'uses' => 'AdministradorController@getTrazabilidadUsuarios']);
+	});
+
+	
 	//RUTAS PARA PROFESIONALES SOAP
-	Route::group(['prefix' => 'soap'], function(){
+	Route::group(['prefix' => 'soap', 'middleware' => 'soap'], function(){
 
 		Route::post('bucar-paciente', ['as' => 'buscarPacienteSoap', 'uses' => 'SearchController@pacienteSoap']);
 		Route::group(['prefix' => 'paciente'], function(){
@@ -51,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 		//Rutas para escala edmonton
 		Route::get('escala-edmonton/{id_categoria}/{id_paciente}/{id_soap}', ['as' => 'openEscala', 'uses' => 'SoapController@openEscala']);
 		Route::post('registrar-escala-edmonton/{id_categoria}/{id_paciente}/{id_soap}', ['as' => 'registrarEscala', 'uses' => 'SoapController@registrarEscala']);
-		
+		Route::post('graficar-escala/{id_categoria}/{id_paciente}/{id_soap}', ['as' => 'graficar_esasr', 'uses' => 'SoapController@graficarEsasR']);
 		//Registrar Impresion diagnostica
 		Route::post('registrar-diagnostico/{id_categoria}/{id_paciente}/{id_soap}/{id_impresion?}', ['as' => 'addDiagnostico', 'uses' => 'SoapController@addDiagnostico']);
 		//Registrar los cuidados del paciente
@@ -68,72 +98,90 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('historial-clinica/{id_categoria}/{id_paciente}/{id_soap?}', ['as' => 'historial', 'uses' => 'SoapController@historial']);
 	});
-
-	//RUTAS PARA PROFESIONALES NO SOAP
-	Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
-	Route::resource('profesionales', 'ProfesionalesController');
-	Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
-	Route::resource('pacientes', 'PacientesController');
-
-	Route::resource('equipo-medico', 'EquipoMedicoController');
-
-	Route::resource('camas', 'CamasController');
-	Route::resource('salas', 'SalasController');
-	Route::resource('servicios', 'ServiciosMedicosController');
-	Route::resource('zona', 'ZonasController');
-
-	Route::get('verAgenda', 'AgendaController@verAgenda');
-	Route::post('crearCita', 'AgendaController@crearCita');
-	Route::resource('agenda', 'AgendaController');
-	Route::resource('rvd', 'RegistroVisitasController');
-	Route::resource('surco', 'SurcoController');
-	Route::post('surco/paciente', 'SurcoController@create');
-	Route::post('surco/respuesta', 'SurcoController@storeRespuesta');
-	Route::get('surco/verRespuesta/{id_respuesta}', 'SurcoController@verRespuesta');
 	
-	Route::resource('atencion_paciente', 'AtencionPacienteController');
-	Route::post('atencion_paciente/paciente', 'AtencionPacienteController@create');
-	Route::post('atencion_paciente/agregar_respuesta', 'AtencionPacienteController@storeRespuestaInterconsulta');
-
-	Route::resource('interconsulta', 'InterconsultaController');
-	Route::post('interconsulta/paciente', 'InterconsultaController@create');
-
-	Route::resource('evolucion', 'EvolucionController');
-	Route::post('evolucion/paciente', ['as' => 'buscarPaciente', 'uses' => 'EvolucionController@buscarPaciente']);
-	Route::post('evolucion/responsable/{id_paciente}', ['as' => 'responsable', 'uses' => 'EvolucionController@registrarResponsable']);
-
-	Route::resource('rda', 'RegistroDiarioActividadesController');
-	Route::post('rda.storedetails', 'RegistroDiarioActividadesController@storeDetails');
-
-	Route::group(['prefix' => 'indicadores'], function(){	
-		//Rutass para los Indicadores de Domiciliaria	
-		Route::get('domiciliaria/total-visitas', ['as' => 'totalVisitas', 'uses' => 'IndicadoresController@totalVisitas']);
-		Route::post('domiciliaria/total-visitas', ['as' => 'filtrarVisitas', 'uses' => 'IndicadoresController@filtrarVisitas']);
-
-		Route::get('domiciliaria/tiempo-promedio-por-visita', ['as' => 'tiempoPromedio', 'uses' => 'IndicadoresController@tiempoPromedio']);
-		Route::post('domiciliaria/tiempo-promedio-por-visita', ['as' => 'filtrarTiempoPromedio', 'uses' => 'IndicadoresController@filtrarTiempoPromedio']);
-
-		Route::get('domiciliaria/pacientes-por-diagnostico', ['as' => 'pacienteDiag', 'uses' => 'IndicadoresController@pacienteDiagnostico']);
-
-		Route::get('domiciliaria/actividades-realizadas', ['as' => 'actividadesDom', 'uses' => 'IndicadoresController@actividadesRealizadas']);
-		
-		Route::get('ambulatoria/actividades-realizadas',  ['as' => 'actividadesAmb', 'uses' => 'IndicadoresController@actividadesRealizadas']);
-
-		Route::get('hospitalaria/indicadores/porcentaje-ocupacion-camas', ['as' => 'porcentaje-ocupacion', 'uses' => 'IndicadoresController@ocupacionCamas']);
+	//Rutas que solo ven los equipos de salud y soap
+	Route::group(['middleware' => 'equipoAndSoap'], function() {
+	    
+		Route::resource('surco', 'SurcoController');
+		Route::post('surco/paciente', 'SurcoController@create');
+		Route::post('surco/respuesta', 'SurcoController@storeRespuesta');
+		Route::get('surco/verRespuesta/{id_respuesta}', 'SurcoController@verRespuesta');
 	});
-	//RUTAS PARA PROFESIONALES NO SOAP
 
+	//Rutas para el administrador y el equipo de salud
+	Route::group(['middleware' => 'equipoAndAdmin'], function() {
+	    Route::post('profesionales/editProfesional', 'ProfesionalesController@editProfesional');
+		Route::resource('profesionales', 'ProfesionalesController');
+		Route::post('pacientes/editPaciente', 'PacientesController@editPaciente');
+		Route::resource('pacientes', 'PacientesController');
+
+		Route::resource('equipo-medico', 'EquipoMedicoController');
+
+		Route::resource('camas', 'CamasController');
+		Route::resource('salas', 'SalasController');
+		Route::resource('servicios', 'ServiciosMedicosController');
+		Route::resource('zona', 'ZonasController');
+	});
+
+	//RUTAS PARA PROFESIONALES DEL EQUIPO DE SALUD
+	Route::group(['middleware' => 'equipo'], function() {		
+
+		Route::get('verAgenda', 'AgendaController@verAgenda');
+		Route::post('crearCita', 'AgendaController@crearCita');
+		Route::resource('agenda', 'AgendaController');
+		Route::resource('rvd', 'RegistroVisitasController');
+		
+		
+		Route::resource('atencion_paciente', 'AtencionPacienteController');
+		Route::post('atencion_paciente/paciente', 'AtencionPacienteController@create');
+		Route::post('atencion_paciente/agregar_respuesta', 'AtencionPacienteController@storeRespuestaInterconsulta');
+
+		Route::resource('interconsulta', 'InterconsultaController');
+		Route::post('interconsulta/paciente', 'InterconsultaController@create');
+
+		Route::resource('evolucion', 'EvolucionController');
+		Route::post('evolucion/paciente', ['as' => 'buscarPaciente', 'uses' => 'EvolucionController@buscarPaciente']);
+		Route::post('evolucion/responsable/{id_paciente}', ['as' => 'responsable', 'uses' => 'EvolucionController@registrarResponsable']);
+
+		Route::resource('rda', 'RegistroDiarioActividadesController');
+		Route::post('rda.storedetails', 'RegistroDiarioActividadesController@storeDetails');
+
+		Route::group(['prefix' => 'indicadores'], function(){	
+			//Rutass para los Indicadores de Domiciliaria	
+			Route::get('domiciliaria/total-visitas', ['as' => 'totalVisitas', 'uses' => 'IndicadoresController@totalVisitas']);
+			Route::post('domiciliaria/total-visitas', ['as' => 'filtrarVisitas', 'uses' => 'IndicadoresController@filtrarVisitas']);
+
+			Route::get('domiciliaria/tiempo-promedio-por-visita', ['as' => 'tiempoPromedio', 'uses' => 'IndicadoresController@tiempoPromedio']);
+			Route::post('domiciliaria/tiempo-promedio-por-visita', ['as' => 'filtrarTiempoPromedio', 'uses' => 'IndicadoresController@filtrarTiempoPromedio']);
+
+			Route::get('domiciliaria/pacientes-por-diagnostico', ['as' => 'pacienteDiag', 'uses' => 'IndicadoresController@pacienteDiagnostico']);
+
+			Route::get('domiciliaria/actividades-realizadas', ['as' => 'actividadesDom', 'uses' => 'IndicadoresController@actividadesRealizadas']);
+			
+			Route::get('ambulatoria/actividades-realizadas',  ['as' => 'actividadesAmb', 'uses' => 'IndicadoresController@actividadesRealizadas']);
+
+			Route::get('hospitalaria/indicadores/porcentaje-ocupacion-camas', ['as' => 'porcentaje-ocupacion', 'uses' => 'IndicadoresController@ocupacionCamas']);
+		});
+	});	
+	
+
+	/*********************** FIN DE LAS RUTAS AGRUPADAS POR ROLES *****************************/
 });
 
-// Authentication routes...
+// Rutas de autenticación...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 
-// Password reset link request routes...
-Route::get('password/enviar', 'EnviarPasswordController@getEnviar');
-Route::post('password/enviar', 'EnviarPasswordController@postEnviar');
-Route::post('password/email', 'Auth\PasswordController@postEmail');
+//permiten cambiar contraseña de acuerdo a su registro
+Route::group(['middleware' => 'guest'], function(){
 
-// Password reset routes...
-Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+	Route::get('password/enviar', ['as' => 'forget_pass', 'uses' => 'EnviarPasswordController@getEnviar']);
+	Route::post('password/enviar', ['as' => 'send_pass', 'uses' => 'EnviarPasswordController@postEnviar']);
+
+	Route::get('password/pregunta-seguridad/{id_user}', ['as' => 'get_check_question', 'uses' => 'EnviarPasswordController@getCheckQuestion']);
+	Route::post('password/pregunta-seguridad/{id_user}', ['as' => 'check_question', 'uses' => 'EnviarPasswordController@postCheckQuestion']);
+
+	Route::get('password/change-password/{id_user}', ['as' => 'get_change_password', 'uses' => 'EnviarPasswordController@getChangePassword']);
+	Route::post('password/change-password/{id_user}', ['as' => 'change_password', 'uses' => 'EnviarPasswordController@postChangePassword']);
+});
+

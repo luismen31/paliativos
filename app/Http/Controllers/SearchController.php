@@ -187,6 +187,8 @@ class SearchController extends Controller
     }
 
     public function getObtenerTratamiento(Request $request){
+        if(!$request->ajax()) abort(403);
+
         $id_detalle_receta = $request->input('det_receta_id');
 
         $detalle_receta = \App\DetalleReceta::where('ID_DETALLE_RECETA', $id_detalle_receta)->first();
@@ -208,6 +210,116 @@ class SearchController extends Controller
 
         return \Response::json($data);
     }
+
+    //Obtiene todos los usuarios de la Base de Datos
+    public function getUsers(){
+        if(!request()->ajax()) abort(403);
+
+        $datos = array();
+        $inputs = request()->all();        
+
+        if(empty($inputs['search'])){
+            $usuarios = \App\User::where('ID_USUARIO', '>', 0)
+            ->select(\DB::raw('SQL_CALC_FOUND_ROWS *'), 'NO_IDENTIFICACION', 'ID_USUARIO', 'ID_GRUPO_USUARIO')
+            ->take($inputs['limit'])->skip($inputs['offset'])->get();
+        }else{
+            $usuarios = \App\User::where('ID_USUARIO', '>', 0)
+            ->where('NO_IDENTIFICACION', 'LIKE', '%'.$inputs['search'].'%')
+            ->select(\DB::raw('SQL_CALC_FOUND_ROWS *'), 'NO_IDENTIFICACION', 'ID_USUARIO', 'ID_GRUPO_USUARIO')
+            ->take($inputs['limit'])->skip($inputs['offset'])->get();
+        }
+
+        $cantidad = \DB::select(\DB::raw("SELECT FOUND_ROWS() AS total;"));
+        $cantidad = $cantidad[0]->total;
+        $n = 1;
+
+        foreach ($usuarios as $usuario) {
+            $paciente = \App\Paciente::where('ID_USUARIO', $usuario->ID_USUARIO)->first();
+            $profesional = \App\ProfesionalSalud::where('ID_USUARIO', $usuario->ID_USUARIO)->first();
+
+            if($paciente != null){
+                $datos_paciente = \App\DatoPaciente::findOrFail($paciente->ID_PACIENTE);
+                $usuario->fullName = $datos_paciente->full_name;
+                $usuario->cedula = $datos_paciente->NO_CEDULA;
+            }
+
+            if ($profesional != null) {
+                $datos_prof = \App\DatoProfesionalSalud::findOrFail($profesional->ID_PROFESIONAL);
+                $usuario->fullName = $datos_prof->full_name;
+                $usuario->cedula = $datos_prof->NO_CEDULA;   
+            }
+
+            if ($paciente == null and $profesional == null) {
+                $usuario->fullName = 'Administrador';
+                $usuario->cedula = 'Administrador';
+            }
+
+            $usuario->grupo = \App\GrupoUsuario::findOrFail($usuario->ID_GRUPO_USUARIO)->DESCRIPCION;
+
+            $url = '<button class="btn btn-sm btn-success btn-edit-user" data-id="'.$usuario->ID_USUARIO.'" title="Editar"><i class="fa fa-edit"></i><span class="sr-only">Editar</span></button>';
+
+            $datos[] = [
+                'num' => $n++ + $inputs['offset'],
+                'identificacion' => $usuario->NO_IDENTIFICACION,
+                'cedula' => $usuario->cedula,
+                'patient_or_prof' => $usuario->fullName,
+                'group' => $usuario->grupo,
+                'act' => $url
+                
+            ];
+        }
+
+        return \Response::json(['total' => $cantidad, 'rows' => $datos]);
+    }
+
+    public function getUsuario(Request $request){
+       
+        if(!$request->ajax()) abort(403);
+
+        $id = $request->input('user_id');
+
+        //DECLARACIONES
+        $select = 0;
+        $pregunta = 1;
+        $respuesta = $email = $tel = '';
+
+        $user = \App\User::where('ID_USUARIO', $id)->first();
+        $preferencias = \App\PreferenciaRecuperacionAcceso::where('ID_USUARIO', $id)->first();
+        $autenticacion = \App\DatoAutenticacionUsuario::where('ID_USUARIO', $id)->first();
+        
+        $identificacion = $user->NO_IDENTIFICACION;
+
+        if($preferencias != null){
+
+            if($preferencias->USAR_PREGUNTA_SEGURIDAD == 1){
+                $select = '1';
+                $pregunta = $autenticacion->ID_PREGUNTA;
+                $respuesta = $autenticacion->RESPUESTA;
+            }
+            if($preferencias->USAR_EMAIL_PREFERENCIAL == 1){
+                $select = '2';
+                $email = $autenticacion->E_MAIL_PREFERENCIAL;
+            }  
+            if($preferencias->USAR_TELEFONO_PREFERENCIAL == 1){
+                $select = '3';
+                $tel = $autenticacion->TELEFONO_PREFERENCIAL;
+            }
+
+        }
+
+        $datos = array(
+            'identificacion' => $identificacion,
+            'recuperar' => $select,
+            'preg_recuperacion' => $pregunta,
+            'respuesta' => $respuesta,
+            'correo' => $email,
+            'telefono' => $tel
+
+        );
+
+        return \Response::json($datos);
+    }
+
 }
 
 

@@ -29,6 +29,7 @@
   </head>
 
   <body>
+
   	<div id="wrap">
         <div id="main" class="clearf">
         	<div id="noty-holder"></div><!-- HERE IS WHERE THE NOTY WILL APPEAR-->
@@ -48,11 +49,13 @@
 
 		    <div class="container-fluid">
 				<div class="row row-offcanvas row-offcanvas-left">
-
+					{{-- Si es distinto a un paciente muestra las sig. URL sino solo la red social --}}
 					@if(Auth::user()->ID_GRUPO_USUARIO != 5)
 			        <div class="col-xs-6 col-sm-3 col-md-2 sidebar-offcanvas sidebar side-menu" id="sidebar">
 		        		<div class="side-menu-container">
 							<ul class="nav navbar-nav">
+
+							@if(Auth::user()->ID_GRUPO_USUARIO != 2)
 								{{--*/
                                 $dashboard = ['profesionales', 'profesionales/*', 'pacientes', 'pacientes/*', 'equipo-medico', 'equipo-medico/*', 'camas', 'camas/*', 'salas', 'salas/*', 'servicios', 'servicios/*', 'zona', 'zona/*'];
 								$active =  Active::pattern($dashboard);
@@ -69,6 +72,10 @@
 									<div id="drop_1" class="panel-collapse collapse {{ $in }}">
 										<div class="panel-body">
 											<ul class="nav navbar-nav">
+												@if(Auth::user()->ID_GRUPO_USUARIO == 1)
+													<li><a href="{{ route('users') }}"> Gestionar Usuarios</a></li>
+													<li><a href="{{ route('trazabilidad') }}"> Trazabilidad Usuarios</a></li>
+												@endif
 												<li><a href="{{ route('profesionales.index') }}"> Profesionales</a></li>
 												<li><a href="{{ route('pacientes.index') }}"> Pacientes</a></li>
 												<li><a href="{{ route('equipo-medico.index') }}"> Equipo Médico</a></li>
@@ -231,9 +238,11 @@
 										</div>
 									</div>
 								</li>
+								<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Red Social</a></li>
+							@else
 
 								<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Red Social</a></li>
-
+							@endif
 							</ul>
 						</div>
 			      	</div>
@@ -310,6 +319,6 @@
     </script>
     {!! Html::script('assets/js/script.js') !!}
     {!! Html::script('assets/js/jquery.datosReportes.js') !!}
-    @yield('scripts')
+    @yield('scripts')   
   </body>
 </html>

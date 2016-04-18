@@ -352,10 +352,88 @@ jQuery(document).ready(function($){
         });
 
     });
+    
+    //Carga modal vacio para el formulario de administrador
+    $('#btn-admin').on('click', function(e){
+        e.preventDefault();
 
+        //Carga la accion al form del modal
+        var form = baseurl + '/admin/gestion-usuario';
+        $('#formUser').attr('action', form);
+
+        $('#identificacion').val('');
+        $('#recuperar').val(0);
+        $('#preg_recuperacion').val(1);
+        $('#respuesta').val('');
+        $('#correo').val('');
+        $('#telefono').val('');
+
+        selectRecuperarAcceso(0);
+
+        //Carga el modal y cambio del titulo
+        $('#modalUser').find('.modal-header h4.modal-title').text('Añadir Usuario Administrador');
+        $('#modalUser').modal('show');
+    })
+
+    //Carga los datos del usuario seleccionado
+    $('#users-filter').on('click', 'button.btn-edit-user', function(e){
+        var id = $(this).data('id');
+
+        //Carga la accion al form del modal
+        var form = baseurl + '/admin/gestion-usuario/'+ id;
+        $('#formUser').attr('action', form);
+        
+        $.get(baseurl + '/buscar/usuario',
+            { user_id : id },
+            function(data){
+
+                $('#identificacion').val(data.identificacion);
+                $('#recuperar').val(data.recuperar);
+                $('#preg_recuperacion').val(data.preg_recuperacion);
+                $('#respuesta').val(data.respuesta);
+                $('#correo').val(data.correo);
+                $('#telefono').val(data.telefono);
+
+                //Llamamos a la funcion
+                selectRecuperarAcceso(data.recuperar);
+            }, 'json');
+
+        $('#modalUser').find('.modal-header h4.modal-title').text('Editar Usuario');
+        $('#modalUser').modal('show');
+    });    
+
+    //Cambiar form dependiendo de la opcion seleccionada
+    $('#recuperar').change(function(){
+        var value = $(this).val();
+        //llamamos a la funcion que intercambia el form por recuperacion acceso
+        selectRecuperarAcceso(value);
+    });
 });
 
 function clearMessages(){
     $(".errorMessages").html('');
     $(".successMessages").html('');
+}
+
+
+//Funcion encargada de mostrar u ocultar el elemento seleccionado de recuperar acceso
+function selectRecuperarAcceso(value){
+    
+    if(value == 1){
+        $('#text_preg').removeClass('hidden');
+        $('#text_tel').addClass('hidden');
+        $('#text_correo').addClass('hidden');
+    }else if(value == 2){
+        $('#text_correo').removeClass('hidden');
+        $('#text_preg').addClass('hidden');
+        $('#text_tel').addClass('hidden');
+    }else if(value == 3){
+        $('#text_tel').removeClass('hidden');
+        $('#text_preg').addClass('hidden');
+        $('#text_correo').addClass('hidden');
+    }else{
+        $('#text_tel').addClass('hidden');
+        $('#text_preg').addClass('hidden');
+        $('#text_correo').addClass('hidden');
+    }
 }

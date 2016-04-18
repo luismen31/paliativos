@@ -66,6 +66,13 @@ body {
   font-size:16px;
   color: #7B7B7B;
 }
+
+a.link-box{
+  color: #408BC9;
+  font-weight: bold;
+  padding-right: 4px;
+  font-size: 12px;
+}
 .page-header{
   margin-top: 0;
 }

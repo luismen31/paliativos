@@ -305,7 +305,7 @@ a {
                     
                     Sus datos para ingresar al sistema de Gestion de Cuidados Paliativos Panama son: <br>
                     <strong>Usuario:</strong> {{ $user }}<br>
-                    <strong>Password:</strong> {{ $pass }}
+                    <strong>Contraseña:</strong> {{ $pass }}
                   </td>
                 </tr>                
                 <tr style="margin: 0;font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;box-sizing: border-box;font-size: 14px;">

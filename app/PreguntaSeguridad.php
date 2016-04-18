@@ -8,4 +8,5 @@ class PreguntaSeguridad extends Model
 {
     public $timestamps = false;
     protected $table = 'preguntas_seguridad';
+    protected $primaryKey = 'ID_PREGUNTA';
 }

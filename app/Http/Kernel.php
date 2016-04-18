@@ -29,5 +29,12 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+
+        //Middlewares propios
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'soap' => \App\Http\Middleware\SoapMiddleware::class,
+        'equipo' => \App\Http\Middleware\EquipoSaludMiddleware::class,
+        'equipoAndSoap' => \App\Http\Middleware\EquipoAndSoapMiddleware::class,
+        'equipoAndAdmin' => \App\Http\Middleware\EquipoAndAdminMiddleware::class,
     ];
 }

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="{{ url('cuipallogo.ico') }}" type="image/x-icon">    
-    <title>@yield('title', 'Iniciar Cuidados Paliativos')</title>
+    <title>@yield('title', 'Cuidados Paliativos')</title>
    
     <!-- Bootstrap core CSS -->
     {!! Html::style('assets/css/bootstrap.css') !!}
@@ -25,27 +25,34 @@
   </head>
 
 <body class="login">
+	<div id="noty-holder"></div><!-- HERE IS WHERE THE NOTY WILL APPEAR-->
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12">
-				@if (session('status'))
-					<div class="alert alert-success">
-						{{ session('status') }}
-					</div>
+			<div class="col-sm-12">
+				@if(Session::has('status'))
+					@include('mensajes.notify', ['mensaje' => Session::get('status'), 'tipo' => Session::get('tipo')])
 				@endif
-				<div class="well login-box">
+				
+				<div class="well login-box height-box">
 
-					@include('mensajes.errors')
-
-	            	{!! Form::open(['url' => '/password/enviar', 'method' => 'POST', 'role' => 'form']) !!}
+	            	{!! Form::open(['route' => 'send_pass', 'method' => 'POST', 'role' => 'form']) !!}
 	                    <legend>Restaurar Contraseña</legend>	                    
 	                    <div class="form-group {{ $errors->has('NO_IDENTIFICACION') ? 'has-error' : ''}}">
 	                        {!! Form::label('NO_IDENTIFICACION', 'Usuario', ['class' => 'control-label']) !!}
-	                        {!! Form::text('NO_IDENTIFICACION', null, ['class' => 'form-control', 'placeholder' => 'Usuario']) !!}                        
-	                    </div>	                    
-	                    <div class="form-group text-center">
-	                        <button type="submit" class="btn btn-success btn-block">Restaurar</button>
+	                        {!! Form::text('NO_IDENTIFICACION', null, ['class' => 'form-control', 'placeholder' => 'Usuario']) !!}     
+	                        {!! $errors->first('NO_IDENTIFICACION', '<p style="color:red;font-size:12px;">:message</p>') !!}                   
+	                    </div>	  
+	                    <hr>  
+	                    <div class="row">
+	                    	<div class="col-sm-6">
+                    			<a href="{{ url('auth/login') }}" class="btn btn-link link-box" style="float:left;"><i class="fa fa-arrow-left"></i> Regresar</a>
+	                    	</div>
+	                    	<div class="col-sm-6">
+                        		<button type="submit" class="btn btn-success" style="float:right;">Restaurar</button>
+	                    	</div>
+                    	
 	                    </div>
+                    	
 	                {!! Form::close() !!}
 	            </div>	    				
 			</div>
@@ -53,5 +60,6 @@
 	</div>
 	{!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    @yield('scripts')
 </body>
 </html>

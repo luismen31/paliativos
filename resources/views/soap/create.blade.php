@@ -766,7 +766,7 @@
 					{!! Form::model($lastSoap, ['route' => ['addObservaciones', $id_categoria, $id_paciente, $lastSoap->ID_SOAP]]) !!}
 						<div class="form-group {{ (!empty($lastSoap->observaciones_soap)) ? 'has-success has-feedback' : '' }}">
 							{!! Form::label('observaciones_soap', 'Observaciones:', ['class' => 'control-label']) !!}
-							{!! Form::textarea('observaciones_soap', null, ['class' => 'form-control', 'size' => '1x3']) !!}
+							{!! Form::textarea('observaciones_soap', null, ['class' => 'form-control', 'placeholder' => 'Observaciones', 'size' => '1x3']) !!}
 							@if(!empty($lastSoap->observaciones_soap))
 								<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 								<span id="subjetivoStatusSuccess" class="sr-only">(Guardado)</span>
@@ -779,7 +779,7 @@
 					{!! Form::open([]) !!}
 						<div class="form-group">
 							{!! Form::label('observaciones_soap', 'Observaciones:', ['class' => 'control-label']) !!}
-							{!! Form::textarea('observaciones_soap', null, ['class' => 'form-control', 'size' => '1x3', 'disabled' => 'disabled']) !!}
+							{!! Form::textarea('observaciones_soap', null, ['class' => 'form-control', 'placeholder' => 'Observaciones', 'size' => '1x3', 'disabled' => 'disabled']) !!}
 						</div>
 						{!! Form::submit('Guardar', ['class' => 'btn btn-success', 'disabled' => 'disabled']) !!}
 					{!! Form::close() !!}

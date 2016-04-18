@@ -91,6 +91,18 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'telefono' => [
+            'required_if' => 'El campo Teléfono es obligatorio si se selecciono como forma de recuperar el Teléfono.'
+        ],
+        'correo' => [
+            'required_if' => 'El campo Correo Electrónico es obligatorio si se selecciono como forma de recuperar el Correo.'
+        ],
+        'preg_recuperacion' => [
+            'required_if' => 'El campo Pregunta de Recuperación es obligatorio si se selecciono como forma de recuperar el Pregunta.'
+        ],
+        'respuesta' => [
+            'required_if' => 'El campo Respuesta es obligatorio si se selecciono como forma de recuperar el Pregunta.'
+        ],
     ],
 
     /*
@@ -120,8 +132,12 @@ return [
         'E_MAIL' => 'Correo Electrónico',
         'ID_GRUPO_USUARIO' => 'Grupo Usuario',
         'ID_ESPECIALIDAD_MEDICA' => 'Especialidad Médica',
+
         'NO_IDENTIFICACION' => 'Usuario',
         'CLAVE_ACCESO' => 'Contraseña',
+        'identificacion' => 'Usuario',
+        'clave' => 'Contraseña',
+
         'CAMA' => 'Cama',
         'ID_SALA' => 'Sala',
         'SALA' => 'Sala',
@@ -143,6 +159,15 @@ return [
         'TIPO_CONTACTO' => 'Tipo de Contacto',
         'MOTIVO' => 'Motivo',
         'OBSERVACION' => 'Observación',
+        'PREGUNTA_SEGURIDAD' => 'Pregunta de Seguridad',
+        'RESPUESTA' => 'Respuesta',
+        'respuesta' => 'Respuesta',
+        'recuperar' => 'Recuperación Acceso',
+        'preg_recuperacion' => 'Pregunta de Recuperación',
+        'telefono' => 'Teléfono',
+        'correo' => 'Correo Electrónico',
+        'date_start' => 'Fecha Inicial',
+        'date_end' => 'Fecha Final',
     ],
 
 ];

@@ -25,8 +25,11 @@
   </head>
 
 <body class="login">
+	<div id="noty-holder"></div><!-- HERE IS WHERE THE NOTY WILL APPEAR-->
 	<div class="container">
-
+		@if(Session::has('status'))
+			@include('mensajes.notify', ['mensaje' => Session::get('status'), 'tipo' => Session::get('tipo')])
+		@endif
 	    <div class="row">
 	        <div class="col-md-12">
 	            <div class="well login-box">
@@ -39,10 +42,12 @@
 	                    </div>
 	                    <div class="form-group {{ $errors->has('CLAVE_ACCESO') ? 'has-error' : '' }}">
 	                        {!! Form::label('CLAVE_ACCESO', 'Contraseña', ['class' => 'control-label']) !!}
+	                        <a href="{{ route('forget_pass') }}" class="btn btn-link pull-right link-box" style="margin-top:-5px;">¿Olvidaste tu Contraseña?</a>
 	                        {!! Form::password('CLAVE_ACCESO', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
 	                        {!! $errors->first('CLAVE_ACCESO', '<p style="color:red;font-size:12px;">:message</p>') !!}
 	                    </div>
-	                    <a href="{{ url('password/enviar') }}" class="btn btn-link pull-right">¿Olvido Contraseña?</a>
+	                    <hr>
+	                    
 	                    <div class="form-group text-center">
 	                        <button type="submit" class="btn btn-success btn-block">Iniciar</button>
 	                    </div>
@@ -54,5 +59,6 @@
 	</div>
 	{!! Html::script('assets/js/jquery-2.1.4.min.js') !!}
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    @yield('scripts')
 </body>
 </html>

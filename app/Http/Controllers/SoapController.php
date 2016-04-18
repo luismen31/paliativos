@@ -265,6 +265,75 @@ class SoapController extends Controller
         return \Redirect::route('soapCategory', [$id_categoria, $id_paciente, $id_soap]);
     }
 
+    public function graficarEsasR($id_categoria, $id_paciente, $id_soap, Request $request){
+
+        $rules =[
+            'date_start' => ['required', 'date_format:Y-m-d'],
+            'date_end' =>  ['required', 'date_format:Y-m-d']
+        ];
+
+        $this->validate($request, $rules);
+
+        $graf = false;
+        //Obtenemos los datos del paciente
+        $datos = \App\DatoPaciente::findOrFail($id_paciente);
+
+        $escalas = \App\EscalaEdmonton::where('ID_PACIENTE', $id_paciente)->whereBetween('FECHA', [$request->input('date_start'), $request->input('date_end')])->get();
+       
+        if(count($escalas) > 0){
+
+            $graf = true;
+
+            $chartEscala["chart"] = array("type" => "line", "borderColor" => "#258ECD", "borderWidth" => 2);
+            $chartEscala["title"] = array("text" => "GRAFICA ESAS-R");
+            $chartEscala['subtitle'] = array("text" => 'Paciente '.$datos->full_name);
+
+            $chartEscala["yAxis"] = array(
+                                    "title" => array("text" => "Intensidad"),                                 
+                                    "plotLines" => array(["value" => 0, "width" => 1, "color" => "#808080"])
+                                );
+
+            $chartEscala["plotOptions"] = array("line" => ["enableMouseTracking" => true]);
+
+            foreach ($escalas as $escala) {
+                $date = explode("-", $escala->FECHA);
+                setlocale(LC_TIME, 'Spanish');
+                $fecha = \Carbon::create($date[0], $date[1], $date[2]);            
+                $categories[] = $fecha->formatLocalized('%d').' '.ucfirst($fecha->formatLocalized('%B'));
+
+                $columnsNames = $escala->getTableColumns();
+                foreach ($columnsNames as $columnName) {
+                    
+                    if($escala->$columnName >= 7){
+                        $color = true;                    
+                    }else{
+                        $color = false;
+                    }
+                    $datos_escala[$columnName][] = $escala->$columnName;
+                       
+                    //$colores[$columnName][] = $color;
+                }        
+            }
+            
+            
+            $chartEscala["xAxis"] = array("categories" => $categories);
+            
+            //Cargamos todos los datos obtenidos en el foreach global al arreglo de la grafica
+            $columnsNames = $escala->getTableColumns();
+            foreach ($columnsNames as $columnName) {  
+                
+                $series[] = array("name" => $columnName, "data" => $datos_escala[$columnName]);
+            }
+            
+            $chartEscala["series"] = $series;
+
+            return view('soap.escala-edmonton', compact(['graf', 'chartEscala', 'datos', 'id_categoria', 'id_soap', 'escalas']));
+        }else{
+
+            return view('soap.escala-edmonton', compact(['graf', 'datos', 'id_categoria', 'id_soap']));
+        }
+    }
+
     //Funcion para registrar o agregar una nueva impresion diagnostica
     //Se utiliza el helper request() en vez de la inyeccion Request $request, debido a que la funcion solo acepta 4 parametros
     public function addDiagnostico($id_categoria, $id_paciente, $id_soap, $id_impresion = null){
